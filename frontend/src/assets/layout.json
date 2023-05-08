@@ -1,0 +1,142 @@
+{
+  "menu": [
+    {
+      "text": "首页",
+      "translate": "aside",
+      "group": false,
+      "icon": "fa fa-home",
+      "link": "/home/index"
+    },
+    {
+      "text": "拍卖管理",
+      "translate": "aside",
+      "group": true,
+      "icon": "fa fa-gavel",
+      "children": [
+        {
+          "text": "物资仓库",
+          "link": "/home/auction/material",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "物资发布",
+          "link": "/home/auction/publish",
+          "translate": "aside_shortcut",
+          "icon": "fas fa-share-square"
+        },
+        {
+          "text": "物资竞拍",
+          "link": "/home/auction/auction-bid",
+          "translate": "aside_quick_action",
+          "icon": "fas fa-mobile-alt"
+        },
+        {
+          "text": "我的竞拍",
+          "link": "/home/auction/my-bid",
+          "translate": "aside_quick_action",
+          "icon": "fas fa-mobile-alt"
+        }
+      ]
+    },
+    {
+      "text": "收货管理",
+      "translate": "aside",
+      "group": true,
+      "icon": "fa fa-handshake-o",
+      "children": [
+        {
+          "text": "收货管理",
+          "link": "/home/receive",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "退货管理",
+          "link": "/home/return",
+          "translate": "aside_shortcut",
+          "icon": "fas fa-share-square"
+        }
+      ]
+    },
+    {
+      "text": "文章管理",
+      "translate": "aside",
+      "group": true,
+      "icon": "fa fa-newspaper-o",
+      "children": [
+        {
+          "text": "发布文章",
+          "link": "/home/article/publish",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "阅览记录",
+          "link": "/home/article/look",
+          "translate": "aside_shortcut",
+          "icon": "fas fa-share-square"
+        },
+        {
+          "text": "文章设置",
+          "link": "/home/article/setting",
+          "translate": "aside_quick_action",
+          "icon": "fas fa-mobile-alt"
+        }
+      ]
+    },
+    {
+      "text": "用户管理",
+      "translate": "aside",
+      "group": true,
+      "icon": "fa fa-user-o",
+      "children": [
+        {
+          "text": "用户列表",
+          "link": "/home/person/list",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "个人信息",
+          "link": "/home/person/info",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "个人设置",
+          "link": "/home/person/setting",
+          "translate": "aside_quick_action",
+          "icon": "fas fa-mobile-alt"
+        }
+      ]
+    },
+    {
+      "text": "字典管理",
+      "translate": "aside",
+      "group": false,
+      "icon": "fa fa-file-o",
+      "link": "/home/dictionary"
+    },
+    {
+      "text": "系统管理",
+      "translate": "aside",
+      "group": true,
+      "icon": "fa fa-gears",
+      "children": [
+        {
+          "text": "系统日志",
+          "link": "/system/log",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        },
+        {
+          "text": "系统设置",
+          "link": "/system/setting",
+          "translate": "aside_node",
+          "icon": "fas fa-hashtag"
+        }
+      ]
+    }
+  ]
+}

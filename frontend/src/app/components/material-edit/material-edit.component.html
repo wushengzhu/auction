@@ -1,0 +1,134 @@
+<form nz-form [formGroup]="form" nzLayout="horizontal">
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>物品名称</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择物品名称">
+      <input nz-input formControlName="Name">
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>物品类型</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择物品类型">
+      <input nz-input formControlName="Category">
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>仓库类别</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" [nzErrorTip]="wareTpl">
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="仓库类别" formControlName="WarehouseCategory">
+        <nz-option [nzLabel]="item.Value" [nzValue]="item.Value" *ngFor="let item of warehouseCategory"></nz-option>
+      </nz-select>
+      <ng-template #wareTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">仓库类别不能为空</ng-container>
+        <ng-container *ngIf="control.hasError('maxlength')">最多输入50个字符</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">生产日期</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择生产日期">
+      <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [style.width]="'100%'" formControlName="ProduceDate">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">有效日期</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择有效日期">
+      <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [style.width]="'100%'" formControlName="EffectiveDate">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">保质期</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="">
+      <input nz-input formControlName="GuaranteePeriod">
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>入库数量</nz-form-label>
+    <nz-form-control nz-col nzSpan="5" nzErrorTip="入库数量不能为空">
+      <nz-input-number formControlName="Quantity" [style.width]="'100%'"></nz-input-number>
+    </nz-form-control>
+    <nz-form-label nz-col nzSpan="3" nzRequired>剩余数量</nz-form-label>
+    <nz-form-control nz-col nzSpan="5" nzErrorTip="剩余数量不能为空">
+      <nz-input-number formControlName="RemainQuantity" [style.width]="'100%'"></nz-input-number>
+    </nz-form-control>
+    <nz-form-label nz-col nzSpan="3">允许拍卖</nz-form-label>
+    <nz-form-control nz-col nzSpan="2">
+      <nz-switch formControlName="AllowAuction"></nz-switch>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>上缴人</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择上缴人">
+      <nz-input-group [nzCompact]="true" class="text-nowrap">
+        <input nz-input readonly formControlName="UserName" style="width:85%" />
+        <button type="button" nz-button [nzType]="'primary'" click-picker [selectType]="'USER'" [multiple]="false"
+            style="width:15%" (dataChange)="selectUser($event)">
+            <span>选取</span>
+          </button>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item> -->
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>申报日期</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择申报日期">
+      <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [style.width]="'100%'" formControlName="TurnInDate">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">上缴情况</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="上缴情况不能超过1000个字符">
+      <textarea nz-input formControlName="Reason" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4" nzRequired>经办人</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择经办人">
+      <nz-input-group [nzCompact]="true" class="text-nowrap">
+        <input nz-input readonly formControlName="Operator" style="width:85%" />
+        <button type="button" nz-button [nzType]="'primary'" click-picker [selectType]="'USER'" [multiple]="false"
+            style="width:15%" (dataChange)="selectOperator($event)">
+            <span>选取</span>
+          </button>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item> -->
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">处理情况</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="处理情况不能超过50个字符">
+      <textarea nz-input formControlName="DealWithMethod" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">物品摘要</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="物品摘要不能超过1000个字符">
+      <textarea nz-input formControlName="Detail" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label nz-col nzSpan="4">备注</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="备注不能超过1000个字符">
+      <textarea nz-input formControlName="Remark" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <!--
+  <nz-form-item>
+    <nz-form-control nzOffset="4" nzSpan="18">
+
+    </nz-form-control>
+  </nz-form-item> -->
+</form>

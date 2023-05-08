@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Auction</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script type="text/javascript" src="assets/ckeditor5-build-classic/ckeditor.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="assets/ckeditor5-build-classic/translations/zh-cn.js" charset="UTF-8"></script>
+  <style>
+    /* 浏览器滚动条样式 */
+    /* width */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: rgb(255, 255, 255);
+      border-radius: 8px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: rgb(201, 201, 202);
+      border-radius: 8px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgb(162, 162, 163);
+    }
+
+    body {
+      height: 100vh;
+      background-color: #f0f2f5;
+    }
+  </style>
+</head>
+
+<body>
+  <app-root></app-root>
+  <script>
+    function getIp(ipInfo) {
+      localStorage.setItem('ipInfo', JSON.stringify(ipInfo));
+    }
+  </script>
+  <script src="https://whois.pconline.com.cn/ipJson.jsp?callback=getIp"></script>
+</body>
+
+</html>

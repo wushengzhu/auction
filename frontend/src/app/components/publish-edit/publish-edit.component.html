@@ -1,0 +1,291 @@
+<!-- <lib-page-header [title]="title"></lib-page-header> -->
+<nz-card [nzBordered]="false">
+  <form nz-form [formGroup]="form" nzLayout="horizontal">
+    <div nz-row>
+      <nz-form-label nzSpan="4" nzRequired>拍卖物资</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control nzErrorTip="请选择拍卖物资" nzHasFeedback>
+          <ng-container *ngIf="this.model else input">
+            <input nz-input formControlName="MaterialName" readonly>
+          </ng-container>
+          <ng-template #input>
+            <nz-select formControlName="MaterialId" nzShowSearch (ngModelChange)="materialChange($event)">
+              <nz-option *ngFor="let item of materialList" [nzValue]="item.Id" [nzLabel]="item.Name"></nz-option>
+            </nz-select>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4" nzRequired>拍品标题</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control [nzErrorTip]="titleTpl" nzHasFeedback>
+          <input nz-input formControlName="Title">
+          <ng-template #titleTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">标题不能为空</ng-container>
+            <ng-container *ngIf="control.hasError('maxlength')">标题不能超过500个字符</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4">拍品摘要</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control>
+          <textarea nz-input formControlName="Excerpt" [nzAutosize]="{minRows: 3}"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- <div nz-row>
+      <nz-form-label nz-col nzSpan="4">备注</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control>
+          <textarea nz-input formControlName="Material.Remark" [nzAutosize]="{minRows: 3}"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div> -->
+
+    <!-- <div nz-row>
+      <nz-form-label nz-col nzSpan="4" nzRequired>关联公告</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control nzErrorTip="请选择需要发布到的公告" nzHasFeedback>
+          <nz-select formControlName="NoticeId">
+            <nz-option *ngFor="let item of noticeList" [nzValue]="item.Id" [nzLabel]="item.Title"></nz-option>
+          </nz-select>
+        </nz-form-control>
+        <ng-template #noticeTip>
+          <nz-alert nzType="info" style="margin-top:10px" nzMessage="如果未发布公告，请先发布公告！" nzShowIcon></nz-alert>
+        </ng-template>
+      </nz-form-item>
+    </div> -->
+
+    <!-- <div nz-row>
+      <nz-form-label nz-col nzSpan="4">是否展示到公告</nz-form-label>
+      <nz-form-item nz-col nzSpan="16">
+        <nz-form-control>
+          <nz-switch formControlName="DisplayToNotice"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div> -->
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4">已售数量</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control nzErrorTip="已售数量不能为空">
+          <nz-input-number formControlName="MaterialSoldQuantity" [style.width]="'100%'" nzDisabled></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4">剩余数量</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control nzErrorTip="剩余数量不能为空">
+          <nz-input-number formControlName="MaterialRemainQuantity" [style.width]="'100%'" nzDisabled>
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4">生产日期</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control [nzErrorTip]="">
+          <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [style.width]="'100%'" nzPlaceHolder=""
+            formControlName="MaterialProduceDate" nzDisabled>
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4">有效日期</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control [nzErrorTip]="">
+          <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [style.width]="'100%'" nzPlaceHolder=""
+            formControlName="MaterialEffectiveDate" nzDisabled>
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <!-- 挂网数量 -->
+      <nz-form-label nz-col nzSpan="4" nzRequired>挂网数量</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control [nzErrorTip]="quantityTpl" nzHasFeedback>
+          <nz-input-number fixPrecision formControlName="Quantity" [style.width]="'100%'"
+            (ngModelChange)="setQuantityValidate()"></nz-input-number>
+          <ng-template #quantityTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">挂网数量不能为空！</ng-container>
+            <ng-container *ngIf="control.hasError('validateQuantity')">挂网数量不能大于剩余数量！</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4">官方价格</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <nz-input-number fixPrecision formControlName="OfficialPrice" [style.width]="'100%'"
+            (ngModelChange)="changeCalc()"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4">京东价格</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <nz-input-number fixPrecision formControlName="JDPrice" [style.width]="'100%'" (ngModelChange)="changeCalc()">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4">天猫价格</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <nz-input-number fixPrecision formControlName="TmallPrice" [style.width]="'100%'"
+            (ngModelChange)="changeCalc()">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4">淘宝价格</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <nz-input-number fixPrecision formControlName="TaoBaoPrice" [style.width]="'100%'"
+            (ngModelChange)="changeCalc()">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4">其他平台价格</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <nz-input-number fixPrecision formControlName="OtherPrice" [style.width]="'100%'"
+            (ngModelChange)="changeCalc()">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4" nzRequired>起拍价</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control nzErrorTip="起拍价不能为空" nzHasFeedback>
+          <nz-input-number fixPrecision formControlName="StartPrice" [style.width]="'100%'"
+            (ngModelChange)="editStartPrice()">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4" nzRequired>评估价</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control nzErrorTip="评估价不能为空" nzHasFeedback>
+          <nz-input-number fixPrecision formControlName="EvaluationPrice" [style.width]="'100%'" [nzPrecision]="2"
+            (ngModelChange)="editEvaluationPrice($event)">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4" nzRequired>加价幅度</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control nzErrorTip="加价幅度不能为空" nzHasFeedback>
+          <nz-input-number fixPrecision formControlName="MarkUp" [style.width]="'100%'">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4" nzRequired>物资流水号</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control>
+          <input nz-input formControlName="SerialNumber" readonly>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-row>
+      <nz-form-label nz-col nzSpan="4" nzRequired>开始时间</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control [nzErrorTip]="startTpl" nzHasFeedback>
+          <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm'" [nzShowTime]="{ nzFormat: 'HH:mm' }" [style.width]="'100%'"
+            formControlName="StartTime" (ngModelChange)="setStartValidate()">
+          </nz-date-picker>
+          <ng-template #startTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">开始时间不能为空</ng-container>
+            <ng-container *ngIf="control.hasError('validateStartTimes')">开始时间不能大于等于截止时间</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label nz-col nzSpan="4" nzRequired>截止时间</nz-form-label>
+      <nz-form-item nz-col nzSpan="6">
+        <nz-form-control [nzErrorTip]="endTpl" nzHasFeedback>
+          <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm'" [nzShowTime]="{ nzFormat: 'HH:mm' }" [style.width]="'100%'"
+            formControlName="EndTime" (ngModelChange)="setEndValidate()">
+          </nz-date-picker>
+          <ng-template #endTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">截止时间不能为空</ng-container>
+            <ng-container *ngIf="control.hasError('validateEndTimes')">截止时间不能小于当前时间</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- <nz-form-item nz-row>
+      <nz-form-label nz-col nzSpan="4">拍品详细信息</nz-form-label>
+      <nz-form-control nz-col nzSpan="16">
+        <app-ckeditor></app-ckeditor>
+      </nz-form-control>
+    </nz-form-item> -->
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col nzSpan="4">上传图片</nz-form-label>
+      <nz-form-control nz-col nzSpan="16">
+        <app-attachment [modCode]="'Auction$Publish'" [objectId]="+publishId"
+          (loadFiles)="loadFiles($event)"></app-attachment>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- <lib-form-legend title="竞拍品插图" [extra]="imageExtra">
+      <ng-template #imageExtra>
+        <nz-alert class="mr-ms" style="display: inline-block;" nzType="info" nzShowIcon
+          nzMessage="未发布的物资，请先保存表单后才能导入物资图片">
+        </nz-alert>
+        <button type="button" nz-button [nzType]="'primary'" [disabled]="publishId==='0'" (click)="importImage()">
+          <i class="fas fa-upload"></i>
+          <span>导入</span>
+        </button>
+      </ng-template>
+    </lib-form-legend>
+    <nz-form-item>
+      <nz-form-control nzOffset="4" nzSpan="16">
+        <lib-attachment modCode="Auction$Publish" [(reload)]="reload" [objectId]="publishId">
+        </lib-attachment>
+      </nz-form-control>
+    </nz-form-item>
+
+    <lib-form-legend title="平台价格图"></lib-form-legend>
+    <nz-form-item>
+      <nz-form-control nzOffset="4" nzSpan="16">
+        <lib-attachment modCode="Auction$Price" [objectId]="publishId" [canAdd]="" [canDelete]="" [canEdit]=""
+          [(reload)]="reload">
+        </lib-attachment>
+      </nz-form-control>
+    </nz-form-item> -->
+  </form>
+</nz-card>
+
+<app-page-footer>
+  <button type="button" class="mr-ms" nz-button [nzLoading]="isSaving" [nzType]="'primary'" (click)="save(1)"
+    *ngIf="status===0||status===-1">
+    <i class="fa fa-check mr-ms"></i>
+    发布
+  </button>
+  <button type="button" class="mr-ms" nz-button [nzLoading]="isSaving" [nzType]="'primary'" (click)="save(status,false)"
+    *ngIf="status===0||status===-1||status===1" [nzGhost]="status!==1">
+    <i class="fa fa-save mr-ms"></i>
+    保存
+  </button>
+  <button type="button" class="mr-ms" nz-button [nzLoading]="isSaving" [nzType]="'primary'" (click)="save(-1,true)"
+    *ngIf="status===1" nzGhost><i class="fas fa-times-circle"></i>取消拍卖</button>
+  <button type="button" class="mr-ms" nz-button [nzType]="'default'" (click)="cancel()">
+    <i class="fa fa-arrow-left mr-ms"></i>
+    <span>返 回</span>
+  </button>
+</app-page-footer>

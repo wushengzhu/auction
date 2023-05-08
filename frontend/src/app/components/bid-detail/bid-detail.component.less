@@ -1,0 +1,270 @@
+.common-flex {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@font-size: 16px;
+@price-color: #e4393c;
+
+:host {
+  ::ng-deep {
+    .card-detail {
+      width: 80%;
+      min-height: 100%;
+      margin: 0 auto;
+      padding: 0 100px;
+      box-sizing: border-box;
+
+      .head {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 16px;
+
+        &-img {
+          width: 480px;
+          height: 540px;
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+
+          .active {
+            width: 480px;
+            height: 480px;
+            float: left;
+            position: relative;
+
+            // 小方块盒子的隐藏
+            .transparent-box {
+              display: none;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 240px;
+              height: 240px;
+              background: yellow;
+              opacity: 0.3;
+              cursor: move;
+            }
+
+            .mirror {
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              text-align: center;
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              background-color: #d5d5d5;
+              color: #fff;
+            }
+          }
+
+          .slide {
+            width: 480px;
+            height: 60px;
+            display: flex;
+            align-content: center;
+            justify-content: space-between;
+            margin-top: 5px;
+            // padding:5px 0;
+            box-sizing: border-box;
+
+            ol {
+              padding: 0;
+              list-style: none !important;
+            }
+
+            .list {
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+
+              li {
+                display: inline-block;
+                padding: 0;
+                margin: 0;
+              }
+
+              &-img {
+                width: 60px;
+                height: 60px;
+                margin: 0 2px;
+
+                img {
+                  padding: 5px;
+                }
+
+                &:hover {
+                  border: 1px solid;
+                  border-color: rgb(217, 22, 21);
+                }
+
+                .border-img {
+                  border: 1px solid;
+                  border-color: rgb(217, 22, 21);
+                  box-sizing: border-box;
+                }
+              }
+            }
+          }
+        }
+
+        &-content {
+          width: 50%;
+          margin-left: 30px;
+          position: relative;
+
+          .active-right {
+            display: none;
+            width: 480px;
+            height: 480px;
+            float: left;
+            overflow: hidden;
+            position: absolute;
+            z-index: 100;
+
+            img {
+              width: 200%;
+              height: 200%;
+              position: absolute;
+              left: 0px;
+              top: 0px;
+            }
+          }
+
+          .title {
+            color: #333;
+            font-weight: bold;
+          }
+
+          &-info {
+            font-size: 16px;
+
+            .winner-info {
+              width: 100%;
+              height: 48px;
+              .common-flex();
+              padding: 0 10px;
+              color: #fff;
+            }
+
+            .material-info {
+              width: 100%;
+              height: 68px;
+              .common-flex();
+              padding: 0 10px;
+              background-color: #f3f3f3;
+              color: #999;
+
+              .price-icon {
+                font-size: @font-size;
+                color: @price-color;
+                font-weight: 400;
+              }
+
+              .price {
+                font-size: @font-size+6;
+                color: @price-color;
+                font-weight: 400;
+              }
+            }
+          }
+
+          &-date {
+            margin-top: 10px;
+            display: flex;
+            // justify-content: space-between;
+            color: #999;
+          }
+
+          &-bid {
+            margin-top: 20px;
+            height: 40px;
+            line-height: 40px;
+            color: #999;
+            display: inline-flex;
+            align-items: center;
+
+            .add-price {
+              width: 120px;
+              height: 100%;
+            }
+
+            .add-dec {
+              display: inline-flex;
+              flex-direction: column;
+            }
+
+            button {
+              margin: 0 !important;
+              padding: 0 !important;
+              height: 20px;
+              border-radius: 0 2px 0 0;
+            }
+
+            button:first-child {
+              border-bottom: 1px solid #fff;
+            }
+          }
+
+          .markup {
+            font-size: @font-size - 2;
+            color: #999;
+            margin-top: 5px;
+            margin-left: 48px;
+          }
+
+          .footer {
+            margin-top: 40px;
+
+            .btn-price {
+              height: 48px;
+              line-height: 48px;
+              margin-right: 20px;
+              padding: 0 40px;
+              font-size: 18px;
+              display: inline-block;
+              text-align: center;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+
+    /** 定义获拍状态的背景 */
+    @timeBackground: {
+      1: #ff843b;
+      2: #e4393c;
+    };
+
+    each(@timeBackground, {
+      .tb-@{key} {
+        background-color: @value;
+      }
+    })
+
+  /** 定义出价按钮状态的背景 */
+  @buttonBackground: {
+      1: #ff4d4f;
+      2: #d4d4d4;
+    }
+
+    each(@buttonBackground, {
+    .bt-@{key} {
+      background-color: @value;
+      color: #fff;
+      font-weight: bold;
+    }
+  });
+  }
+}

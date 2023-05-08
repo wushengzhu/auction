@@ -1,0 +1,17 @@
+<form nz-form [formGroup]="form">
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4" nzRequired>文章标题</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入你的标题">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="Title" placeholder="请输入你的标题" [style.width]="'100%'" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">文章内容</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入你的密码">
+      <textarea formControlName="Content" id="content" name="content" [style.width]="'100%'" rows="4" #ck></textarea>
+      <!-- <app-ckeditor (outer)="setDetails($event)" [editorContent]="details"></app-ckeditor> -->
+    </nz-form-control>
+  </nz-form-item>
+</form>

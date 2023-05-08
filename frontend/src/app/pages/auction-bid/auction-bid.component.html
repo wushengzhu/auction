@@ -1,0 +1,84 @@
+<!-- <lib-page-header>
+  <ng-template #tab>
+    <nz-tabset [nzSize]="'default'" [(nzSelectedIndex)]="tabIndex">
+      <nz-tab *ngFor="let item of tabList" [nzTitle]="tabName" (nzClick)="requestData(item.value)">
+        <ng-template #tabName>
+          {{item.tab}}
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+  </ng-template>
+</lib-page-header> -->
+<nz-tabset [nzSize]="'default'" [(nzSelectedIndex)]="tabIndex">
+  <nz-tab *ngFor="let item of tabList" [nzTitle]="tabName" (nzClick)="requestData(item.value)">
+    <ng-template #tabName>
+      {{item.tab}}
+    </ng-template>
+  </nz-tab>
+</nz-tabset>
+<nz-spin [nzSpinning]="isLoad">
+  <nz-card [nzBordered]="false">
+    <ng-container *ngIf="publishData?.length>0 else noData">
+      <div class="card-container">
+        <nz-card class="card" [nzCover]="coverTemplate" *ngFor="let item of publishData">
+          <p class="title">
+            <a nz-popover [nzPopoverContent]="contentTemplate" class="mr-ms">
+              <i class="fa fa-qrcode" aria-hidden="true"></i>
+            </a>
+            <a (click)="linkDetail(item.Id)">{{item.Title}}</a>
+          </p>
+
+          <div class="price">
+            <span>当前价：</span>
+            <ng-container *ngIf="item.BidRecord?.Amount else amountTpl">
+              <span style="color: #e4393c;"><span style="font-size: 16px;">￥</span><i
+                  style="font-size: 20px;">{{item.BidRecord?.Amount}}</i></span>
+            </ng-container>
+            <ng-template #amountTpl>
+              <span style="font-size: 20px;color: #e4393c;">暂无竞价</span>
+            </ng-template>
+          </div>
+
+          <div class="price">
+            <span>起拍价：￥{{item.StartPrice}}</span>
+            <span style="margin-left:20px;">评估价：￥{{item.EvaluationPrice}}</span>
+          </div>
+
+          <div class="time">
+            <ng-container *ngIf="item.RemainTime<0">
+              <div class="time-text">距开始：<span class="cur-time">{{item.Time|TimeFormater}}</span></div>
+              <div><button class="bt-1" (click)="linkDetail(item.Id)">即将开始</button></div>
+            </ng-container>
+            <ng-container *ngIf="item.RemainTime>0">
+              <div class="time-text">距结束：<span class="cur-time">{{item.Time|TimeFormater}}</span></div>
+              <div><button class="bt-2" (click)="linkDetail(item.Id)">立即出价</button></div>
+            </ng-container>
+            <ng-container *ngIf="item.RemainTime===0">
+              <div class="time-text"><span class="cur-time">{{item.EndTime|date:'YYYY年MM月DD日 HH:mm'}}</span></div>
+              <div><button class="bt-3" (click)="linkDetail(item.Id)">已结束</button></div>
+            </ng-container>
+          </div>
+          <ng-template #contentTemplate>
+            <nz-spin [nzSpinning]="spin">
+              <nz-qrcode *ngIf="!error" [nzValue]="item.qrCode"></nz-qrcode>
+              <p *ngIf="error">网络出错！请刷新页面！</p>
+            </nz-spin>
+          </ng-template>
+
+          <ng-template #coverTemplate>
+            <div class="card-img" (click)="linkDetail(item.Id)">
+              <img alt="" style="height:100%;width:100%;" src="{{item.src}}" />
+              <div class="remark">
+                <p>{{excerptIsEmpty(item.Excerpt)}}</p>
+              </div>
+            </div>
+          </ng-template>
+        </nz-card>
+      </div>
+    </ng-container>
+
+    <ng-template #noData>
+      <nz-list [nzDataSource]="[]"></nz-list>
+    </ng-template>
+  </nz-card>
+</nz-spin>

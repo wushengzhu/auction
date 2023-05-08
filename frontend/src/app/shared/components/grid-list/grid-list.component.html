@@ -1,0 +1,99 @@
+<div style="display: flex; justify-content: space-between">
+  <div style="display: flex;">
+    <ng-container [ngTemplateOutlet]="prefixArea"></ng-container>
+  </div>
+  <ng-container *ngIf="option?.showHeader">
+    <div style="display: flex;">
+      <ng-container [ngTemplateOutlet]="suffixArea"></ng-container>
+      <div class=" mr-ms">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input nz-input [placeholder]="simpleSearchPlaceHolder" [(ngModel)]="simpleSearchText"
+            (keypress)="($event.which===13)?simpleSearch():0" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <span nz-icon nzType="search"></span>
+        </ng-template>
+      </div>
+      <div>
+        <button nz-button (click)="refresh()" class=" mr-ms">
+          <i class="fa fa-refresh"></i>
+        </button>
+        <button nz-button class=" mr-ms" nz-popover nzPopoverTitle="列表字段展示" nzPopoverPlacement="bottom"
+          [(nzPopoverVisible)]="isVisible" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate">
+          <i class="fa fa-table"></i>
+        </button>
+        <ng-template #contentTemplate>
+          <ng-container *ngFor="let item of selectShowField">
+            <label nz-checkbox [(ngModel)]="item.visible">{{item.display}}</label> <br />
+          </ng-container>
+          <button nz-button [nzType]="'primary'" (click)="saveShowField()" class=" mr-ms">
+            确 定
+          </button>
+          <button nz-button (click)="isVisible=false" class=" mr-ms">
+            取 消
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<nz-divider></nz-divider>
+<nz-table nzBordered [nzData]="dataList" [nzPageSize]="pageSize" [nzTotal]="totalData"
+  (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)" [nzFrontPagination]="false"
+  [nzShowSizeChanger]="!option?.simplePagination" [nzShowQuickJumper]="!option?.simplePagination" nzTableLayout="fixed"
+  [nzScroll]="option?.scroll" [nzLoading]="isLoading" [nzTitle]="titleTpl" [nzFooter]="footerTpl"
+  [nzNoResult]="noResult">
+
+  <thead>
+    <tr>
+      <ng-container *ngFor="let header of columns">
+        <th *ngIf="thType(header)==='checkbox'" [nzShowCheckbox]="true" [nzAlign]="header?.align"
+          [nzWidth]="header?.width" [nzLeft]="header?.left" [nzRight]="header?.right">
+          {{ header?.display }}
+        </th>
+        <th *ngIf="thType(header)==='button'" [nzAlign]="header?.align" [nzWidth]="header?.width"
+          [nzLeft]="header?.left" [nzRight]="header?.right">
+          {{ header?.display }}
+        </th>
+        <th *ngIf="thType(header)==='normal'" [nzAlign]="header?.align" [nzWidth]="header?.width"
+          [nzLeft]="header?.left" [nzRight]="header?.right">
+          {{ header?.display }}
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
+
+  <tbody>
+    <ng-container *ngFor="let data of dataList">
+      <tr>
+        <ng-container *ngFor="let item of columns;let index=index" [ngSwitch]="colType(item)">
+          <td *ngSwitchCase="'checkbox'" [nzShowCheckbox]="true" [(nzChecked)]="selectedData[index]"
+            (nzCheckedChange)="selectChange($event)" [nzAlign]="item?.align" [nzLeft]="item?.left">
+          </td>
+          <td *ngSwitchCase="'datetime'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
+            <span>{{ getCellValue(data,item?.field) | date : item?.formatString }}</span>
+          </td>
+          <td *ngSwitchCase="'enum'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
+            <app-column-enum [column]="item" [entity]="data"></app-column-enum>
+          </td>
+          <td *ngSwitchCase="'template'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
+            <ng-template [ngTemplateOutlet]="item.template" [ngTemplateOutletContext]="{entity:data}">
+            </ng-template>
+          </td>
+          <td *ngSwitchCase="'normal'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzEllipsis]="item?.isEllipsis"
+            [nzRight]="item?.right">
+            <span>{{ getCellValue(data,item?.field) }}</span>
+            <!-- <p *ngIf="item?.isEllipsis  else noEllipsis " nz-typography [nzEllipsis]="item?.isEllipsis"
+            [nzExpandable]="item?.expandable" [nzCopyable]="item?.copyable"
+            [attr.title]="getCellValue(data,item?.field)" [nzEllipsisRows]="item?.ellipsisRows"
+            [nzContent]="getCellValue(data,item?.field)">
+          </p> -->
+            <ng-template #noEllipsis>
+              <span [attr.title]="getCellValue(data,item.field)">{{getCellValue(data,item.field)}}</span>
+            </ng-template>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>

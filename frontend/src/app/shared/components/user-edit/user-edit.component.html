@@ -1,0 +1,116 @@
+<div nz-row>
+  <div nz-col nzSm="4"></div>
+  <div nz-col nzSm="18" *ngIf="type==='info'" class="custom-footer">
+   <button nz-button nzType="primary" (click)="save()" class="mt-ms">
+     <i class="fa fa-save"></i><span class="ml-ms">保存</span></button>
+   <button nz-button (click)="isVisible=true" class="mt-ms ml-ms">
+     <i class="fa fa-key"></i><span class="ml-ms">重置密码</span></button>
+ </div>
+</div>
+<div class="avatar">
+    <nz-avatar [nzSize]="100" nzIcon="user" [nzSrc]="entity?.Image" (click)="uploadImg()"></nz-avatar>
+    <div class="user-info ml-ms">
+       <div>
+        {{ entity?.UserName }}&nbsp;
+        <i class="fa fa-mars" aria-hidden="true" style="color:#2db7f5" *ngIf="entity?.Gender"></i>
+        <i class="fa fa-venus" aria-hidden="true" style="color: pink;" *ngIf="!entity?.Gender"></i>
+      </div>
+       <div class="mt-ms">
+        <nz-tag [nzColor]="'#f50'" *ngIf="entity?.Category===0">超级管理员</nz-tag>
+        <nz-tag [nzColor]="'#87d068'" *ngIf="entity?.Category===1">普通用户</nz-tag>
+       </div>
+    </div>
+</div>
+<form nz-form [formGroup]="form">
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4" nzRequired>用户名</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" [nzErrorTip]="userNameTpl">
+      <nz-input-group>
+        <input [readOnly]="type==='info'" type="text" nz-input formControlName="UserName" placeholder="请输入用户名"
+          [style.width]="'100%'" (ngModelChange)="userNameChange($event)" />
+      </nz-input-group>
+      <ng-template #userNameTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请输入用户名</ng-container>
+        <ng-container *ngIf="control.hasError('pattern')">必须为中文格式</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4" nzRequired>账号</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入账号">
+      <nz-input-group>
+        <input type="text" [readOnly]="type==='info'" nz-input formControlName="Account" placeholder="请输入账号"
+          [style.width]="'100%'" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4" nzRequired>密码</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入密码">
+      <nz-input-group [nzSuffix]="suffixTemplate">
+        <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="Password" placeholder="密码"
+          [style.width]="'100%'" />
+        <ng-template #suffixTemplate>
+          <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></span>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">昵称</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入昵称">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="NickName" placeholder="请输入昵称" [style.width]="'100%'" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">性别</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18">
+      <nz-radio-group formControlName="Gender">
+        <label nz-radio [nzValue]="true">男</label>
+        <label nz-radio [nzValue]="false">女</label>
+      </nz-radio-group>
+    </nz-form-control>
+  </nz-form-item>
+  <ng-container *ngIf="type==='edit'">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="4">用户类型</nz-form-label>
+      <nz-form-control nz-col [nzSm]="18">
+        <nz-radio-group [(ngModel)]="category" [ngModelOptions]="{standalone: true}">
+          <label nz-radio [nzValue]="1">普通用户</label>
+          <label nz-radio [nzValue]="0">超级管理员</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">邮箱</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入邮箱">
+      <input nz-input formControlName="Email" placeholder="请输入邮箱" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">备注</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="请输入备注">
+      <textarea nz-input formControlName="Pic" placeholder="备注" rows="4"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">上传头像</nz-form-label>
+    <nz-form-control nz-col [nzSm]="18" nzErrorTip="">
+      <img *ngIf="imgUrl" style="width: 100px;height: 100px;" [src]="imgUrl" />
+      <input class="upload-img" type="file" name="file" (change)="changeImg()" #uploadImgInput />
+      <button nz-button nzType="primary" (click)="uploadImg()" class="mt-ms">
+        <i class="fa fa-upload"></i><span class="ml-sm">上传图片</span></button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<nz-modal *ngIf="isVisible" [(nzVisible)]="isVisible" [nzTitle]="'重置密码'" (nzOnCancel)="isVisible=false" [nzWidth]="'700px'"
+  (nzOnOk)="resetPwd()">
+  <ng-container *nzModalContent>
+     <app-reset-pwd #resetPwdTpl></app-reset-pwd>
+  </ng-container>
+</nz-modal>

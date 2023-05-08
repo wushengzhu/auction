@@ -1,0 +1,73 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="200px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
+      <h1>NG-ZORRO</h1>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <ng-container *ngFor="let item of layout">
+        <li nz-submenu [nzTitle]="titleTpl" *ngIf="item.group" [nzOpen]="isOpen(item)">
+          <ng-template #titleTpl>
+            <i [class]="item.icon"></i>
+            <span class="ml-ls" *ngIf="!isCollapsed">{{item.text}}</span>
+          </ng-template>
+          <ng-container *ngIf="item.children">
+            <ul>
+              <li nz-menu-item *ngFor="let jtem of item.children" nzMatchRouter [nzSelected]="activeRoute(jtem.link)">
+                <a [routerLink]="jtem.link" class="ml-ls">{{ jtem.text }}</a>
+              </li>
+            </ul>
+          </ng-container>
+        </li>
+        <li nz-menu-item *ngIf="!item.group" nzMatchRouter [nzSelected]="activeRoute(item.link)">
+          <a [routerLink]="item.link">
+            <i [class]="item.icon"></i>
+            <span *ngIf="!isCollapsed" class="ml-ls">{{ item.text }}</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header" [style]="{'margin-left':isCollapsed?'80px':'200px'}">
+        <div class="header-trigger ml-xs" (click)="isCollapsed = !isCollapsed" style="color: #fff; font-size: 20px">
+          <ng-container *ngIf="!isCollapsed; else toggleTpl">
+            <i class="fa fa-dedent"></i>
+          </ng-container>
+          <ng-template #toggleTpl>
+            <i class="fa fa-indent"></i>
+          </ng-template>
+        </div>
+        <div class="header-user mr-ls">
+          <a nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="'click'" style="color: #f0f2f5;">
+            <!-- <img [src]="userInfo?.Image" class="header-user-img mr-xs" /> -->
+            <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="userInfo?.Image"></nz-avatar>
+            {{ userInfo?.Account }}
+            <i class="fa fa-caret-down ml-ms"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item (click)="updatePassword()">重置密码</li>
+              <li nz-menu-item (click)="personInfo()">个人信息</li>
+              <li nz-menu-item (click)="outLogin()">退出登录</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content" [style]="{'margin-left':isCollapsed?'80px':'200px'}">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'重置密码'" (nzOnCancel)="handleCancel()" [nzWidth]="'700px'"
+  (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <app-reset-pwd #resetPwdTpl></app-reset-pwd>
+  </ng-container>
+</nz-modal>

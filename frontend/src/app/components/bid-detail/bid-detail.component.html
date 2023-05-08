@@ -1,0 +1,117 @@
+<!-- <lib-page-header title="竞拍物资详情"></lib-page-header> -->
+<nz-card [nzBordered]="false">
+  <div class="card-detail">
+    <div class="head">
+      <div class="head-img">
+        <div #leftImg class="active" (mouseover)="mouseOverLeftImg($event)" (mousemove)="getPosition($event)"
+          (mouseout)="mouseOutLeftImg($event)">
+          <img [src]="bid_img" />
+          <span class="mirror"><i class="fa fa-search"></i></span>
+          <div class="transparent-box"></div>
+        </div>
+        <div class="slide">
+          <button class="btn" style="width:24px;" (click)="changeDescStartIndex()"><i
+              class="fa fa-caret-left"></i></button>
+          <!-- [start]="startIndex" -->
+          <ol class="list">
+            <li class="list-img" *ngFor="let item of initImgs">
+              <img [ngClass]="{'border-img':activeBorder[item?.id]}" (mouseover)="mouseOverImg($event,item?.id)"
+                (mouseout)="mouseOutImg($event,item?.id)" [src]="item?.src" />
+            </li>
+          </ol>
+          <button class="btn" style="width:24px;" (click)="changeAddStartIndex()"><i
+              class="fa fa-caret-right"></i></button>
+        </div>
+      </div>
+      <div class="head-content">
+        <div #rightImg class="active-right"><img [src]="bid_img" /></div>
+        <p class="title">{{detailData?.Title}}</p>
+        <div class="head-content-info">
+          <ng-container *ngIf="detailData?.RemainTime!==0 else winnerTpl">
+            <div class="winner-info tb-1">
+              <span>{{detailData?.RemainTime<0?'距开始：':'距结束：'}} {{detailData?.Time|TimeFormater}} </span>
+                  <!-- <span>{{lookTime}}次围观</span> -->
+            </div>
+          </ng-container>
+          <ng-template #winnerTpl>
+            <div class="winner-info tb-2">
+              <span *ngIf="detailData?.Status>=3"><i
+                  class="fa fa-trophy"></i>&nbsp;获拍者：{{setBiderFormater(detailData?.BidRecord?.UserName)}}</span>
+              <span *ngIf="detailData?.Status===2"><i class="fa fa-trophy"></i>&nbsp;获拍者：{{'暂无人获拍'}}</span>
+              <!-- <span>{{lookTime}}次围观</span> -->
+            </div>
+          </ng-template>
+
+          <div class="material-info">
+            <span>{{detailData?.RemainTime!==0?'起拍价':(detailData?.Status===2?'起拍价':'成交价')}}
+              <span class="price-icon">
+                ￥<span
+                  class="price">{{detailData?.RemainTime!==0?detailData?.StartPrice:(detailData?.Status===2?detailData?.StartPrice:detailData?.BidRecord.Amount)}}</span>
+              </span>
+              <span style="margin-left:20px;">评估价：￥{{detailData?.EvaluationPrice}}</span>
+            </span>
+            <span>{{bidTime}}次出价</span>
+          </div>
+        </div>
+
+        <div class="head-content-date">
+          <div *ngIf="detailData?.Material.ProduceDate">生产日期：{{detailData?.Material.ProduceDate|_date:'yyyy/MM/DD'}}
+          </div>
+          <div style="margin-left: 20px;" *ngIf="detailData?.Material.EffectiveDate">
+            有效日期：{{detailData?.Material.EffectiveDate|_date:'yyyy/MM/DD'}}</div>
+        </div>
+
+        <div class="head-content-bid">
+          <span>出价：</span>
+          <input nz-input class="add-price" [(ngModel)]="addPrice" [readonly]="true" />
+          <span class="add-dec">
+            <button nz-button nzType="primary" (click)="dealPrice('add')"><i nz-icon nzType="plus"></i></button>
+            <button nz-button nzType="primary" (click)="dealPrice('minus')" [disabled]="isBan"><i nz-icon
+                nzType="minus"></i></button>
+          </span>
+        </div>
+        <div><span class="markup">加价幅度：{{detailData?.MarkUp|price}}元，默认值为当前最高出价</span></div>
+        <div class="footer">
+          <button class="btn-price" nz-button nzType="primary" (click)="bid()" [disabled]="detailData?.RemainTime<=0"
+            [nzDanger]="detailData?.RemainTime>0">{{changeBtnText(detailData?.RemainTime)}}</button>
+          <a (click)="lookOther()" style="color: #999;">查看其他竞品&nbsp;>>></a>
+        </div>
+      </div>
+    </div>
+    <!-- <lib-form-legend title="出价记录"></lib-form-legend> -->
+    <div style="margin-top:20px;"></div>
+    <app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest"
+      [afterRequest]="afterRequest">
+      <ng-template #prefixArea>
+        <div style="padding-left:16px;font-size:10.5px;">
+          <i class="fa fa-angle-double-right"></i>
+          <span style="font-size:16px;font-weight:bold;">&nbsp;出价记录</span>
+        </div>
+      </ng-template>
+      <ng-template gridColumnTemplate name="UserName" let-entity="entity">
+        <span>{{ setBiderFormater(entity.UserName) }}</span>
+      </ng-template>
+      <ng-template gridColumnTemplate name="Amount" let-entity="entity">
+        <span>￥{{ entity.Amount}}</span>
+      </ng-template>
+      <ng-template gridColumnTemplate name="Status" let-entity="entity">
+        <!-- <span [ngClass]="changeTextColor(entity.Status)">{{ getStatusText(entity.Status) }}</span> -->
+        <span>{{ getStatusText(entity.Status) }}</span>
+      </ng-template>
+    </app-grid-list>
+    <!-- <lib-form-legend title="竞品详情"></lib-form-legend> -->
+    <div class="bid-detail">
+      <p>{{detailData?.Excerpt}}</p>
+      <!-- <lib-inner-content [content]="detailData?.Description" [innerStyle]="{'width':'100%'}" [mergeLineBreak]="true"
+        [imgMaxWidth]="946">
+      </lib-inner-content> -->
+    </div>
+  </div>
+</nz-card>
+<div style="height: 64px;"></div>
+<app-page-footer>
+  <button type="button" nz-button [nzType]="'default'" (click)="back()">
+    <i class="fa fa-arrow-left"></i>
+    <span>返回</span>
+  </button>
+</app-page-footer>

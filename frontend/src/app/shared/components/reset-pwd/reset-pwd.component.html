@@ -1,0 +1,29 @@
+<form>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="4">原密码</nz-form-label>
+        <nz-form-control nz-col [nzSm]="18">
+            <nz-input-group>
+                <input type="password" nz-input [(ngModel)]="oldPwd" [ngModelOptions]="{ standalone: true }"
+                    placeholder="请输入你的密码" [style.width]="'100%'" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="4">新密码</nz-form-label>
+        <nz-form-control nz-col [nzSm]="18">
+            <nz-input-group>
+                <input type="password" nz-input [(ngModel)]="newPwd" [ngModelOptions]="{ standalone: true }"
+                    placeholder="请输入你的密码" [style.width]="'100%'" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSm]="4">再次输入新密码</nz-form-label>
+        <nz-form-control nz-col [nzSm]="18">
+            <nz-input-group>
+                <input type="password" nz-input [(ngModel)]="secondPwd" [ngModelOptions]="{ standalone: true }"
+                    placeholder="请输入你的密码" [style.width]="'100%'" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+</form>

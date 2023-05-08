@@ -1,0 +1,38 @@
+<ng-container *ngIf="objectId else attachGridTpl">
+  <app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest"
+    [afterRequest]="afterRequest">
+    <ng-template gridColumnTemplate name="operate" let-entity="entity">
+      <a (click)="edit(entity.Id)" class="btn">
+        <i class="fa fa-edit"></i>
+        <!-- <span class="ml-sm">编辑</span> -->
+      </a>
+      <a (click)="download(entity.Id)" class="btn ml-ms">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        <!-- <span class="ml-sm">编辑</span> -->
+      </a>
+      <a nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="deleteById(entity.Id)"
+        nzPopconfirmPlacement="top" class="ml-ms btn" style="color:red">
+        <i class="fa fa-trash-o"></i>
+        <!-- <span class="ml-sm">删除</span> -->
+      </a>
+    </ng-template>
+  </app-grid-list>
+</ng-container>
+
+<ng-template #attachGridTpl>
+  <div *ngFor="let item of filesList;index as i" class="file-item">
+    <div class="file-info mb-sm">
+      <span>{{item.name}}</span>
+      <span>{{getFileByte(item.size)}}&nbsp;
+        <a (click)="deleteFile(i)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+      </span>
+    </div>
+    <nz-progress [nzPercent]="percent[i]"></nz-progress>
+  </div>
+</ng-template>
+
+<div>
+  <input class="upload-img" type="file" name="file" [multiple]="true" (change)="changeImg()" #uploadImgInput />
+  <button nz-button nzType="primary" (click)="clickUpload()" class="mt-ms">
+    <i class="fa fa-upload"></i><span class="ml-sm">上传附件</span></button>
+</div>

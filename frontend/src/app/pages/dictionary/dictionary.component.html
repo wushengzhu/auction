@@ -1,0 +1,60 @@
+<div nz-row>
+  <div nz-col [nzSm]="4">
+    <nz-tree [nzData]="treeNodes" nzDraggable nzBlockNode (nzClick)="nzEvent($event)"
+      [nzSelectedKeys]="selectedKey"></nz-tree>
+  </div>
+  <div nz-col [nzSm]="20">
+    <nz-card nzBordered class="ml-xs">
+      <app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest">
+        <ng-template #prefixArea>
+          <button nz-button nzType="primary" (click)="edit()">
+            <i class="fa fa-plus mr-ms"></i>
+            添加
+          </button>
+        </ng-template>
+
+        <ng-template gridColumnTemplate name="operate" let-entity="entity">
+          <a (click)="editUserInfo(entity.Id)" class="btn">
+            <i class="fa fa-edit"></i>
+            <!-- <span class="ml-sm">编辑</span> -->
+          </a>
+          <a nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="deleteUser(entity.Id)"
+            nzPopconfirmPlacement="top" class="ml-ms btn" style="color:red">
+            <i class="fa fa-trash-o"></i>
+            <!-- <span class="ml-sm">删除</span> -->
+          </a>
+        </ng-template>
+      </app-grid-list>
+    </nz-card>
+  </div>
+</div>
+
+<nz-modal *ngIf="isVisible" [(nzVisible)]="isVisible" [nzTitle]="'字典设置'" (nzOnCancel)="isVisible=false"
+  [nzWidth]="'700px'" (nzOnOk)="save()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="form" nzLayout="horizontal">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col nzSpan="4" nzRequired>字典名称</nz-form-label>
+        <nz-form-control nz-col nzSpan="18" [nzErrorTip]="valueTpl">
+          <input nz-input formControlName="Value">
+        </nz-form-control>
+        <ng-template #valueTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请填写</ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">最多输入20个字符</ng-container>
+        </ng-template>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-label nz-col nzSpan="4" nzRequired>字典Key</nz-form-label>
+        <nz-form-control nz-col nzSpan="18" nzErrorTip="请填写">
+          <input nz-input formControlName="DictName">
+        </nz-form-control>
+        <ng-template #valueTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请填写</ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">只能是大小写字母格式</ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">最多输入20个字符</ng-container>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
