@@ -369,12 +369,13 @@ export class PublishEditComponent implements OnInit {
       this.isSaving = true;
       const startTime = `${this.datePipe.transform(this.getFormControl('StartTime').value, 'yyyy-MM-dd HH:mm:00')}`;
       const endTime = `${this.datePipe.transform(this.getFormControl('EndTime').value, 'yyyy-MM-dd HH:mm:00')}`;
-      const formValue = Object.assign({ Status: status }, this.form.value, {
+      const formValue = Object.assign({}, this.form.value, {
         Material: { Name: this.getFormControl('MaterialName').value },
         // 设置秒为0开始
         StartTime: startTime,
         EndTime: endTime,
         Images: this.imagesList,
+        Status: status,
         // RemainTime: moment(new Date(endTime)).diff(new Date(startTime)),
       });
       if (this.getFormControl('MaterialRemainQuantity').value <= 0) {

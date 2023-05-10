@@ -170,13 +170,13 @@ export class PublishComponent implements OnInit {
     ];
   }
 
-  edit(id?: string): void {
-    if (Util.isUndefinedOrNull(id)) {
+  edit(entity?: any): void {
+    if (!entity?.Id) {
       this.title = '新增用户信息';
     } else {
       this.title = '编辑用户信息';
     }
-    this.router.navigate(['/home/auction/publish-edit', { publishId: id ? id : 0 }]);
+    this.router.navigate(['/home/auction/publish-edit', { publishId: entity?.Id ? entity?.Id : 0, status: entity?.Status }]);
   }
 
   handleOk(): void {}

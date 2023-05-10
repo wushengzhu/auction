@@ -9,14 +9,12 @@ import { CkEditorConfig } from './config';
 })
 // https://ckeditor.com/docs/ckeditor5/latest/installation/frameworks/angular.html
 export class CkeditorComponent implements OnInit, AfterViewInit {
+  @ViewChild('toobar') toobar: ElementRef;
   @ViewChild('ck') ck: ElementRef;
-  editor: any = DecoupledEditor;
+  editor: any;
   config: any = CkEditorConfig;
   isDisabled: boolean = false;
   public onReady(editor: any): void {
-    editor.execute('bold');
-    editor.execute('italic');
-    editor.execute('code');
     //using `any` is a temporary workaround for https://github.com/ckeditor/ckeditor5/issues/13838
     const decoupledEditor = editor;
     const element = decoupledEditor.ui.getEditableElement()!;
@@ -24,11 +22,12 @@ export class CkeditorComponent implements OnInit, AfterViewInit {
     // Array.from(editor.ui.componentFactory.names()); // 为了解决toolbarview-item-unavailable错误
     parent.insertBefore(decoupledEditor.ui.view.toolbar.element!, element);
   }
-  constructor() {}
-
-  ngAfterViewInit(): void {
-    // Array.from(this.editor.ui.componentFactory.names());
+  constructor() {
+    this.config = CkEditorConfig;
+    this.editor = DecoupledEditor;
   }
+
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {}
 

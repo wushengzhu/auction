@@ -1,13 +1,9 @@
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
-
 // 需要额外webpack配置加载解析插件内的svg，并配置angular.json
 // 查看https://blog.csdn.net/sllailcp/article/details/103233903
 export const CkEditorConfig = {
   // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
   toolbar: {
-    plugins: [Bold, Italic, Code], // 如果某些items没有生效，需要下载相关插件并引入
+    plugins: [], // 如果某些items没有生效，需要下载相关插件并引入
     items: [
       'exportPDF',
       'exportWord',

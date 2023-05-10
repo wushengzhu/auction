@@ -1,4 +1,4 @@
-<app-grid-list [option]="option" [columns]="columns" [(reload)]="reload">
+<app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest">
   <ng-template #prefixArea>
     <button nz-button nzType="primary" (click)="edit()">
       <i class="fa fa-plus mr-ms"></i>
@@ -14,7 +14,7 @@
   </ng-template>
 
   <ng-template gridColumnTemplate name="Operate" let-entity="entity">
-    <a (click)="edit(entity.Id)" class="btn">
+    <a (click)="edit(entity)" class="btn">
       <i class="fa fa-edit"></i>
       <!-- <span class="ml-sm">编辑</span> -->
     </a>

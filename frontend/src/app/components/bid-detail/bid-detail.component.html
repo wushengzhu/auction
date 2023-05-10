@@ -83,38 +83,44 @@
     </div>
     <!-- <lib-form-legend title="出价记录"></lib-form-legend> -->
     <div style="margin-top:20px;"></div>
-    <app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest"
-      [afterRequest]="afterRequest">
-      <ng-template #prefixArea>
-        <div style="padding-left:16px;font-size:10.5px;">
-          <i class="fa fa-angle-double-right"></i>
-          <span style="font-size:16px;font-weight:bold;">&nbsp;出价记录</span>
+    <nz-tabset>
+      <nz-tab [nzTitle]="'竞价详情'">
+        <div class="bid-detail">
+          <p>{{detailData?.Excerpt}}</p>
+          <!-- <lib-inner-content [content]="detailData?.Description" [innerStyle]="{'width':'100%'}" [mergeLineBreak]="true"
+      [imgMaxWidth]="946">
+    </lib-inner-content> -->
         </div>
-      </ng-template>
-      <ng-template gridColumnTemplate name="UserName" let-entity="entity">
-        <span>{{ setBiderFormater(entity.UserName) }}</span>
-      </ng-template>
-      <ng-template gridColumnTemplate name="Amount" let-entity="entity">
-        <span>￥{{ entity.Amount}}</span>
-      </ng-template>
-      <ng-template gridColumnTemplate name="Status" let-entity="entity">
-        <!-- <span [ngClass]="changeTextColor(entity.Status)">{{ getStatusText(entity.Status) }}</span> -->
-        <span>{{ getStatusText(entity.Status) }}</span>
-      </ng-template>
-    </app-grid-list>
-    <!-- <lib-form-legend title="竞品详情"></lib-form-legend> -->
-    <div class="bid-detail">
-      <p>{{detailData?.Excerpt}}</p>
-      <!-- <lib-inner-content [content]="detailData?.Description" [innerStyle]="{'width':'100%'}" [mergeLineBreak]="true"
-        [imgMaxWidth]="946">
-      </lib-inner-content> -->
-    </div>
+      </nz-tab>
+      <nz-tab [nzTitle]="'出价记录'">
+        <app-grid-list [option]="option" [columns]="columns" [(reload)]="reload" [beforeRequest]="beforeRequest"
+          [afterRequest]="afterRequest">
+          <ng-template #prefixArea>
+            <div style="padding-left:16px;font-size:10.5px;">
+              <i class="fa fa-angle-double-right"></i>
+              <span style="font-size:16px;font-weight:bold;">&nbsp;出价记录</span>
+            </div>
+          </ng-template>
+          <ng-template gridColumnTemplate name="UserName" let-entity="entity">
+            <span>{{ setBiderFormater(entity.UserName) }}</span>
+          </ng-template>
+          <ng-template gridColumnTemplate name="Amount" let-entity="entity">
+            <span>￥{{ entity.Amount}}</span>
+          </ng-template>
+          <ng-template gridColumnTemplate name="Status" let-entity="entity">
+            <!-- <span [ngClass]="changeTextColor(entity.Status)">{{ getStatusText(entity.Status) }}</span> -->
+            <span>{{ getStatusText(entity.Status) }}</span>
+          </ng-template>
+        </app-grid-list>
+      </nz-tab>
+    </nz-tabset>
+
   </div>
 </nz-card>
 <div style="height: 64px;"></div>
 <app-page-footer>
   <button type="button" nz-button [nzType]="'default'" (click)="back()">
-    <i class="fa fa-arrow-left"></i>
+    <i class="fa fa-arrow-left mr-sm"></i>
     <span>返回</span>
   </button>
 </app-page-footer>
