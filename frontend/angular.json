@@ -15,7 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/auction",
             "index": "src/index.html",
@@ -23,12 +23,38 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
-            "scripts": []
+            "aot": true,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/@ckeditor/ckeditor5-ui/theme/icons/",
+                "output": "/assets/ckeditor/icons"
+              }
+            ],
+            "styles": ["node_modules/ng-zorro-antd/ng-zorro-antd.less", "src/assets/font-awesome-4.7.0/less/font-awesome.less", "src/styles.less"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js",
+              "libraryName": "auction",
+              "libraryTarget": "umd",
+              "mergeStrategies": {
+                "module.rules": "append",
+                "module.plugins": "append"
+              }
+            }
           },
           "configurations": {
             "production": {
+              "extractCss": true,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -40,8 +66,7 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -55,7 +80,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "auction:build",
             "disableHostCheck": true,
@@ -84,8 +109,16 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/@ckeditor/ckeditor5-ui/theme/icons/",
+                "output": "/assets/ckeditor/icons"
+              }
+            ],
+            "styles": ["node_modules/ng-zorro-antd/ng-zorro-antd.less", "src/assets/font-awesome-4.7.0/less/font-awesome.less", "src/styles.less"],
             "scripts": []
           }
         }

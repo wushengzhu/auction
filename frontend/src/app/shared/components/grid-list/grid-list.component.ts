@@ -87,17 +87,24 @@ export class GridListComponent implements OnInit, AfterViewInit {
     }
   }
 
+  searchChange(event) {
+    if (event) {
+      this.columns.forEach((item) => {
+        if (item.inSearch && !Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
+          this.simpleFilter.push({
+            field: item.field,
+            op: '$regex',
+            value: this.simpleSearchText,
+          });
+        } else {
+          this.simpleFilter = [];
+        }
+      });
+    }
+  }
+
   simpleSearch() {
-    this.columns.forEach((item) => {
-      if (item.inSearch && !Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
-        this.simpleFilter.push({
-          field: item.field,
-          op: '$regex',
-          value: this.simpleSearchText,
-        });
-        this.refresh();
-      }
-    });
+    this.refresh();
   }
 
   initTemplate(uColumn: Array<Column>) {
@@ -149,10 +156,12 @@ export class GridListComponent implements OnInit, AfterViewInit {
     if (Util.isFunction(this.beforeRequest)) {
       const requestData = new RequestOption();
       const { curPage, pageSize, filters } = this.beforeRequest(requestData);
+      console.log('this.beforeRequest(requestData)', this.beforeRequest(requestData));
       this.curPage = curPage;
       this.pageSize = pageSize;
       this.simpleFilter = filters;
     }
+    console.log(this.simpleFilter);
     this.auctionSvc
       .getData(this.option.url, {
         curPage: this.curPage,

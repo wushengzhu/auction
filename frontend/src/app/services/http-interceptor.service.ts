@@ -31,11 +31,11 @@ export class HttpInterceptorService implements HttpInterceptor {
           if (token) {
             this.authSvc.isLoginIn = true;
           } else {
-            this.router.navigate(['/login']);
+            // 注册时上传图片时
+            !url.includes('Upload') && this.router.navigate(['/login']);
           }
         },
         (err) => {
-          // console.log(err);
           if (err.status) {
             this.router.navigate(['/login']);
           } else {

@@ -200,6 +200,7 @@
             }
 
             .add-dec {
+              width: 30px;
               display: inline-flex;
               flex-direction: column;
             }
@@ -245,7 +246,9 @@
     @timeBackground: {
       1: #ff843b;
       2: #e4393c;
-    };
+    }
+
+    ;
 
     each(@timeBackground, {
       .tb-@{key} {
@@ -255,16 +258,16 @@
 
   /** 定义出价按钮状态的背景 */
   @buttonBackground: {
-      1: #ff4d4f;
-      2: #d4d4d4;
-    }
+    1: #ff4d4f;
+    2: #d4d4d4;
+  }
 
-    each(@buttonBackground, {
+  each(@buttonBackground, {
     .bt-@{key} {
       background-color: @value;
       color: #fff;
       font-weight: bold;
     }
   });
-  }
+}
 }

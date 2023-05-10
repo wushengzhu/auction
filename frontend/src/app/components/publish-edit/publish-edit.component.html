@@ -227,18 +227,18 @@
       </nz-form-item>
     </div>
 
-    <!-- <nz-form-item nz-row>
+    <nz-form-item nz-row>
       <nz-form-label nz-col nzSpan="4">拍品详细信息</nz-form-label>
       <nz-form-control nz-col nzSpan="16">
         <app-ckeditor></app-ckeditor>
       </nz-form-control>
-    </nz-form-item> -->
+    </nz-form-item>
 
     <nz-form-item nz-row>
       <nz-form-label nz-col nzSpan="4">上传图片</nz-form-label>
       <nz-form-control nz-col nzSpan="16">
-        <app-attachment [modCode]="'Auction$Publish'" [objectId]="+publishId"
-          (loadFiles)="loadFiles($event)"></app-attachment>
+        <app-attachment [modCode]="'Auction$Publish'" [objectId]="+publishId" (loadFiles)="loadFiles($event)">
+        </app-attachment>
       </nz-form-control>
     </nz-form-item>
 

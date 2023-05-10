@@ -69,7 +69,6 @@ export class UserEditComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(this.uploadImgEle.nativeElement.files[0]);
     const imgPath = this.uploadImgEle.nativeElement.files[0];
-    console.log(imgPath);
     reader.onload = function () {
       that.imgBase64 = this.result; // 拿到的是base64格式的图片
       that.storageUploadImg(imgPath.name, that.imgBase64);

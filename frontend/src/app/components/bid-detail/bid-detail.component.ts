@@ -1,7 +1,7 @@
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { interval } from 'rxjs';
+import { interval, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Util } from 'src/app/shared/utills/utils';
 import { Column } from 'src/app/shared/components/grid-list/models/column';
@@ -11,7 +11,10 @@ import { AuctionService } from 'src/app/services/auction.service';
 import { StringColumn } from 'src/app/shared/components/grid-list/models/string-column';
 import { DatetimeColumn } from 'src/app/shared/components/grid-list/models/datetime-column';
 import { IntColumn } from 'src/app/shared/components/grid-list/models/int-column';
-import { Bid } from 'src/app/models/enums';
+import { Bid, BidStatus } from 'src/app/models/enums';
+import { EnumOptions } from 'src/app/shared/components/grid-list/models/enum-options';
+import { EnumColumn } from 'src/app/shared/components/grid-list/models/enum-column';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-bid-detail',
@@ -22,6 +25,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
   addPrice: number;
   maxPrice: number;
   _publishId: number;
+  userInfo: any;
   get publishId() {
     return this._publishId;
   }
@@ -70,7 +74,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
     return resp;
   };
 
-  constructor(private route: ActivatedRoute, private auctionSvc: AuctionService, private router: Router, private mesSvc: NzMessageService) {}
+  constructor(private storageSvc: StorageService, private route: ActivatedRoute, private auctionSvc: AuctionService, private router: Router, private mesSvc: NzMessageService) {}
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this._publishId = params?.['publishId'];
@@ -96,6 +100,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
     });
     this.getImageData();
     this.initAddPriceRecord();
+    this.userInfo = this.storageSvc.get('userInfo');
   }
 
   ngAfterViewInit() {
@@ -112,19 +117,30 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
       simplePagination: true,
     });
     this.columns = [
-      new StringColumn({ display: '竞价者', field: 'UserName', width: '100px', inSearch: false }),
+      new StringColumn({ display: '竞价者', field: 'UserName', width: '100px', inSearch: true }),
       new DatetimeColumn({ display: '出价时间', field: 'OperateTime' }),
-      new IntColumn({ display: '出价金额', field: 'Amount', width: '100px' }),
-      new StringColumn({ display: '竞价状态', field: 'Status', width: '150px', inSearch: false }),
+      new IntColumn({ display: '出价金额', field: 'Amount', width: '100px', inSearch: false }),
+      new EnumColumn({
+        display: '竞价状态',
+        field: 'Status',
+        width: '150px',
+        enumOptions: () =>
+          of(
+            new EnumOptions({
+              options: BidStatus,
+            })
+          ),
+      }),
     ];
   }
 
   getImageData() {
     // const token = this.authSvc.getAuthorizationUrl();
-    this.auctionSvc.file.fileList('Auction$Publish', this.publishId).subscribe((resp: any) => {
+    this.auctionSvc.file.fileList('Auction$Publish', this.publishId).subscribe((r: any) => {
+      const resp = r?.Data;
       if (resp && !Util.IsNullOrEmpty(resp)) {
-        resp.forEach((r, index) => {
-          const src = `/uploads/images/${r?.OriginName}`;
+        resp.forEach((item, index) => {
+          const src = `/uploads/images/${item?.OriginName}`;
           const obj = { src: src, id: index } as object;
           this.bid_imgs.push(obj);
         });
@@ -200,7 +216,12 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
     if (this.addPrice <= this.maxPrice) {
       this.mesSvc.error('出价不能小于等于当前最高出价！');
     } else {
-      const entity = {};
+      const entity = {
+        PublishId: +this.publishId,
+        UserId: +this.userInfo?.Id,
+        UserName: this.userInfo?.UserName,
+        Amount: +this.addPrice,
+      };
       this.auctionSvc.bidRecord.save(entity).subscribe((resp: any) => {
         if (resp.Data) {
           this.mesSvc.success('出价成功！');
@@ -243,7 +264,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
   }
 
   lookOther() {
-    this.router.navigate(['./auction/material-bid']);
+    this.router.navigate(['/home/auction/auction-bid']);
   }
 
   back() {

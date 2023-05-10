@@ -2,9 +2,10 @@
   "name": "auction",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "dev": "ng serve",
-    "build": "ng build",
+    "dev": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve auction",
+    "build": "node --max_old_space_size=12288 node_modules/@angular/cli/bin/ng build auction",
+    "build:stats": "node --max_old_space_size=12288 node_modules/@angular/cli/bin/ng build auction --prod --source-map --stats-json",
+    "analyzer": "webpack-bundle-analyzer dist/auction/stats.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -19,6 +20,8 @@
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
     "@ant-design/icons-angular": "^15.0.0",
+    "@ckeditor/ckeditor5-angular": "^6.0.1",
+    "@ckeditor/ckeditor5-basic-styles": "^37.1.0",
     "js-md5": "^0.7.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
@@ -29,10 +32,12 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^15.0.0",
     "@angular-devkit/build-angular": "^15.2.6",
     "@angular/cli": "~15.2.6",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "css-loader": "^6.7.3",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -40,7 +45,11 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "prettier": "^2.8.8",
+    "style-loader": "^3.3.2",
+    "svg-url-loader": "6.0.0",
+    "ts-node": "~8.3.0",
     "tslint": "^6.1.3",
-    "typescript": "~4.9.4"
+    "typescript": "~4.9.4",
+    "webpack-bundle-analyzer": "^4.8.0"
   }
 }

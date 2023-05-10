@@ -8,10 +8,10 @@
       <div class=" mr-ms">
         <nz-input-group [nzSuffix]="suffixIconSearch">
           <input nz-input [placeholder]="simpleSearchPlaceHolder" [(ngModel)]="simpleSearchText"
-            (keypress)="($event.which===13)?simpleSearch():0" />
+            (ngModelChange)="searchChange($event)" (keyup.enter)="simpleSearch()" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
-          <span nz-icon nzType="search"></span>
+          <span nz-icon nzType="search" (click)="simpleSearch()" style="cursor:pointer;"></span>
         </ng-template>
       </div>
       <div>

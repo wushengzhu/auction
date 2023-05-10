@@ -65,9 +65,12 @@
           <span>出价：</span>
           <input nz-input class="add-price" [(ngModel)]="addPrice" [readonly]="true" />
           <span class="add-dec">
-            <button nz-button nzType="primary" (click)="dealPrice('add')"><i nz-icon nzType="plus"></i></button>
-            <button nz-button nzType="primary" (click)="dealPrice('minus')" [disabled]="isBan"><i nz-icon
-                nzType="minus"></i></button>
+            <button nz-button nzType="primary" (click)="dealPrice('add')">
+              <i class="fa fa-plus"></i>
+            </button>
+            <button nz-button nzType="primary" (click)="dealPrice('minus')" [disabled]="isBan">
+              <i class="fa fa-minus"></i>
+            </button>
           </span>
         </div>
         <div><span class="markup">加价幅度：{{detailData?.MarkUp|price}}元，默认值为当前最高出价</span></div>

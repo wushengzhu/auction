@@ -1,5 +1,5 @@
-<!-- <ckeditor tagName="textarea" [editor]="Editor" [(ngModel)]="editorContent" [config]="config" (ready)="onReady($event)"
-  (ngModelChange)="checkWordLimit($event)"></ckeditor> -->
+<!-- <ckeditor tagName="textarea" [editor]="editor" [(ngModel)]="editorContent" [config]="config"></ckeditor> -->
 
-<textarea name="editor" id="editor" style="resize: none;" #ck [style.width]="'100%'"
-  rows="4"> <p>Here goes the initial content of the editor.</p> </textarea>
+<ckeditor [editor]="editor" [disabled]="isDisabled" [config]="config" data="<p>Hello, world!</p>"
+  (ready)="onReady($event)" (change)="onChange($event)" id="editor" #ck>
+</ckeditor>

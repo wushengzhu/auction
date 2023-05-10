@@ -1,5 +1,5 @@
 import { AuctionService } from '../../services/auction.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   isLoad: boolean;
   passwordVisible: boolean = false;
+  @ViewChild('pwdRef', { read: ElementRef, static: true }) pwdEle: ElementRef;
   constructor(
     private fb: FormBuilder,
     private auctionSvc: AuctionService,
@@ -33,6 +34,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  focuPwd() {
+    this.pwdEle.nativeElement.focus();
+  }
 
   saveForm() {
     this.isLoad = true;
