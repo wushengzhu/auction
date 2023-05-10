@@ -1,35 +1,17 @@
-const { bidModel, idsModel, bidSchema } = require("../../schema/index");
+const { bidModel, idsModel, bidSchema,publichModel } = require("../../schema/index");
 const { Util, queryFilter } = require("../../utils/util");
 
 exports.save = async (req, res) => {
   let bidInfo = req.body;
-  //   bidInfo.RemainTime = {
-  //     RemainTime: { $subtract: [bidInfo.EndTime, bidInfo.StartTime] },
-  //   };
+  bidInfo.Publish = await publichModel.findOne({Id:bidInfo?.PublishId});
   if (Util.isUndefinedOrNullOrWhiteSpace(bidInfo.Id)) {
-    bidModel.find(
-      {
-        Name: bidInfo.Name,
-      },
-      (err, results) => {
-        if (err) {
-          return res.send({ status: 400, Message: err.message });
-        }
-        // 用户名被占用
-        if (results.length > 0) {
-          return res.send({ status: 400, Message: "物品名已经存在" });
-        }
-      }
-    );
     // 实现Id的自增
     const ids = await idsModel.findOneAndUpdate(
-      { Name: "Publish" },
+      { Name: "BidRecord" },
       { $inc: { Id: 1 } }
     );
     bidInfo.Id = ids.Id;
-    bidInfo.CreateTime = new Date();
-    // const soldCount = await materialModel.find({Status:3}).count();
-    // materialModel.updateOne({Id:bidInfo.MaterialId},  { $set: {RemainQuantity:bidInfo.MaterialQuantity-soldCount} })
+    bidInfo.OperateTime = new Date();
     bidModel.create(bidInfo, function (err, results) {
       if (err) {
         console.log("添加物品失败!");
