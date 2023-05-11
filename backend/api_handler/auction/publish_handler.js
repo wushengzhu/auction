@@ -96,6 +96,29 @@ exports.getById = async (req, res) => {
   });
 };
 
+exports.updateStatus = async (req, res) => {
+  const { ids,status } = req.body;
+  if(!Util.IsNullOrEmpty(ids)){
+    ids.forEach((item)=>{
+      publichModel.updateOne({Id:+item},{ $set: {Status:status} },async (err, results) => {
+        if (err) {
+          res.send({
+            Code: 500,
+            Message: err,
+            Data: false,
+          });
+        } else {
+          res.send({
+            Code: 200,
+            Message: "",
+            Data: true,
+          });
+        }
+      })
+    })
+  }
+};
+
 exports.getList = async (req, res) => {
   const { filters, curPage, pageSize } = req.body;
   const skipData = (curPage - 1) * pageSize;

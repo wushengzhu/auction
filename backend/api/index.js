@@ -30,6 +30,7 @@ router.get("/Publish/Delete", publishHandler.delete);
 router.post("/Publish/GetList", publishHandler.getList);
 router.get("/Publish/GetById", publishHandler.getById);
 router.post("/Publish/Save", publishHandler.save);
+router.post("/Publish/UpdateStatus",publishHandler.updateStatus);
 
 router.get("/Dictionary/Delete", dictHandler.delete);
 router.post("/Dictionary/GetList", dictHandler.getList);
