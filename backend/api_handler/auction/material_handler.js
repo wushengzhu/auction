@@ -2,6 +2,7 @@ const {
   materialModel,
   idsModel,
   materialSchema,
+  publishModel,
 } = require("../../schema/index");
 const { Util, queryFilter } = require("../../utils/util");
 

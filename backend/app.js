@@ -12,7 +12,7 @@ const apiRouter = require("./api/index");
 const fileRouter = require("./api/file");
 const schedule = require("node-schedule");
 
-const { publichModel } = require("./schema/index");
+const { publishModel } = require("./schema/index");
 
 app.use(logger("dev"));
 // 系统默认大小为100kb
@@ -76,7 +76,7 @@ app.use(function (req, res, next) {
 // *表示对应位任意数都触发，其他类推
 // 从左到右通配符依次表示：秒 分 时 日 月 周几
 schedule.scheduleJob("30 * * * * *", () => {
-  publichModel.find({}, (err, results) => {
+  publishModel.find({}, (err, results) => {
     if (results && results.length > 0) {
       for (let item of results) {
         let remainTime;
@@ -92,7 +92,7 @@ schedule.scheduleJob("30 * * * * *", () => {
           // 时间未结束
           remainTime = Math.abs(+eTime);
         }
-        publichModel.updateOne(
+        publishModel.updateOne(
           { Id: item?.Id },
           {
             $set: {

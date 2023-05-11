@@ -1,9 +1,9 @@
-const { bidModel, idsModel, bidSchema,publichModel } = require("../../schema/index");
+const { bidModel, idsModel, bidSchema,publishModel } = require("../../schema/index");
 const { Util, queryFilter } = require("../../utils/util");
 
 exports.save = async (req, res) => {
   let bidInfo = req.body;
-  bidInfo.Publish = await publichModel.findOne({Id:bidInfo?.PublishId});
+  bidInfo.Publish = await publishModel.findOne({Id:bidInfo?.PublishId});
   if (Util.isUndefinedOrNullOrWhiteSpace(bidInfo.Id)) {
     // 实现Id的自增
     const ids = await idsModel.findOneAndUpdate(
@@ -16,6 +16,8 @@ exports.save = async (req, res) => {
       if (err) {
         console.log("添加物品失败!");
       }
+      // 存储主表Id
+      publishModel.updateOne({ PublishId: results.PublishId },{ $set:{ BidRecord: results._id}})
       return res.send({
         Code: 200,
         Message: "添加物品成功！",
@@ -30,6 +32,7 @@ exports.save = async (req, res) => {
         if (err) {
           console.log("更新物品信息失败!");
         }
+        publishModel.updateOne({ PublishId: results.PublishId },{ $set:{ BidRecord: results._id}})
         return res.send({
           Code: 200,
           Message: "更新物品信息成功！",
