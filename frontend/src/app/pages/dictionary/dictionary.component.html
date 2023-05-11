@@ -1,7 +1,7 @@
 <div nz-row>
   <div nz-col [nzSm]="4">
-    <nz-tree [nzData]="treeNodes" nzDraggable nzBlockNode (nzClick)="nzEvent($event)"
-      [nzSelectedKeys]="selectedKey"></nz-tree>
+    <nz-tree [nzData]="treeNodes" nzDraggable nzBlockNode (nzClick)="nzEvent($event)" [nzSelectedKeys]="selectedKey">
+    </nz-tree>
   </div>
   <div nz-col [nzSm]="20">
     <nz-card nzBordered class="ml-xs">
@@ -32,7 +32,7 @@
 <nz-modal *ngIf="isVisible" [(nzVisible)]="isVisible" [nzTitle]="'字典设置'" (nzOnCancel)="isVisible=false"
   [nzWidth]="'700px'" (nzOnOk)="save()">
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="form" nzLayout="horizontal">
+    <form nz-form [formGroup]="form" nzLayout="horizontal" *ngIf="isVisible">
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="4" nzRequired>字典名称</nz-form-label>
         <nz-form-control nz-col nzSpan="18" [nzErrorTip]="valueTpl">

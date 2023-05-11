@@ -153,6 +153,7 @@ export class DictionaryComponent implements OnInit {
 
   close() {
     this.isVisible = false;
+    this.buildTree();
   }
 
   save() {
