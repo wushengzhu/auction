@@ -43,6 +43,7 @@ export class PublishEditComponent implements OnInit {
     this.editorContent = details;
   }
   imagesList: Array<any> = [];
+  materialObjectId: any;
   constructor(private fb: FormBuilder, private router: Router, private datePipe: DatePipe, private auctionSvc: AuctionService, private mesSvc: NzMessageService, private route: ActivatedRoute) {}
 
   validateStartTimes = (fc: FormControl) => {
@@ -126,8 +127,11 @@ export class PublishEditComponent implements OnInit {
         this.getFormData(this.model);
         // 如果平台价格都为空，初始化时触发了回调函数，如果加价幅度是有值的是赋值不了的
         this.getFormControl('MarkUp').patchValue(this.model?.MarkUp);
-        this.materialId = r.Data?.Material?.Id;
-        this.getFormControl('MaterialName').patchValue(r.Data?.Material?.Name);
+        if (!Util.IsNullOrEmpty(this.model?.Material)) {
+          this.materialId = r.Data?.Material[0]?.Id;
+          this.getFormControl('MaterialName').patchValue(r.Data?.Material[0]?.Name);
+        }
+
         // }
       });
     } else {
@@ -252,6 +256,7 @@ export class PublishEditComponent implements OnInit {
           this.getFormControl('MaterialSoldQuantity').patchValue(item?.SoldQuantity);
           this.getFormControl('MaterialRemainQuantity').patchValue(item?.RemainQuantity);
           this.materialId = item.Id;
+          this.materialObjectId = item._id;
         }
       });
     }
@@ -370,12 +375,12 @@ export class PublishEditComponent implements OnInit {
       const startTime = `${this.datePipe.transform(this.getFormControl('StartTime').value, 'yyyy-MM-dd HH:mm:00')}`;
       const endTime = `${this.datePipe.transform(this.getFormControl('EndTime').value, 'yyyy-MM-dd HH:mm:00')}`;
       const formValue = Object.assign({}, this.form.value, {
-        Material: { Name: this.getFormControl('MaterialName').value },
         // 设置秒为0开始
         StartTime: startTime,
         EndTime: endTime,
         Images: this.imagesList,
         Status: status,
+        Material: this.model ? this.model?.Material : this.materialObjectId,
         // RemainTime: moment(new Date(endTime)).diff(new Date(startTime)),
       });
       if (this.getFormControl('MaterialRemainQuantity').value <= 0) {

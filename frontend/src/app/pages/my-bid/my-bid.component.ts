@@ -25,7 +25,6 @@ export class MyBidComponent implements OnInit {
     status: 0,
   };
   otherBidStatus: number = -2;
-  selectData = [];
   statusList: any[] = BidStatus;
   option: GridOption;
   columns: Array<Column> = [];
@@ -89,21 +88,19 @@ export class MyBidComponent implements OnInit {
     return str;
   }
 
-  confirmReceive(ids?: Array<any>) {
+  confirmReceive() {
     let confirmData: Array<any> = [];
-    if (ids?.length > 0) {
-      confirmData = ids;
-    } else if (this.selectData.length > 0) {
-      const isBidden = this.selectData.every((item) => item.Status === 3 && item.BidRecord?.UserId === item.UserBidRecord?.UserId);
+    if (this.selectedData.length > 0) {
+      const isBidden = this.selectedData.every((item) => item.Status === 3 && item.BidRecord?.UserId === item.UserBidRecord?.UserId);
       if (isBidden) {
-        this.selectData.forEach((item) => {
+        this.selectedData.forEach((item) => {
           confirmData.push(item.Id);
         });
         this.saveConfim(confirmData);
       } else {
         this.mesSvc.error('请选择当前用户已获拍且待确认收货的物品！');
       }
-    } else if (this.selectData.length === 0) {
+    } else if (this.selectedData.length === 0) {
       this.mesSvc.error('请选择当前用户已获拍且待确认收货的物品！');
     }
   }

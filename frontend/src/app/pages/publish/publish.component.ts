@@ -185,9 +185,10 @@ export class PublishComponent implements OnInit {
     this.isVisible = false;
   }
 
-  deleteUser(id: any) {
-    this.auctionSvc.userPage.detele(id).subscribe((item) => {
+  delete(id: any) {
+    this.auctionSvc.publish.detele(id).subscribe((item) => {
       this.nzMsgSvc.success('删除成功！');
+      this.reload = true;
     });
   }
 

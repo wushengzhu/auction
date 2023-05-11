@@ -101,7 +101,7 @@ export class AuctionService {
       return this.http.get(`/api/Auction/Publish/getById?publishId=${id}`);
     },
     detele: (id: any) => {
-      return this.http.post('/api/Auction/Publish/Delete', { id: id });
+      return this.http.get(`/api/Auction/Publish/Delete?publishId=${id}`);
     },
     confirm: (ids: Array<any>) => {
       return this.http.post('/api/Auction/Publish/UpdateStatus', { ids: ids, status: 4 });

@@ -18,8 +18,8 @@
       <i class="fa fa-edit"></i>
       <!-- <span class="ml-sm">编辑</span> -->
     </a>
-    <a nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="deleteUser(entity.Id)"
-      nzPopconfirmPlacement="top" class="ml-ms btn" style="color:red">
+    <a nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="delete(entity.Id)" nzPopconfirmPlacement="top"
+      class="ml-ms btn" style="color:red">
       <i class="fa fa-trash-o"></i>
       <!-- <span class="ml-sm">删除</span> -->
     </a>

@@ -148,7 +148,7 @@ export class GridListComponent implements OnInit, AfterViewInit {
       // this.setOfCheckedId.delete(id);
       this.mapOfChcekedData.delete(id);
     }
-    this.selectionChange.emit(this.mapOfChcekedData.values());
+    this.selectionChange.emit([...this.mapOfChcekedData.values()]);
   }
 
   onCurrentPageDataChange(event: readonly any[]): void {
