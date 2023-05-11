@@ -6,20 +6,21 @@
     <div style="display: flex;">
       <ng-container [ngTemplateOutlet]="suffixArea"></ng-container>
       <div class=" mr-ms">
-        <nz-input-group [nzSuffix]="suffixIconSearch">
+        <nz-input-group [nzSuffix]="suffixIconSearch" nzCompact class="hover-input" [title]="simpleSearchPlaceHolder">
           <input nz-input [placeholder]="simpleSearchPlaceHolder" [(ngModel)]="simpleSearchText"
-            (ngModelChange)="searchChange($event)" (keyup.enter)="simpleSearch()" />
+            (keyup.enter)="simpleSearch()" />
+          <!-- <span nz-icon nzType="close-circle" class="hover-delete mr-ms" (click)="clearSearchText()"></span> -->
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <span nz-icon nzType="search" (click)="simpleSearch()" style="cursor:pointer;"></span>
         </ng-template>
       </div>
       <div>
-        <button nz-button (click)="refresh()" class=" mr-ms">
+        <button nz-button (click)="refresh()" class=" mr-ms" title="刷新">
           <i class="fa fa-refresh"></i>
         </button>
         <button nz-button class=" mr-ms" nz-popover nzPopoverTitle="列表字段展示" nzPopoverPlacement="bottom"
-          [(nzPopoverVisible)]="isVisible" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate">
+          [(nzPopoverVisible)]="isVisible" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate" title="列表设置">
           <i class="fa fa-table"></i>
         </button>
         <ng-template #contentTemplate>
@@ -38,17 +39,18 @@
   </ng-container>
 </div>
 <nz-divider></nz-divider>
-<nz-table nzBordered [nzData]="dataList" [nzPageSize]="pageSize" [nzTotal]="totalData"
-  (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)" [nzFrontPagination]="false"
+<nz-table nzBordered [nzData]="dataList" [nzPageSize]="pageSize" [nzTotal]="totalData" [nzFrontPagination]="false"
   [nzShowSizeChanger]="!option?.simplePagination" [nzShowQuickJumper]="!option?.simplePagination" nzTableLayout="fixed"
   [nzScroll]="option?.scroll" [nzLoading]="isLoading" [nzTitle]="titleTpl" [nzFooter]="footerTpl"
-  [nzNoResult]="noResult">
+  [nzNoResult]="noResult" (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)"
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
   <thead>
     <tr>
       <ng-container *ngFor="let header of columns">
         <th *ngIf="thType(header)==='checkbox'" [nzShowCheckbox]="true" [nzAlign]="header?.align"
-          [nzWidth]="header?.width" [nzLeft]="header?.left" [nzRight]="header?.right">
+          [nzWidth]="header?.width" [nzLeft]="header?.left" [nzRight]="header?.right" [(nzChecked)]="thChecked"
+          [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)">
           {{ header?.display }}
         </th>
         <th *ngIf="thType(header)==='button'" [nzAlign]="header?.align" [nzWidth]="header?.width"
@@ -64,20 +66,23 @@
   </thead>
 
   <tbody>
-    <ng-container *ngFor="let data of dataList">
+    <ng-container
+      *ngFor="let data of dataList;index as i;first as  rowFirst;last as rowLast ;even as rowEven;odd as rowOdd;">
       <tr>
         <ng-container *ngFor="let item of columns;let index=index" [ngSwitch]="colType(item)">
-          <td *ngSwitchCase="'checkbox'" [nzShowCheckbox]="true" [(nzChecked)]="selectedData[index]"
-            (nzCheckedChange)="selectChange($event)" [nzAlign]="item?.align" [nzLeft]="item?.left">
+          <td *ngSwitchCase="'checkbox'" [nzShowCheckbox]="true" [nzAlign]="item?.align" [nzLeft]="item?.left"
+            [nzChecked]="mapOfChcekedData.has(data?.Id)" (nzCheckedChange)="onItemChecked(data, $event)">
           </td>
-          <td *ngSwitchCase="'datetime'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
+          <td *ngSwitchCase="'datetime'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right"
+            [nzEllipsis]="item?.isEllipsis">
             <span>{{ getCellValue(data,item?.field) | date : item?.formatString }}</span>
           </td>
           <td *ngSwitchCase="'enum'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
             <app-column-enum [column]="item" [entity]="data"></app-column-enum>
           </td>
           <td *ngSwitchCase="'template'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzRight]="item?.right">
-            <ng-template [ngTemplateOutlet]="item.template" [ngTemplateOutletContext]="{entity:data}">
+            <ng-template [ngTemplateOutlet]="item.template"
+              [ngTemplateOutletContext]="{entity:data,columns:columns,value:getCellValue(data,item?.field),rowIndex:i,rowFirst:rowFirst,rowLast:rowLast,rowEven:rowEven,rowOdd:rowOdd}">
             </ng-template>
           </td>
           <td *ngSwitchCase="'normal'" [nzAlign]="item?.align" [nzLeft]="item?.left" [nzEllipsis]="item?.isEllipsis"

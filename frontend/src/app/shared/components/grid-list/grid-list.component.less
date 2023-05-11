@@ -1,102 +1,39 @@
 :host {
-  // ::ng-deep {
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-content
-  //   //   > table
-  //   //   > thead
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-header
-  //   //   > table
-  //   //   > thead
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-body
-  //   //   > table
-  //   //   > thead
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-content
-  //   //   > table
-  //   //   > tbody
-  //   //   > tr
-  //   //   > td,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-header
-  //   //   > table
-  //   //   > tbody
-  //   //   > tr
-  //   //   > td,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-body
-  //   //   > table
-  //   //   > tbody
-  //   //   > tr
-  //   //   > td,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-content
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-header
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-body
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > th,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-content
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > td,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-header
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > td,
-  //   // .ant-table.ant-table-bordered
-  //   //   > .ant-table-container
-  //   //   > .ant-table-body
-  //   //   > table
-  //   //   > tfoot
-  //   //   > tr
-  //   //   > td {
-  //   //   // border-right: 1px solid #b1b1b1;
-  //   // }
+  ::ng-deep {
 
-  //   .ant-table-tbody > tr > td {
-  //     border-bottom: 1px solid #b1b1b1;
-  //     display: flex;
-  //     justify-content: space-between;
-  //     align-items: center;
-  //   }
-  // }
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td,
+    .ant-table tfoot>tr>th,
+    .ant-table tfoot>tr>td {
+      padding: 12px 12px;
+    }
+  }
+
   ::ng-deep {
     .ant-divider-horizontal {
       margin: 12px 0;
+    }
+
+    .hover-input {
+      position: relative;
+
+      .hover-delete {
+        display: none;
+      }
+
+      &:hover {
+        display: flex;
+        align-items: center;
+
+        .hover-delete {
+          display: block;
+          position: absolute;
+          right: 30px;
+          width: 10px;
+          color: rgb(162, 162, 163);
+          cursor: pointer;
+        }
+      }
     }
   }
 }

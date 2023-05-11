@@ -46,9 +46,15 @@ export class GridListComponent implements OnInit, AfterViewInit {
   get columns() {
     return this._columns;
   }
-  @Input() selectedData: Array<boolean> = [];
   @Input() beforeRequest: RequestFunc;
   @Input() afterRequest: (result: any) => any;
+  /**
+   *
+   * 获取选取列选取的行，单选或多选
+   */
+  @Input() selection: Array<any>;
+
+  @Output() selectionChange = new EventEmitter<any>();
   @ContentChild('prefixArea') prefixArea: TemplateRef<any>;
   @ContentChild('suffixArea') suffixArea: TemplateRef<any>;
   @ContentChild('titleTpl') titleTpl: TemplateRef<any>;
@@ -66,7 +72,25 @@ export class GridListComponent implements OnInit, AfterViewInit {
   totalData: number = 0;
   private _reload: boolean = false;
   simpleSearchText: string = '';
+  // set simpleSearchText(val: string) {
+  //   if (this._simpleSearchText !== val) {
+  //     this.simpleSearchText = val;
+  //     this.simpleFilter = [];
+  //     this.searchChange(this.simpleSearchText);
+  //   } else {
+  //     this.reload = true;
+  //   }
+  // }
+
+  // get simpleSearchText() {
+  //   return this._simpleSearchText;
+  // }
   simpleFilter: Array<any> = [];
+  thChecked: boolean = false;
+  indeterminate: boolean = false;
+  // setOfCheckedId = new Set<number>();
+  mapOfChcekedData = new Map<number, object>();
+  listOfCurrentPageData: readonly any[] = [];
   constructor(private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService, private gridListSvc: GridUtilService) {}
 
   ngAfterViewInit(): void {
@@ -76,6 +100,7 @@ export class GridListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.initSimpleSearch();
     this.getData();
+    this.mapOfChcekedData.clear();
   }
 
   initSimpleSearch() {
@@ -87,24 +112,64 @@ export class GridListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  searchChange(event) {
-    if (event) {
+  clearSearchText() {
+    this.simpleSearchText = '';
+    this.simpleFilter = [];
+    this.refresh();
+  }
+
+  simpleSearch() {
+    this.simpleFilter = [];
+    if (!Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
       this.columns.forEach((item) => {
-        if (item.inSearch && !Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
+        if (item.inSearch) {
           this.simpleFilter.push({
             field: item.field,
             op: '$regex',
             value: this.simpleSearchText,
           });
-        } else {
-          this.simpleFilter = [];
         }
       });
     }
+    this.refresh();
   }
 
-  simpleSearch() {
-    this.refresh();
+  onAllChecked(checked: boolean) {
+    this.listOfCurrentPageData.forEach((data) => this.updateCheckedSet(data, checked));
+    this.refreshCheckedStatus();
+  }
+
+  updateCheckedSet(data: any, checked: boolean): void {
+    const id = data?.Id;
+    if (checked) {
+      // this.setOfCheckedId.add(id);
+      this.mapOfChcekedData.set(id, data);
+    } else {
+      // this.setOfCheckedId.delete(id);
+      this.mapOfChcekedData.delete(id);
+    }
+    this.selectionChange.emit(this.mapOfChcekedData.values());
+  }
+
+  onCurrentPageDataChange(event: readonly any[]): void {
+    this.listOfCurrentPageData = event;
+    this.refreshCheckedStatus();
+  }
+
+  refreshCheckedStatus(): void {
+    if (this.listOfCurrentPageData.length > 0) {
+      this.thChecked = this.listOfCurrentPageData.every(({ Id }) => this.mapOfChcekedData.has(Id));
+      this.indeterminate = this.listOfCurrentPageData.some(({ Id }) => this.mapOfChcekedData.has(Id)) && !this.thChecked;
+    }
+
+    if (!this.thChecked) {
+      this.mapOfChcekedData.clear();
+    }
+  }
+
+  onItemChecked(data: any, checked: boolean): void {
+    this.updateCheckedSet(data, checked);
+    this.refreshCheckedStatus();
   }
 
   initTemplate(uColumn: Array<Column>) {
@@ -156,12 +221,10 @@ export class GridListComponent implements OnInit, AfterViewInit {
     if (Util.isFunction(this.beforeRequest)) {
       const requestData = new RequestOption();
       const { curPage, pageSize, filters } = this.beforeRequest(requestData);
-      console.log('this.beforeRequest(requestData)', this.beforeRequest(requestData));
       this.curPage = curPage;
       this.pageSize = pageSize;
-      this.simpleFilter = filters;
+      this.simpleFilter = [...this.simpleFilter, ...filters];
     }
-    console.log(this.simpleFilter);
     this.auctionSvc
       .getData(this.option.url, {
         curPage: this.curPage,
@@ -191,8 +254,6 @@ export class GridListComponent implements OnInit, AfterViewInit {
   thType(col: Column) {
     return this.gridListSvc.columnThType(col);
   }
-
-  selectChange(ev) {}
 
   getCellValue(entity, field) {
     return Util.getter(entity, field);
