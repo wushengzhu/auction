@@ -28,8 +28,9 @@ import { PublishEditComponent } from './components/publish-edit/publish-edit.com
 import { BidDetailComponent } from './components/bid-detail/bid-detail.component';
 import { BidRecordComponent } from './components/bid-record/bid-record.component';
 import { DictionaryComponent } from './pages/dictionary/dictionary.component';
+import { ReceiveEditComponent } from './components/receive-edit/receive-edit.component';
 
-registerLocaleData(zh)
+registerLocaleData(zh);
 const components = [
   PageNotFoundComponent,
   UserListComponent,
@@ -49,26 +50,18 @@ const components = [
   BidDetailComponent,
   BidRecordComponent,
   DictionaryComponent,
-]
+  ReceiveEditComponent,
+];
 @NgModule({
-  declarations: [
-    AppComponent,
-    ...components,
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SharedModule
-  ],
+  declarations: [AppComponent, ...components],
+  imports: [BrowserAnimationsModule, CommonModule, BrowserModule, AppRoutingModule, HttpClientModule, SharedModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
       multi: true,
-    }],
-  bootstrap: [AppComponent]
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

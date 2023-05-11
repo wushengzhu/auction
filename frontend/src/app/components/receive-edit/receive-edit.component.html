@@ -1,0 +1,66 @@
+<form nz-form [formGroup]="form">
+  <ng-container *ngIf="publishId>0">
+    <nz-form-item>
+      <nz-form-label nz-col nzSpan="4" nzRequired>领取拍品</nz-form-label>
+      <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择拍品">
+        <input nz-input formControlName="Publish.Material.Name" readonly>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+
+  <nz-form-item>
+    <nz-form-label nz-col nzSpan="4" nzRequired>领取人</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择领取人">
+      <nz-input-group [nzCompact]="true" class="text-nowrap">
+        <input nz-input readonly formControlName="UserName" style="width:100%" />
+        <!-- <button type="button" nz-button [nzType]="'primary'" click-picker [selectType]="'USER'" [multiple]="false"
+          style="width:25%" (dataChange)="selectUser($event)">
+          <span>选取</span>
+        </button> -->
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div nz-row>
+    <nz-form-label nzSpan="4">合计金额</nz-form-label>
+    <nz-form-item nz-col nzSpan="7">
+      <nz-form-control>
+        <!-- ngModelOptions:独立使用ngmodel，不用formControlName -->
+        <nz-input-number [style.width]="'100%'" [nzPrecision]="2" [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="sumPrice" readonly>
+        </nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-label nz-col nzSpan="4" nzRequired>支付方式</nz-form-label>
+    <nz-form-item nz-col nzSpan="7">
+      <nz-form-control nzErrorTip="请输入支付方式">
+        <!-- <lib-dict-select [modCode]="'Auction'" [dictName]="'PaymentMethod'" formControlName="PaymentMethod">
+        </lib-dict-select> -->
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <nz-form-item>
+    <nz-form-label nzSpan="4" nzRequired>领取时间</nz-form-label>
+    <nz-form-control nzSpan="18" nzErrorTip="领取时间不能为空">
+      <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm'" [nzShowTime]="{ nzFormat: 'HH:mm' }" [style.width]="'100%'"
+        formControlName="OperateTime">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan="4">备注</nz-form-label>
+    <nz-form-control nzSpan="18" nzErrorTip="备注不能超过500个字符">
+      <textarea nz-input formControlName="Remark" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- <lib-dynamic-form [option]="dynamicOption" [formCode]="formCode" [(data)]="dynamicData" [(updateValid)]="updateValid">
+  </lib-dynamic-form> -->
+
+  <div class="custom-modal-footer">
+    <button type="button" nz-button nzType="primary" (click)="save()">保存</button>
+    <button type="button" nz-button (click)="cancel()">取消</button>
+  </div>
+</form>

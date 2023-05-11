@@ -47,13 +47,13 @@
       "children": [
         {
           "text": "收货管理",
-          "link": "/home/receive",
+          "link": "/home/auction/receive",
           "translate": "aside_node",
           "icon": "fas fa-hashtag"
         },
         {
           "text": "退货管理",
-          "link": "/home/return",
+          "link": "/home/auction/return",
           "translate": "aside_shortcut",
           "icon": "fas fa-share-square"
         }

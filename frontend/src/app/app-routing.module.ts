@@ -62,15 +62,15 @@ const routes: Routes = [
                     path: 'bid-detail',
                     component: BidDetailComponent,
                   },
+                  {
+                    path: 'receive',
+                    component: ReceiveComponent,
+                  },
+                  {
+                    path: 'return',
+                    component: ReturnComponent,
+                  },
                 ],
-              },
-              {
-                path: 'receive',
-                component: ReceiveComponent,
-              },
-              {
-                path: 'return',
-                component: ReturnComponent,
               },
               {
                 path: 'article',

@@ -3,7 +3,6 @@
     +
   <img width="300px" src="https://img.alicdn.com/tfs/TB1Z0PywTtYBeNjy1XdXXXXyVXa-186-200.svg">
 </p>
-
 <p align="center">
   <a href="https://codecov.io/gh/element-plus/element-plus">
      <img src="https://img.shields.io/badge/angular-v15.2.6-brightgreen">
@@ -15,7 +14,7 @@
      <img src="https://img.shields.io/badge/ng--zorro--antd-v15.1.0-brightgreen">
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
-    <img src="https://img.shields.io/badge/node-v14.20.0-brightgreen">
+    <img src="https://img.shields.io/badge/node-v16.15.0-brightgreen">
   </a>
   <a href="https://codecov.io/gh/element-plus/element-plus">
      <img src="https://img.shields.io/badge/mongoDB-v6.0.0-brightgreen">
@@ -41,10 +40,17 @@
   <br>
 </p>
 
+
 <p align="center">医院廉洁拍卖后台管理系统项目（pc端+mobile端）</p>
 
 - 💪 Angular
 - 🔥 Written in TypeScript、 Angular、NG-ZORRO、Nodejs、MongoDB
+
+- 版本要求：
+
+  > node：>= 16.15.0
+  >
+  > 
 
 本系统秉着开源项目原则，系统业务在我们平时技术学习当中应该很熟悉，写下这个系统的目的主要是为了回顾2021.9~2023.9这两年在公司担任前端开发职位学习的知识，为了掌握更多前端知识，系统会不断完善。如果本系统对于您的技术有帮助，希望有想法的伙伴或开源大佬提交pr或issue，让我们一起完善这个系统，路灯哥将感激不尽😀。
 

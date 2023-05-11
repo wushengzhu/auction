@@ -103,6 +103,9 @@ export class AuctionService {
     detele: (id: any) => {
       return this.http.post('/api/Auction/Publish/Delete', { id: id });
     },
+    confirm: (ids: Array<any>) => {
+      return this.http.post('/api/Auction/Publish/UpdateStatus', { ids: ids, status: 4 });
+    },
     save: (entity: any) => {
       return this.http.post('/api/Auction/Publish/Save', entity);
     },
