@@ -30,9 +30,9 @@
 
           <div class="price">
             <span>当前价：</span>
-            <ng-container *ngIf="item.BidRecord?.Amount else amountTpl">
+            <ng-container *ngIf="item.BidRecord?.length>0 else amountTpl">
               <span style="color: #e4393c;"><span style="font-size: 16px;">￥</span><i
-                  style="font-size: 20px;">{{item.BidRecord?.Amount}}</i></span>
+                  style="font-size: 20px;">{{item.BidRecord[0]?.Amount}}</i></span>
             </ng-container>
             <ng-template #amountTpl>
               <span style="font-size: 20px;color: #e4393c;">暂无竞价</span>

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval, map, take } from 'rxjs';
+import { Publish, PublishStatus } from 'src/app/models/enums';
 import { AuctionService } from 'src/app/services/auction.service';
 import { Util } from 'src/app/shared/utills/utils';
 
@@ -53,7 +54,7 @@ export class AuctionBidComponent implements OnInit {
       .getList(1, 0, 1)
       .pipe(
         map((resp: any) => {
-          return resp.Data;
+          return resp.Data.filter((item) => item.Status === Publish.Published);
         })
       )
       .subscribe((resp) => {

@@ -223,6 +223,9 @@ export class GridListComponent implements OnInit, AfterViewInit {
       const { curPage, pageSize, filters } = this.beforeRequest(requestData);
       this.curPage = curPage;
       this.pageSize = pageSize;
+      if (Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
+        this.simpleFilter = [];
+      }
       this.simpleFilter = [...this.simpleFilter, ...filters];
     }
     this.auctionSvc

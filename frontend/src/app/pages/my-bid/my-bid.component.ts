@@ -24,32 +24,19 @@ export class MyBidComponent implements OnInit {
   templatePara = {
     status: 0,
   };
-  otherBidStatus: number = -2;
   statusList: any[] = BidStatus;
   option: GridOption;
   columns: Array<Column> = [];
   selectedData: Array<any> = [];
   reload: boolean = false;
   beforeRequest = (req: RequestOption) => {
-    if (this.templatePara.status === MyBid.Bidden && this.otherBidStatus > 2) {
+    if (this.templatePara.status > 0) {
       req.filters.push({
         field: 'Status',
         op: 'eq',
-        value: this.otherBidStatus,
+        value: this.templatePara.status,
       });
     }
-    // // 默认获取竞拍成功的产品
-    // const filter1: CompositeFilterDescriptor = { logic: 'or', filters: [] };
-    // // 未开封获已开封都是未提交状态
-    // [1, 3, 4, 5, 6].forEach((status) => {
-    //   filter1.filters.push({ field: 'Status', operator: 'eq', value: status });
-    // });
-    // req.filters.push(filter1);
-
-    // 点击标签这里触发的是已获拍、未获拍、全部三标签，
-    // req.extraPara = {
-    //   queryStatus: this.templatePara.status,
-    // };
     return req;
   };
   constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private router: Router) {}
@@ -69,12 +56,12 @@ export class MyBidComponent implements OnInit {
       new StringColumn({ display: '物资流水号', field: 'SerialNumber', width: '120px' }),
       new FloatColumn({ display: '评估价(元)', field: 'EvaluationPrice', width: '120px', inSearch: false }),
       new FloatColumn({ display: '起拍价(元)', field: 'StartPrice', width: '120px', inSearch: false }),
-      new DatetimeColumn({ display: '竞拍开始时间', field: 'StartTime', inSearch: false }),
-      new DatetimeColumn({ display: '竞拍截止时间', field: 'Deadline', inSearch: false }),
+      new DatetimeColumn({ display: '竞拍开始时间', field: 'StartTime', inSearch: false, width: '150px' }),
+      new DatetimeColumn({ display: '竞拍截止时间', field: 'EndTime', inSearch: false, width: '150px' }),
       new FloatColumn({ display: '我的最高出价', field: 'UserBidRecord.Amount', width: '130px', inSearch: false }),
       new StringColumn({ display: '当前最高出价者', field: 'BidRecord.UserName', width: '150px' }),
       new FloatColumn({ display: '当前最高出价', field: 'BidRecord.Amount', width: '120px', inSearch: false }),
-      new DatetimeColumn({ display: '出价时间', field: 'BidRecord.OperateTime', width: '120px', inSearch: false }),
+      new DatetimeColumn({ display: '出价时间', field: 'BidRecord.OperateTime', inSearch: false, width: '150px' }),
     ];
   }
 
@@ -91,7 +78,7 @@ export class MyBidComponent implements OnInit {
   confirmReceive() {
     let confirmData: Array<any> = [];
     if (this.selectedData.length > 0) {
-      const isBidden = this.selectedData.every((item) => item.Status === 3 && item.BidRecord?.UserId === item.UserBidRecord?.UserId);
+      const isBidden = this.selectedData.every((item) => item.Status === 3 && item.BidRecord[0]?.UserId === item.UserBidRecord[0]?.UserId);
       if (isBidden) {
         this.selectedData.forEach((item) => {
           confirmData.push(item.Id);
@@ -106,13 +93,8 @@ export class MyBidComponent implements OnInit {
   }
 
   refresh(status?: number) {
-    if (status) {
-      this.templatePara.status = MyBid.Bidden;
-      if (status > 2) {
-        this.otherBidStatus = status;
-      } else {
-        this.otherBidStatus = -2;
-      }
+    if (status && status > 2) {
+      this.templatePara.status = status;
     }
     this.reload = true;
   }

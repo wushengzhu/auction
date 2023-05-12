@@ -3,7 +3,7 @@ const { Util, queryFilter } = require("../../utils/util");
 
 exports.save = async (req, res) => {
   let bidInfo = req.body;
-  bidInfo.Publish = await publishModel.findOne({Id:bidInfo?.PublishId});
+  // bidInfo.Publish = await publishModel.findOne({Id:bidInfo?.PublishId});
   if (Util.isUndefinedOrNullOrWhiteSpace(bidInfo.Id)) {
     // 实现Id的自增
     const ids = await idsModel.findOneAndUpdate(
@@ -14,13 +14,14 @@ exports.save = async (req, res) => {
     bidInfo.OperateTime = new Date();
     bidModel.create(bidInfo, function (err, results) {
       if (err) {
-        console.log("添加物品失败!");
+        console.log("竞价失败!");
       }
       // 存储主表Id
-      publishModel.updateOne({ PublishId: results.PublishId },{ $set:{ BidRecord: results._id}})
+      publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}},(err,results)=>{
+      })
       return res.send({
         Code: 200,
-        Message: "添加物品成功！",
+        Message: "竞价成功！",
         Data: results,
       });
     });
@@ -30,12 +31,12 @@ exports.save = async (req, res) => {
       { $set: bidInfo },
       function (err, results) {
         if (err) {
-          console.log("更新物品信息失败!");
+          console.log("更新失败!");
         }
-        publishModel.updateOne({ PublishId: results.PublishId },{ $set:{ BidRecord: results._id}})
+        publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}})
         return res.send({
           Code: 200,
-          Message: "更新物品信息成功！",
+          Message: "更新成功！",
           Data: results,
         });
       }
@@ -95,5 +96,5 @@ exports.getList = async (req, res) => {
       }
     })
     .skip(skipData)
-    .limit(pageSize);
+    .limit(pageSize).sort({Id:-1}); // id降序处理
 };

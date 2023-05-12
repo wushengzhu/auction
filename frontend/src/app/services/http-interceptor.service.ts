@@ -36,11 +36,11 @@ export class HttpInterceptorService implements HttpInterceptor {
           }
         },
         (err) => {
-          // if (err.status) {
-          //   this.router.navigate(['/login']);
-          // } else {
-          this.mesSvc.error(`请求失败：${err?.status} ${err?.statusText}`);
-          // }
+          if (+err.status === 401) {
+            this.router.navigate(['/login']);
+          } else {
+            this.mesSvc.error(`请求失败：${err?.status} ${err?.statusText}`);
+          }
         }
       )
     );

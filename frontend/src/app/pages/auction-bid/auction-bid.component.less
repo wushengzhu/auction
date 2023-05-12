@@ -11,17 +11,20 @@
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
+
       .card {
         margin: 5px;
         width: 300px;
         color: rgb(153, 153, 153);
         font-size: 14px;
+
         &:hover {
           border: 1px solid;
           border-color: rgb(217, 22, 21);
         }
 
         &-img {
+          position: relative;
           height: 300px;
           padding: 1px 1px 0px 1px;
           box-sizing: border-box;
@@ -40,6 +43,7 @@
               overflow: hidden;
               text-overflow: ellipsis;
             }
+
             .remark {
               position: absolute;
               bottom: 0px;
@@ -70,6 +74,7 @@
             text-decoration: none;
             // color: rgb(153, 153, 153);
             color: #1890ff;
+
             &:hover {
               color: rgb(217, 22, 21);
             }
@@ -82,6 +87,7 @@
             margin-top: 14px;
             margin-bottom: 14px;
           }
+
           button {
             width: 100%;
             height: 32px;
@@ -104,11 +110,14 @@
     1: #19aa6b;
     2: #e4393c;
     3: #777;
-  };
-  each(@buttonBackground,{
-  .bt-@{key}{
-    background-color: @value;
-    color: #fff;
   }
-});
+
+  ;
+
+  each(@buttonBackground, {
+    .bt-@{key} {
+      background-color: @value;
+      color: #fff;
+    }
+  });
 }

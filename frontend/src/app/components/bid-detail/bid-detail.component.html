@@ -55,10 +55,10 @@
         </div>
 
         <div class="head-content-date">
-          <div *ngIf="detailData?.Material.ProduceDate">生产日期：{{detailData?.Material.ProduceDate|_date:'yyyy/MM/DD'}}
+          <div *ngIf="detailData?.Material?.ProduceDate">生产日期：{{detailData?.Material?.ProduceDate|_date:'yyyy/MM/DD'}}
           </div>
-          <div style="margin-left: 20px;" *ngIf="detailData?.Material.EffectiveDate">
-            有效日期：{{detailData?.Material.EffectiveDate|_date:'yyyy/MM/DD'}}</div>
+          <div style="margin-left: 20px;" *ngIf="detailData?.Material?.EffectiveDate">
+            有效日期：{{detailData?.Material?.EffectiveDate|_date:'yyyy/MM/DD'}}</div>
         </div>
 
         <div class="head-content-bid">

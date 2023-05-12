@@ -24,11 +24,8 @@ import { StorageService } from 'src/app/services/storage.service';
 export class BidDetailComponent implements OnInit, AfterViewInit {
   addPrice: number;
   maxPrice: number;
-  _publishId: number;
+  publishId: number;
   userInfo: any;
-  get publishId() {
-    return this._publishId;
-  }
   detailData: any;
   bid_img: string;
   initImgs = [];
@@ -77,7 +74,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
   constructor(private storageSvc: StorageService, private route: ActivatedRoute, private auctionSvc: AuctionService, private router: Router, private mesSvc: NzMessageService) {}
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this._publishId = params?.['publishId'];
+      this.publishId = +params?.['publishId'];
     });
     // 保存点击，触发浏览记录
     // this.auctionSvc.view.saveRecord(this.publishId).subscribe();

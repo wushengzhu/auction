@@ -3,7 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { of } from 'rxjs';
 import { ReceiveEditComponent } from 'src/app/components/receive-edit/receive-edit.component';
-import { Receive, ReceiveStatus } from 'src/app/models/enums';
+import { Publish, Receive, ReceiveStatus } from 'src/app/models/enums';
 import { AuctionService } from 'src/app/services/auction.service';
 import { GridOption } from 'src/app/shared/components/grid-list/grid-option';
 import { ButtonColumn } from 'src/app/shared/components/grid-list/models/button-column';
@@ -44,36 +44,29 @@ export class ReceiveComponent implements OnInit {
   constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private modal: NzModalService) {}
 
   beforeRequest = (req: RequestOption) => {
-    if (this.organizeId) {
+    if (this.templatePara.status === -2) {
       req.filters.push({
-        field: 'BidRecord.DepPath',
-        op: 'contains',
-        value: this.organizeId,
+        field: 'Status',
+        op: '$eq',
+        value: Publish.Sold,
+      });
+      req.filters.push({
+        field: 'Status',
+        op: '$eq',
+        value: Publish.Delivered,
+      });
+      req.filters.push({
+        field: 'Status',
+        op: '$eq',
+        value: Publish.Paid,
+      });
+    } else {
+      req.filters.push({
+        field: 'Status',
+        op: '$eq',
+        value: this.templatePara.status,
       });
     }
-    // // 默认获取竞拍成功的产品
-    // const filter1: CompositeFilterDescriptor = { logic: 'or', filters: [] };
-    // // 未开封获已开封都是未提交状态
-    // [Receive.Unclaimed, Receive.Confirmed, Receive.Paid].forEach((status) => {
-    //   filter1.filters.push({ field: 'Status', operator: 'eq', value: status });
-    // });
-    // req.filters.push(filter1);
-
-    // // 标签获取列表
-    // if (this.templatePara.status > -2) {
-    //   req.filters.push({
-    //     field: 'Status',
-    //     operator: 'eq',
-    //     value: this.templatePara.status,
-    //   });
-    // } else if (this.templatePara.status === -3) {
-    //   const filter2: CompositeFilterDescriptor = { logic: 'or', filters: [] };
-    //   // 未开封获已开封都是未提交状态
-    //   [Receive.Confirmed, Receive.Paid].forEach((status) => {
-    //     filter2.filters.push({ field: 'Status', operator: 'eq', value: status });
-    //   });
-    //   req.filters.push(filter2);
-    // }
     return req;
   };
 
@@ -116,7 +109,7 @@ export class ReceiveComponent implements OnInit {
       new StringColumn({ display: '领取人', field: 'ReceiveRecord.UserName', width: '100px' }),
       new DatetimeColumn({ display: '领取时间', field: 'ReceiveRecord.OperateTime', width: '150px', inSearch: false, formatString: 'YYYY-MM-DD HH:mm' }),
       new ButtonColumn({
-        width: '48px',
+        width: '70px',
         right: '0px',
         inSearch: false,
         template: 'Operate',
