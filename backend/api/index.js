@@ -10,6 +10,9 @@ const loginRecord = require("../api_handler/login_record");
 const bidHandler = require("../api_handler/auction/bid_handler");
 const returnRecord = require("../api_handler/auction/back_handler");
 const receiveRecord = require("../api_handler/auction/receive_handler");
+const statistic = require("../api_handler/statistics_handler");
+
+router.post("/Statistic/GetPublishStat", statistic.auction);
 
 router.post("/User/Register", userHandler.saveUser); // 用户注册
 router.post("/User/Login", userHandler.loginUser); // 用户登录

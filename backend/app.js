@@ -13,6 +13,8 @@ const fileRouter = require("./api/file");
 const schedule = require("node-schedule");
 
 const { publishModel } = require("./schema/index");
+const { Util } = require("./utils/util");
+const {Publish} = require("./models/enum_status");
 
 app.use(logger("dev"));
 // 系统默认大小为100kb
@@ -77,6 +79,7 @@ app.use(function (req, res, next) {
 // 从左到右通配符依次表示：秒 分 时 日 月 周几
 schedule.scheduleJob("30 * * * * *", () => {
   publishModel.find({}, (err, results) => {
+    let status = results.Status;
     if (results && results.length > 0) {
       for (let item of results) {
         let remainTime;
@@ -92,11 +95,16 @@ schedule.scheduleJob("30 * * * * *", () => {
           // 时间未结束
           remainTime = Math.abs(+eTime);
         }
+
+        if(remainTime===0&&Util.IsNullOrEmpty(results?.BidRecord)){
+          status = Publish.Streamed
+        }
         publishModel.updateOne(
           { Id: item?.Id },
           {
             $set: {
               RemainTime: remainTime,
+              Status:status
             },
           },
           (err, results) => {
