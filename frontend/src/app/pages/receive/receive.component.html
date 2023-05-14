@@ -1,46 +1,56 @@
-<app-grid-list [option]="option" [columns]="columns" [beforeRequest]="beforeRequest" [(reload)]="reload">
-  <ng-template #prefixArea>
-    <button nz-button nzType="primary" (click)="editItem()">
-      <i class="fa fa-money mr-ms"></i>
-      登记付款
-    </button>
-  </ng-template>
+<nz-card>
+  <app-grid-list [option]="option" [columns]="columns" [beforeRequest]="beforeRequest" [(reload)]="reload">
+    <ng-template #prefixArea>
+      <button nz-button nzType="primary" (click)="editItem()">
+        <i class="fa fa-money mr-ms"></i>
+        登记付款
+      </button>
+    </ng-template>
 
-  <ng-template #suffixArea>
-    <nz-radio-group [(ngModel)]="templatePara.status" class="mr-ms">
-      <label nz-radio-button [nzValue]="-2" (click)="refresh()">全部</label>
-      <label nz-radio-button [nzValue]="3" (click)="refresh()">待领取</label>
-      <label nz-radio-button [nzValue]="-3" (click)="refresh(-3)" nz-dropdown [nzDropdownMenu]="menu"
-        [nzTrigger]="'click'">
-        已领取
-        <i nz-icon nzType="down" style="font-size: 12px; margin-left:2px;"></i>
-      </label>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item (click)="refresh(4)">已确认收货</li>
-          <li nz-menu-item (click)="refresh(6)">已付款</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-radio-group>
-  </ng-template>
+    <ng-template #suffixArea>
+      <nz-radio-group [(ngModel)]="templatePara.status" class="mr-ms">
+        <label nz-radio-button [nzValue]="-2" (click)="refresh()">全部</label>
+        <label nz-radio-button [nzValue]="3" (click)="refresh()">待领取</label>
+        <label nz-radio-button [nzValue]="-3" (click)="refresh(-3)" nz-dropdown [nzDropdownMenu]="menu"
+          [nzTrigger]="'click'">
+          已领取
+          <i nz-icon nzType="down" style="font-size: 12px; margin-left:2px;"></i>
+        </label>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="refresh(4)">已确认收货</li>
+            <li nz-menu-item (click)="refresh(6)">已付款</li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-radio-group>
+    </ng-template>
 
-  <ng-template gridColumnTemplate name='Status' let-entity="entity" let-value="value">
-    <span>{{getReceiveText(value)}}</span>
-  </ng-template>
-  <ng-template gridColumnTemplate name="Material.Name" let-entity="entity" let-value="value">
-    <span *ngIf="entity.Material?.length > 0">{{ entity.Material[0]?.Name }}</span>
-  </ng-template>
-  <ng-template gridColumnTemplate name="BidRecord.UserName" let-entity="entity" let-value="value">
-    {{ entity.BidRecord[0]?.UserName }}
-  </ng-template>
-  <ng-template gridColumnTemplate name="BidRecord.Amount" let-entity="entity">
-    <span *ngIf="entity.BidRecord?.length > 0">￥{{ entity.BidRecord[0]?.Amount }}</span>
-  </ng-template>
-  <ng-template gridColumnTemplate name="UserBidRecord.Amount" let-entity="entity">
-    <span *ngIf="entity.UserBidRecord?.Amount">￥{{ entity.UserBidRecord?.Amount }}</span>
-  </ng-template>
+    <ng-template gridColumnTemplate name='Status' let-entity="entity" let-value="value">
+      <span>{{getReceiveText(value)}}</span>
+    </ng-template>
+    <ng-template gridColumnTemplate name="Material.Name" let-entity="entity" let-value="value">
+      <span *ngIf="entity.Material?.length > 0">{{ entity.Material[0]?.Name }}</span>
+    </ng-template>
+    <ng-template gridColumnTemplate name="BidRecord.UserName" let-entity="entity" let-value="value">
+      {{ entity.BidRecord[0]?.UserName }}
+    </ng-template>
+    <ng-template gridColumnTemplate name="BidRecord.Amount" let-entity="entity">
+      <span *ngIf="entity.BidRecord?.length > 0">￥{{ entity.BidRecord[0]?.Amount }}</span>
+    </ng-template>
+    <ng-template gridColumnTemplate name="UserBidRecord.Amount" let-entity="entity">
+      <span *ngIf="entity.UserBidRecord?.Amount">￥{{ entity.UserBidRecord?.Amount }}</span>
+    </ng-template>
 
-  <ng-template gridColumnTemplate name="BidRecord.OperateTime" let-entity="entity">
-    <span *ngIf="entity.BidRecord?.length > 0">{{ entity.BidRecord[0]?.OperateTime | date:'YYYY-MM-dd HH:mm'}}</span>
-  </ng-template>
-</app-grid-list>
+    <ng-template gridColumnTemplate name="BidRecord.OperateTime" let-entity="entity">
+      <span *ngIf="entity.BidRecord?.length > 0">{{ entity.BidRecord[0]?.OperateTime | date:'YYYY-MM-dd HH:mm'}}</span>
+    </ng-template>
+  </app-grid-list>
+</nz-card>
+
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'领取拍品'" (nzOnCancel)="isVisible=false" [nzWidth]="'900px'"
+  (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <app-receive-edit></app-receive-edit>
+  </ng-container>
+</nz-modal>

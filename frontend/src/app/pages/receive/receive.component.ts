@@ -41,6 +41,7 @@ export class ReceiveComponent implements OnInit {
   userName: string = '';
   userId: string = '';
   received: number = -3; // 默认已确认收货、已付款的所有记录
+  isVisible:boolean = false;
   constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private modal: NzModalService) {}
 
   beforeRequest = (req: RequestOption) => {
@@ -159,7 +160,9 @@ export class ReceiveComponent implements OnInit {
         nzContent: ReceiveEditComponent,
         nzWidth: 700,
         nzComponentParams: { ids: this.publishIds, sumPrice: this.sumPrice, userName: this.userName, userId: this.userId },
-      });
+      }).afterClose.subscribe((item=>{
+         console.log(item)
+      }));
     } else if (this.isPay) {
       this.mesSvc.error('您选择的拍品包含已付款的！');
     }
@@ -175,5 +178,9 @@ export class ReceiveComponent implements OnInit {
         });
       },
     });
+  }
+
+  handleOk(){
+
   }
 }

@@ -1,66 +1,68 @@
-<app-grid-list [(selection)]="selectedData" [option]="option" [columns]="columns" [(reload)]="reload"
-  [beforeRequest]="beforeRequest">
-  <ng-template #prefixArea>
-    <button nz-button nzType="primary" (click)="confirmReceive()">
-      <i class="fa fa-check mr-ms"></i>
-      确认收货
-    </button>
-  </ng-template>
+<nz-card>
+  <app-grid-list [(selection)]="selectedData" [option]="option" [columns]="columns" [(reload)]="reload"
+    [beforeRequest]="beforeRequest">
+    <ng-template #prefixArea>
+      <button nz-button nzType="primary" (click)="confirmReceive()">
+        <i class="fa fa-check mr-ms"></i>
+        确认收货
+      </button>
+    </ng-template>
 
-  <ng-template #suffixArea>
-    <nz-radio-group [(ngModel)]="templatePara.status" class="mr-ms">
-      <!-- <label nz-radio-button [nzValue]="opt.value" *ngFor="let opt of tabList" (click)="reload=true">
+    <ng-template #suffixArea>
+      <nz-radio-group [(ngModel)]="templatePara.status" class="mr-ms">
+        <!-- <label nz-radio-button [nzValue]="opt.value" *ngFor="let opt of tabList" (click)="reload=true">
         {{opt.text}}</label> -->
-      <label nz-radio-button [nzValue]="0" (click)="refresh()">全部</label>
-      <label nz-radio-button [nzValue]="2" (click)="refresh()">未获拍</label>
-      <label nz-radio-button [nzValue]="1" nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="'click'">已获拍<i nz-icon
-          nzType="down" style="font-size: 12px; margin-left: 2px"></i></label>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item (click)="refresh(3)">待确认收货</li>
-          <li nz-menu-item (click)="refresh(4)">已确认收货</li>
-          <li nz-menu-item (click)="refresh(6)">已付款</li>
-          <li nz-menu-item (click)="refresh(5)">已退货</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-radio-group>
-  </ng-template>
-  <ng-template gridColumnTemplate name="BidRecord.UserName" let-entity="entity" let-value="value">
-    {{ entity.BidRecord[0]?.UserName }}
-  </ng-template>
-  <ng-template gridColumnTemplate name="BidRecord.Amount" let-entity="entity">
-    <span *ngIf="entity.BidRecord?.length > 0">￥{{ entity.BidRecord[0]?.Amount }}</span>
-  </ng-template>
-  <ng-template gridColumnTemplate name="UserBidRecord.Amount" let-entity="entity">
-    <span *ngIf="entity.UserBidRecord?.Amount">￥{{ entity.UserBidRecord?.Amount }}</span>
-  </ng-template>
+        <label nz-radio-button [nzValue]="0" (click)="refresh()">全部</label>
+        <label nz-radio-button [nzValue]="2" (click)="refresh()">未获拍</label>
+        <label nz-radio-button [nzValue]="1" nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="'click'">已获拍<i nz-icon
+            nzType="down" style="font-size: 12px; margin-left: 2px"></i></label>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="refresh(3)">待确认收货</li>
+            <li nz-menu-item (click)="refresh(4)">已确认收货</li>
+            <li nz-menu-item (click)="refresh(6)">已付款</li>
+            <li nz-menu-item (click)="refresh(5)">已退货</li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-radio-group>
+    </ng-template>
+    <ng-template gridColumnTemplate name="BidRecord.UserName" let-entity="entity" let-value="value">
+      {{ entity.BidRecord[0]?.UserName }}
+    </ng-template>
+    <ng-template gridColumnTemplate name="BidRecord.Amount" let-entity="entity">
+      <span *ngIf="entity.BidRecord?.length > 0">￥{{ entity.BidRecord[0]?.Amount }}</span>
+    </ng-template>
+    <ng-template gridColumnTemplate name="UserBidRecord.Amount" let-entity="entity">
+      <span *ngIf="entity.UserBidRecord?.Amount">￥{{ entity.UserBidRecord?.Amount }}</span>
+    </ng-template>
 
-  <ng-template gridColumnTemplate name="BidRecord.OperateTime" let-entity="entity">
-    <span *ngIf="entity.BidRecord?.length > 0">{{ entity.BidRecord[0]?.OperateTime | date:'YYYY-MM-dd HH:mm'}}</span>
-  </ng-template>
+    <ng-template gridColumnTemplate name="BidRecord.OperateTime" let-entity="entity">
+      <span *ngIf="entity.BidRecord?.length > 0">{{ entity.BidRecord[0]?.OperateTime | date:'YYYY-MM-dd HH:mm'}}</span>
+    </ng-template>
 
-  <ng-template gridColumnTemplate name="Title" let-entity="entity" let-value="value">
-    <ng-container *ngIf="entity.BidRecord?.UserId === entity.UserBidRecord?.UserId">
-      <ng-container *ngIf="entity.Status === 4 || entity.Status === 6">
-        <span class="common-bag" style="color: #40a9ff" *ngIf="entity.Status === 4">已确认收货</span>
-        <span class="success-bid" *ngIf="entity.Status === 6">已付款</span>
-        <span class="common-bag" style="color: #52c41a">已获拍</span>
+    <ng-template gridColumnTemplate name="Title" let-entity="entity" let-value="value">
+      <ng-container *ngIf="entity.BidRecord?.UserId === entity.UserBidRecord?.UserId">
+        <ng-container *ngIf="entity.Status === 4 || entity.Status === 6">
+          <span class="common-bag" style="color: #40a9ff" *ngIf="entity.Status === 4">已确认收货</span>
+          <span class="success-bid" *ngIf="entity.Status === 6">已付款</span>
+          <span class="common-bag" style="color: #52c41a">已获拍</span>
+        </ng-container>
+        <ng-container *ngIf="entity.Status === 5">
+          <span class="common-bag" style="color: grey">已退货</span>
+        </ng-container>
+        <ng-container *ngIf="entity.Status === 3">
+          <span style="color: grey; margin-right: 4px">[待确认收货]</span>
+          <span class="common-bag" style="color: #52c41a">已获拍</span>
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="entity.Status === 5">
-        <span class="common-bag" style="color: grey">已退货</span>
+      <ng-container *ngIf="entity.Status === 1 && entity.RemainTime > 0">
+        <span class="biding">进行中</span>
       </ng-container>
-      <ng-container *ngIf="entity.Status === 3">
-        <span style="color: grey; margin-right: 4px">[待确认收货]</span>
-        <span class="common-bag" style="color: #52c41a">已获拍</span>
-      </ng-container>
-    </ng-container>
-    <ng-container *ngIf="entity.Status === 1 && entity.RemainTime > 0">
-      <span class="biding">进行中</span>
-    </ng-container>
 
-    <ng-container *ngIf="entity.Status >= 3 && entity.BidRecord?.UserId !== entity.UserBidRecord?.UserId">
-      <span class="common-bag" style="color: #19aa6b">未获拍</span>
-    </ng-container>
-    <a href="javascript:void(0)" (click)="readDetail(entity.Id)">{{ value }}</a>
-  </ng-template>
-</app-grid-list>
+      <ng-container *ngIf="entity.Status >= 3 && entity.BidRecord?.UserId !== entity.UserBidRecord?.UserId">
+        <span class="common-bag" style="color: #19aa6b">未获拍</span>
+      </ng-container>
+      <a href="javascript:void(0)" (click)="readDetail(entity.Id)">{{ value }}</a>
+    </ng-template>
+  </app-grid-list>
+</nz-card>

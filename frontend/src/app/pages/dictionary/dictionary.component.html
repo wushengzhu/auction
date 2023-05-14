@@ -1,7 +1,9 @@
 <div nz-row>
   <div nz-col [nzSm]="4">
-    <nz-tree [nzData]="treeNodes" nzDraggable nzBlockNode (nzClick)="nzEvent($event)" [nzSelectedKeys]="selectedKey">
-    </nz-tree>
+    <nz-card nzBordered>
+      <nz-tree [nzData]="treeNodes" nzDraggable nzBlockNode (nzClick)="nzEvent($event)" [nzSelectedKeys]="selectedKey">
+      </nz-tree>
+    </nz-card>
   </div>
   <div nz-col [nzSm]="20">
     <nz-card nzBordered class="ml-xs">

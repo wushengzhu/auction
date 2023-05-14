@@ -1,47 +1,49 @@
-<nz-spin [nzSpinning]="isLoad">
-  <div style="margin-bottom: 10px">
-    <button nz-button nzType="primary" (click)="editArticleInfo()">
-      <i class="fa fa-user-plus"></i><span class="ml-sm">添加</span>
-    </button>
-  </div>
-  <nz-divider></nz-divider>
-  <nz-table nzBordered [nzData]="dataList" [nzPageSize]="pageSize" [nzTotal]="totalData"
-    (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)"
-    [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzShowQuickJumper]="true">
-    <thead>
-      <tr>
-        <th>文章标题</th>
-        <th [nzWidth]="'100px'">发布者</th>
-        <th [nzWidth]="'120px'">发布时间</th>
-        <th [nzWidth]="'150px'">操作</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of dataList">
-        <td>{{ item.UserName }}</td>
-        <td>{{ item.Password }}</td>
-        <td>{{ item.NickName }}</td>
-        <td>{{ item.Email }}</td>
-        <td>{{ item.Pic }}</td>
-        <td>{{ +item.Category === 0 ? "超级管理员" : "普通用户" }}</td>
-        <td>
-          <button nz-button nzType="primary" nzSuccess (click)="editArticleInfo(item.Id)">
-            <i class="fa fa-edit"></i>
-            <span class="ml-sm">编辑</span>
-          </button>
-          <button nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="deleteUser(item.Id)"
-            nzPopconfirmPlacement="top" nz-button nzType="primary" class="ml-sm" nzDanger>
-            <i class="fa fa-trash-o"></i>
-            <span class="ml-sm">删除</span>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-  <!-- <nz-modal [(nzVisible)]="isVisible" [nzTitle]="title" (nzOnCancel)="handleCancel()" [nzWidth]="'900px'"
+<nz-card>
+  <nz-spin [nzSpinning]="isLoad">
+    <div style="margin-bottom: 10px">
+      <button nz-button nzType="primary" (click)="editArticleInfo()">
+        <i class="fa fa-user-plus"></i><span class="ml-sm">添加</span>
+      </button>
+    </div>
+    <nz-divider></nz-divider>
+    <nz-table nzBordered [nzData]="dataList" [nzPageSize]="pageSize" [nzTotal]="totalData"
+      (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)"
+      [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzShowQuickJumper]="true">
+      <thead>
+        <tr>
+          <th>文章标题</th>
+          <th [nzWidth]="'100px'">发布者</th>
+          <th [nzWidth]="'120px'">发布时间</th>
+          <th [nzWidth]="'150px'">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataList">
+          <td>{{ item.UserName }}</td>
+          <td>{{ item.Password }}</td>
+          <td>{{ item.NickName }}</td>
+          <td>{{ item.Email }}</td>
+          <td>{{ item.Pic }}</td>
+          <td>{{ +item.Category === 0 ? "超级管理员" : "普通用户" }}</td>
+          <td>
+            <button nz-button nzType="primary" nzSuccess (click)="editArticleInfo(item.Id)">
+              <i class="fa fa-edit"></i>
+              <span class="ml-sm">编辑</span>
+            </button>
+            <button nz-popconfirm nzPopconfirmTitle="此操作不可恢复，你确定要删除吗？" (nzOnConfirm)="deleteUser(item.Id)"
+              nzPopconfirmPlacement="top" nz-button nzType="primary" class="ml-sm" nzDanger>
+              <i class="fa fa-trash-o"></i>
+              <span class="ml-sm">删除</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!-- <nz-modal [(nzVisible)]="isVisible" [nzTitle]="title" (nzOnCancel)="handleCancel()" [nzWidth]="'900px'"
     (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
       <app-user-edit [type]="'edit'" [userId]="userId"></app-user-edit>
     </ng-container>
   </nz-modal> -->
-</nz-spin>
+  </nz-spin>
+</nz-card>
