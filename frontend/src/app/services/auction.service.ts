@@ -13,6 +13,12 @@ export class AuctionService {
     return this.http.post(url, entity).pipe(map((r: any) => r?.Data));
   }
 
+  stat = {
+    getPublishStat: () => {
+      return this.http.post(`/api/Auction//Statistic/GetPublishStat`, null);
+    },
+  }
+
   loginRecord = {
     save: (entity: any) => {
       return this.http.post(`/api/Auction/LoginRecord/Save`, entity);

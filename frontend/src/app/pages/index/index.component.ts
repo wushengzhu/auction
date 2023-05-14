@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuctionService } from 'src/app/services/auction.service';
 import * as echarts from 'echarts';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-index',
@@ -18,11 +19,11 @@ export class IndexComponent implements OnInit,AfterViewInit {
     const cylinderchart = echarts.init(this.cylinder.nativeElement);
     cylinderchart.setOption({
       title: {
-        text: 'ECharts in Angular'
+        text: '竞品年度情况统计'
       },
       tooltip: {},
       xAxis: {
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: ['已取消', '未发布', '已发布', '已流拍', '已收货', '已退货', '已付款']
       },
       yAxis: {},
       series: [{
@@ -34,7 +35,7 @@ export class IndexComponent implements OnInit,AfterViewInit {
     const piechart =echarts.init(this.pie.nativeElement);
     piechart.setOption({
         title: {
-          text: 'Referer of a Website',
+          text: '部门参与度扇形统计',
           subtext: 'Fake Data',
           left: 'center'
         },
@@ -70,7 +71,10 @@ export class IndexComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit() {
-
+      this.auctionSvc.stat.getPublishStat().subscribe((data:any)=>{
+       this.auctionList = data.Data.slice(0,4);
+       this.exchangeList = data.Data.slice(4);
+      })
   }
 
   edit(entity?: any): void {

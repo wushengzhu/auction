@@ -16,8 +16,4 @@ export class IndexCardComponent implements OnInit {
   ngOnInit() {
 
   }
-
-  edit(entity?: any): void {
-
-  }
 }

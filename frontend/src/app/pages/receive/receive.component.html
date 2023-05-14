@@ -46,11 +46,3 @@
     </ng-template>
   </app-grid-list>
 </nz-card>
-
-
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'领取拍品'" (nzOnCancel)="isVisible=false" [nzWidth]="'900px'"
-  (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <app-receive-edit></app-receive-edit>
-  </ng-container>
-</nz-modal>
