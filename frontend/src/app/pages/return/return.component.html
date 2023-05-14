@@ -1,1 +1,26 @@
-<p>return works!</p>
+<nz-card [nzBordered]="false">
+  <app-grid-list [option]="option" [columns]="columns" [beforeRequest]="beforeRequest" [(reload)]="reload">
+    <ng-template #prefixArea>
+      <button nz-button nzType="primary" (click)="editItem()">
+        <i class="fa fa-plus mr-ms"></i>
+        <span>新增</span>
+      </button>
+    </ng-template>
+
+    <ng-template gridColumnTemplate name='UserName' let-entity="entity" let-value="value">
+      <a>{{ value }}</a>
+    </ng-template>
+
+    <ng-template gridColumnTemplate name='Operator' let-entity="entity" let-value="value">
+      <a>{{ value }}</a>
+    </ng-template>
+
+    <ng-template gridColumnTemplate name="Operate" let-entity="entity">
+      <a nz-tooltip nzTooltipTitle="编辑" class="mr-ms" (click)="editItem(entity)"><i class="fas fa-edit"></i></a>
+      <a nz-tooltip nzTooltipTitle="删除" class="mr-ms text-red" nz-popconfirm nzPopconfirmTitle="确认删除该条退回记录吗?"
+        (nzOnConfirm)="deleteItem(entity.Id)" nzPopconfirmPlacement="topRight">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+    </ng-template>
+  </app-grid-list>
+</nz-card>

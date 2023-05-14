@@ -96,11 +96,7 @@ export class ReceiveEditComponent implements OnInit {
         model.UserId = this.userId;
       }
       model.publishIds = this.ids;
-      // 批量保存
-      // this.auctionSvc.receive.saveMore(model).subscribe((res) => {
-      //   this.mesSvc.success('保存成功');
-      //   this.modalRef.close(true);
-      // });
+      this.modalRef.close(true);
     } else {
       this.mesSvc.error('请检查表单项，确认无误后再提交保存');
     }

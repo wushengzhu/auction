@@ -1,21 +1,23 @@
-<div nz-row>
-  <div nz-col [nzSm]="18" class="user-info">
-    <app-user-edit [type]="'info'" [entity]="userInfo"></app-user-edit>
-  </div>
-  <div nz-col [nzSm]="6">
-    <div class="login-info">
-      <nz-divider nzText="登录日志"></nz-divider>
-      <div class="timeline">
-        <nz-timeline>
-          <nz-timeline-item *ngFor="let item of loginRecord">
-            <div>{{ item?.IP + " - " + item?.Addr }}</div>
-            <div class="time">
-              <span>{{ item?.CreateDate| date:'YYYY-MM-dd HH:mm'}}</span>
-              <span>{{ item?.OperateName}}</span>
-            </div>
-          </nz-timeline-item>
-        </nz-timeline>
+<nz-card>
+  <div nz-row>
+    <div nz-col [nzSm]="18" class="user-info">
+      <app-user-edit [type]="'info'" [entity]="userInfo"></app-user-edit>
+    </div>
+    <div nz-col [nzSm]="6">
+      <div class="login-info">
+        <nz-divider nzText="登录日志"></nz-divider>
+        <div class="timeline">
+          <nz-timeline>
+            <nz-timeline-item *ngFor="let item of loginRecord">
+              <div>{{ item?.IP + " - " + item?.Addr }}</div>
+              <div class="time">
+                <span>{{ item?.CreateDate| date:'YYYY-MM-dd HH:mm'}}</span>
+                <span>{{ item?.OperateName}}</span>
+              </div>
+            </nz-timeline-item>
+          </nz-timeline>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</nz-card>

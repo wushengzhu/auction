@@ -1,0 +1,65 @@
+<form nz-form [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label nz-col nzSpan="4" nzRequired nzTooltipTitle="可以通过物资流水号搜索" [nzTooltipIcon]="tipIcon">退回拍品
+    </nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择拍品">
+      <ng-container *ngIf="model else input">
+        <input nz-input formControlName="Material.Name" readonly>
+      </ng-container>
+      <ng-template #input>
+        <nz-select formControlName="PublishId" nzAllowClear nzServerSearch nzShowSearch
+          (nzOnSearch)="onMaterialChange($event)" (ngModelChange)="publishIdChange($event)">
+          <ng-container *ngFor="let item of materialList">
+            <nz-option [nzValue]="item.Id" [nzLabel]="item.Material.Name"></nz-option>
+          </ng-container>
+        </nz-select>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nz-col nzSpan="4" nzRequired>退回人</nz-form-label>
+    <nz-form-control nz-col nzSpan="18" nzErrorTip="请选择退回人">
+      <nz-input-group [nzCompact]="true" class="text-nowrap">
+        <input nz-input readonly formControlName="UserName" style="width:75%" />
+        <!-- <button type="button" nz-button [nzType]="'primary'" click-picker [selectType]="'USER'" [multiple]="false"
+          style="width:25%" (dataChange)="selectUser($event)">
+          <span>选取</span>
+        </button> -->
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan="4" nzRequired>退回时间</nz-form-label>
+    <nz-form-control nzSpan="18" nzErrorTip="退回时间不能为空">
+      <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm'" [nzShowTime]="{ nzFormat: 'HH:mm' }" [style.width]="'100%'"
+        formControlName="OperateTime">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan="4">退回原因</nz-form-label>
+    <nz-form-control nzSpan="18" nzErrorTip="退回原因不能超过500个字符">
+      <textarea nz-input formControlName="Reason" [nzAutosize]="{minRows: 3}"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- <lib-dynamic-form [option]="dynamicOption" [formCode]="formCode" [(data)]="dynamicData" [(updateValid)]="updateValid">
+  </lib-dynamic-form> -->
+
+  <!-- <lib-form-legend title="附件"></lib-form-legend> -->
+  <!-- <nz-form-item>
+    <nz-form-control nzOffset="2" nzSpan="20">
+      <lib-attachment modCode="Auction$GiveBack" [objectId]="_returnId" [canAdd]="" [canDelete]="" [canEdit]="">
+      </lib-attachment>
+    </nz-form-control>
+  </nz-form-item> -->
+</form>
+
+
+<div class="custom-modal-footer">
+  <button type="button" nz-button class="mr-ms" nzType="primary" [nzLoading]="isSaving" (click)="save()">保存</button>
+  <button type="button" nz-button (click)="cancel()">取消</button>
+</div>

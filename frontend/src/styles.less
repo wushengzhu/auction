@@ -1,10 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./assets/index.less";
+@import './assets/index.less';
 
 ::ng-deep {
   .ant-btn {
     padding: 5px;
   }
+
+  .ant-modal-body {
+    padding-bottom: 0 !important;
+  }
+
+  .ant-modal-footer {
+    display: none;
+    padding: 0 !important;
+  }
+}
+
+.custom-modal-footer {
+  display: flex;
+  justify-content: end;
+  border-top: 1px solid #f0f0f0;
+  border-radius: 0 0 3px 3px;
+  margin-bottom: -24px;
+  padding: 10px 10px !important;
 }
 
 .mt-ms {

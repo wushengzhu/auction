@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { of } from 'rxjs';
 import { ReceiveEditComponent } from 'src/app/components/receive-edit/receive-edit.component';
 import { Publish, Receive, ReceiveStatus } from 'src/app/models/enums';
 import { AuctionService } from 'src/app/services/auction.service';
@@ -10,13 +9,9 @@ import { ButtonColumn } from 'src/app/shared/components/grid-list/models/button-
 import { CheckboxColumn } from 'src/app/shared/components/grid-list/models/checkbox-column';
 import { Column } from 'src/app/shared/components/grid-list/models/column';
 import { DatetimeColumn } from 'src/app/shared/components/grid-list/models/datetime-column';
-import { EnumColumn } from 'src/app/shared/components/grid-list/models/enum-column';
-import { EnumOptions } from 'src/app/shared/components/grid-list/models/enum-options';
 import { FloatColumn } from 'src/app/shared/components/grid-list/models/float-column';
-import { IntColumn } from 'src/app/shared/components/grid-list/models/int-column';
 import { StringColumn } from 'src/app/shared/components/grid-list/models/string-column';
 import { RequestOption } from 'src/app/shared/components/grid-list/request-option';
-import { Util } from 'src/app/shared/utills/utils';
 
 @Component({
   selector: 'app-receive',
@@ -159,6 +154,7 @@ export class ReceiveComponent implements OnInit {
         nzTitle: '拍品付款登记',
         nzContent: ReceiveEditComponent,
         nzWidth: 700,
+        nzFooter:null,
         nzComponentParams: { ids: this.publishIds, sumPrice: this.sumPrice, userName: this.userName, userId: this.userId },
       }).afterClose.subscribe((item=>{
          console.log(item)
@@ -178,9 +174,5 @@ export class ReceiveComponent implements OnInit {
         });
       },
     });
-  }
-
-  handleOk(){
-
   }
 }

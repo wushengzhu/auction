@@ -1,4 +1,7 @@
 export class Util {
+  static isArray(resp: any) {
+    return Array.isArray(resp)
+  }
   /**
    * 判断是否为undfined、null
    * @param value

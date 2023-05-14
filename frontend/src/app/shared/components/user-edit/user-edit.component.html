@@ -1,25 +1,16 @@
-<div nz-row>
-  <div nz-col nzSm="4"></div>
-  <div nz-col nzSm="18" *ngIf="type==='info'" class="custom-footer">
-   <button nz-button nzType="primary" (click)="save()" class="mt-ms">
-     <i class="fa fa-save"></i><span class="ml-ms">保存</span></button>
-   <button nz-button (click)="isVisible=true" class="mt-ms ml-ms">
-     <i class="fa fa-key"></i><span class="ml-ms">重置密码</span></button>
- </div>
-</div>
 <div class="avatar">
-    <nz-avatar [nzSize]="100" nzIcon="user" [nzSrc]="entity?.Image" (click)="uploadImg()"></nz-avatar>
-    <div class="user-info ml-ms">
-       <div>
-        {{ entity?.UserName }}&nbsp;
-        <i class="fa fa-mars" aria-hidden="true" style="color:#2db7f5" *ngIf="entity?.Gender"></i>
-        <i class="fa fa-venus" aria-hidden="true" style="color: pink;" *ngIf="!entity?.Gender"></i>
-      </div>
-       <div class="mt-ms">
-        <nz-tag [nzColor]="'#f50'" *ngIf="entity?.Category===0">超级管理员</nz-tag>
-        <nz-tag [nzColor]="'#87d068'" *ngIf="entity?.Category===1">普通用户</nz-tag>
-       </div>
+  <nz-avatar [nzSize]="100" nzIcon="user" [nzSrc]="entity?.Image" (click)="uploadImg()"></nz-avatar>
+  <div class="user-info ml-ms">
+    <div>
+      {{ entity?.UserName }}&nbsp;
+      <i class="fa fa-mars" aria-hidden="true" style="color:#2db7f5" *ngIf="entity?.Gender"></i>
+      <i class="fa fa-venus" aria-hidden="true" style="color: pink;" *ngIf="!entity?.Gender"></i>
     </div>
+    <div class="mt-ms">
+      <nz-tag [nzColor]="'#f50'" *ngIf="entity?.Category===0">超级管理员</nz-tag>
+      <nz-tag [nzColor]="'#87d068'" *ngIf="entity?.Category===1">普通用户</nz-tag>
+    </div>
+  </div>
 </div>
 <form nz-form [formGroup]="form">
   <nz-form-item nz-row>
@@ -108,9 +99,16 @@
   </nz-form-item>
 </form>
 
-<nz-modal *ngIf="isVisible" [(nzVisible)]="isVisible" [nzTitle]="'重置密码'" (nzOnCancel)="isVisible=false" [nzWidth]="'700px'"
-  (nzOnOk)="resetPwd()">
+<nz-modal *ngIf="isVisible" [(nzVisible)]="isVisible" [nzTitle]="'重置密码'" (nzOnCancel)="isVisible=false"
+  [nzWidth]="'700px'" (nzOnOk)="resetPwd()">
   <ng-container *nzModalContent>
-     <app-reset-pwd #resetPwdTpl></app-reset-pwd>
+    <app-reset-pwd #resetPwdTpl></app-reset-pwd>
   </ng-container>
 </nz-modal>
+
+<app-page-footer *ngIf="type==='info'">
+  <button nz-button nzType="primary" (click)="save()" class="mt-ms">
+    <i class="fa fa-save"></i><span class="ml-ms">保存</span></button>
+  <button nz-button (click)="isVisible=true" class="mt-ms ml-ms">
+    <i class="fa fa-key"></i><span class="ml-ms">重置密码</span></button>
+</app-page-footer>

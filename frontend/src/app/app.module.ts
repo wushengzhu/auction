@@ -32,6 +32,7 @@ import { ReceiveEditComponent } from './components/receive-edit/receive-edit.com
 import { IndexComponent } from './pages/index/index.component';
 import { IndexCardComponent } from './components/index-card/index-card.component';
 import { IndexNavsComponent } from './components/index-navs/index-navs.component';
+import { ReturnEditComponent } from './components/return-edit/return-edit.component';
 
 registerLocaleData(zh);
 const components = [
@@ -56,7 +57,8 @@ const components = [
   ReceiveEditComponent,
   IndexComponent,
   IndexCardComponent,
-  IndexNavsComponent
+  IndexNavsComponent,
+  ReturnEditComponent
 ];
 @NgModule({
   declarations: [AppComponent, ...components],
