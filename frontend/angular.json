@@ -34,7 +34,7 @@
               }
             ],
             "styles": ["node_modules/ng-zorro-antd/ng-zorro-antd.less", "src/assets/font-awesome-4.7.0/less/font-awesome.less", "src/styles.less"],
-            "scripts": [],
+            "scripts": ["node_modules/echarts/dist/echarts.min.js"],
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js",
               "libraryName": "auction",
@@ -47,7 +47,6 @@
           },
           "configurations": {
             "production": {
-              "extractCss": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -55,8 +54,7 @@
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
-              "budgets": [
-                {
+              "budgets": [{
                   "type": "initial",
                   "maximumWarning": "500kb",
                   "maximumError": "1mb"
@@ -119,10 +117,13 @@
               }
             ],
             "styles": ["node_modules/ng-zorro-antd/ng-zorro-antd.less", "src/assets/font-awesome-4.7.0/less/font-awesome.less", "src/styles.less"],
-            "scripts": []
+            "scripts": ["node_modules/echarts/dist/echarts.min.js"]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

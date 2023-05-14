@@ -1,0 +1,10 @@
+<div nz-row [nzGutter]="16">
+  <div nz-col [nzSpan]="3" *ngFor="let item of iconNavs;let i=index">
+    <nz-card (click)="routeLink(item?.path)" nzHoverable>
+      <div class="icon-card">
+        <i [class]="item.icon" [ngStyle]="{'color': item.color}"></i>
+        <span class="mt-ms">{{ item.title }}</span>
+      </div>
+    </nz-card>
+  </div>
+</div>

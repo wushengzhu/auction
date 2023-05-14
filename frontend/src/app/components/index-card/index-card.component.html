@@ -1,0 +1,17 @@
+<nz-card [nzTitle]="title" [nzExtra]="extraTemplate">
+  <ng-template #extraTemplate>
+    <nz-tag [nzColor]="'red'">{{tagTpl}}</nz-tag>
+  </ng-template>
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="6" *ngFor="let item of statusList;let i=index">
+      <nz-card [nzTitle]="titleTpl" class="border-0 bg-light-400">
+        <ng-template #titleTpl>
+          <div class="inner-card">
+            <span>{{ item.value }}</span>
+            <span style="color:rgba(107, 114, 128,1)">{{ item.label }}</span>
+          </div>
+        </ng-template>
+      </nz-card>
+    </div>
+  </div>
+</nz-card>

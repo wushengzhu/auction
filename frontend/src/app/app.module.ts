@@ -29,6 +29,9 @@ import { BidDetailComponent } from './components/bid-detail/bid-detail.component
 import { BidRecordComponent } from './components/bid-record/bid-record.component';
 import { DictionaryComponent } from './pages/dictionary/dictionary.component';
 import { ReceiveEditComponent } from './components/receive-edit/receive-edit.component';
+import { IndexComponent } from './pages/index/index.component';
+import { IndexCardComponent } from './components/index-card/index-card.component';
+import { IndexNavsComponent } from './components/index-navs/index-navs.component';
 
 registerLocaleData(zh);
 const components = [
@@ -51,6 +54,9 @@ const components = [
   BidRecordComponent,
   DictionaryComponent,
   ReceiveEditComponent,
+  IndexComponent,
+  IndexCardComponent,
+  IndexNavsComponent
 ];
 @NgModule({
   declarations: [AppComponent, ...components],

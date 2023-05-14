@@ -18,6 +18,7 @@ import { ReceiveComponent } from './pages/receive/receive.component';
 import { DictionaryComponent } from './pages/dictionary/dictionary.component';
 import { PublishEditComponent } from './components/publish-edit/publish-edit.component';
 import { BidDetailComponent } from './components/bid-detail/bid-detail.component';
+import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
             path: '',
             component: HomeComponent,
             children: [
+              {
+                path:'index',
+                component:IndexComponent
+              },
               {
                 path: 'auction',
                 children: [
