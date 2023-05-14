@@ -8,6 +8,8 @@ const publishHandler = require("../api_handler/auction/publish_handler");
 const materialCategory = require("../api_handler/material_type_handler");
 const loginRecord = require("../api_handler/login_record");
 const bidHandler = require("../api_handler/auction/bid_handler");
+const returnRecord = require("../api_handler/auction/back_handler");
+const receiveRecord = require("../api_handler/auction/receive_handler");
 
 router.post("/User/Register", userHandler.saveUser); // 用户注册
 router.post("/User/Login", userHandler.loginUser); // 用户登录
@@ -25,6 +27,16 @@ router.get("/BidRecord/Delete", bidHandler.delete);
 router.post("/BidRecord/GetList", bidHandler.getList);
 router.get("/BidRecord/GetById", bidHandler.getById);
 router.post("/BidRecord/Save", bidHandler.save);
+
+router.get("/ReturnRecord/Delete", returnRecord.delete);
+router.post("/ReturnRecord/GetList", returnRecord.getList);
+router.get("/ReturnRecord/GetById", returnRecord.getById);
+router.post("/ReturnRecord/Save", returnRecord.save);
+
+router.get("/ReceiveRecord/Delete", receiveRecord.delete);
+router.post("/ReceiveRecord/GetList", receiveRecord.getList);
+router.get("/ReceiveRecord/GetById", receiveRecord.getById);
+router.post("/ReceiveRecord/Save", receiveRecord.save);
 
 router.get("/Publish/Delete", publishHandler.delete);
 router.post("/Publish/GetList", publishHandler.getList);

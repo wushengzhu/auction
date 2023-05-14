@@ -65,6 +65,27 @@ export class AuctionService {
     },
   };
 
+  back = {
+    getList: (curPage = 1, pageSize = 0) => {
+      return this.http
+        .post(`/api/Auction/ReturnRecord/GetList`, {
+          pageSize: pageSize,
+          curPage: curPage,
+          filters: [],
+        })
+        .pipe(map((item: any) => item.Data));
+    },
+    getById: (id: any) => {
+      return this.http.get(`/api/Auction/ReturnRecord/getById?userId=${id}`);
+    },
+    delete: (id: any) => {
+      return this.http.post('/api/Auction/ReturnRecord/Delete', { id: id });
+    },
+    save: (entity: any) => {
+      return this.http.post('/api/Auction/ReturnRecord/Save', entity);
+    },
+  };
+
   material = {
     getList: (curPage = 1, pageSize = 0) => {
       return this.http

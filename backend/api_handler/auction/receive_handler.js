@@ -1,23 +1,23 @@
-const { returnModel, idsModel,publishModel,returnSchema } = require("../../schema/index");
+const { receiveModel, idsModel,publishModel,receiveSchema } = require("../../schema/index");
 const { Util, queryFilter } = require("../../utils/util");
 
 exports.save = async (req, res) => {
-  let returnInfo = req.body;
-  // returnInfo.Publish = await publishModel.findOne({Id:returnInfo?.PublishId});
-  if (Util.isUndefinedOrNullOrWhiteSpace(returnInfo.Id)) {
+  let receiveInfo = req.body;
+  // receiveInfo.Publish = await publishModel.findOne({Id:receiveInfo?.PublishId});
+  if (Util.isUndefinedOrNullOrWhiteSpace(receiveInfo.Id)) {
     // 实现Id的自增
     const ids = await idsModel.findOneAndUpdate(
-      { Name: "ReturnRecord" },
+      { Name: "ReceiveRecord" },
       { $inc: { Id: 1 } }
     );
-    returnInfo.Id = ids.Id;
-    returnInfo.OperateTime = new Date();
-    returnModel.create(returnInfo, function (err, results) {
+    receiveInfo.Id = ids.Id;
+    receiveInfo.OperateTime = new Date();
+    receiveModel.create(receiveInfo, function (err, results) {
       if (err) {
         console.log("竞价失败!");
       }
       // 存储主表Id
-      publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}},(err,results)=>{
+      publishModel.updateOne({ Id: results.PublishId },{ $set:{ ReceiveRecord: results._id}},(err,results)=>{
       })
       return res.send({
         Code: 200,
@@ -26,14 +26,14 @@ exports.save = async (req, res) => {
       });
     });
   } else {
-    returnModel.updateOne(
-      { Id: returnInfo.Id },
-      { $set: returnInfo },
+    receiveModel.updateOne(
+      { Id: receiveInfo.Id },
+      { $set: receiveInfo },
       function (err, results) {
         if (err) {
           console.log("更新失败!");
         }
-        publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}})
+        publishModel.updateOne({ Id: results.PublishId },{ $set:{ ReceiveRecord: results._id}})
         return res.send({
           Code: 200,
           Message: "更新成功！",
@@ -46,7 +46,7 @@ exports.save = async (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.query.id;
-  returnModel.deleteOne({ Id: id }, (err, results) => {
+  receiveModel.deleteOne({ Id: id }, (err, results) => {
     if (err) {
       console.log("删除物品失败！");
     }
@@ -62,7 +62,7 @@ exports.delete = (req, res) => {
 
 exports.getById = async (req, res) => {
   const { publishId } = req.query;
-  returnModel.findOne({ Id: publishId }, async (err, results) => {
+  receiveModel.findOne({ Id: publishId }, async (err, results) => {
     if (err) {
       console.log("查询失败！");
     } else {
@@ -78,9 +78,9 @@ exports.getById = async (req, res) => {
 exports.getList = async (req, res) => {
   const { filters, curPage, pageSize } = req.body;
   const skipData = (curPage - 1) * pageSize;
-  let queryItem = queryFilter(filters, returnSchema.obj);
-  const totalDataLength = await returnModel.find(queryItem).count();
-  returnModel
+  let queryItem = queryFilter(filters, receiveSchema.obj);
+  const totalDataLength = await receiveModel.find(queryItem).count();
+  receiveModel
     .find(queryItem, (err, results) => {
       if (err) {
         console.log("获取列表失败！");
