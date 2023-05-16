@@ -62,7 +62,7 @@ exports.auction = async (req, res) => {
   let status;
   publishModel.find({
     Status: {
-      status
+      '$gt':-2
     }
   }, (err, results) => {
     let statistic = [{
@@ -117,8 +117,8 @@ exports.auction = async (req, res) => {
       } = getStatusCount(results);
       statistic[0].value = canceled;
       statistic[1].value = noPublish;
-      statistic[2].value = streamed;
-      statistic[3].value = published;
+      statistic[2].value = published;
+      statistic[3].value = streamed;
       statistic[4].value = sold;
       statistic[5].value = delivered;
       statistic[6].value = returned;

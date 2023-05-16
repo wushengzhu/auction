@@ -1,22 +1,35 @@
 <div nz-row [nzGutter]="16" class="mb-ms">
-  <div nz-col [nzSpan]="12">
-    <nz-card>
+  <div nz-col [nzSpan]="24">
+    <nz-card [nzTitle]="'医院廉洁竞品年度统计'" [nzExtra]="extraTemplate">
+      <ng-template #extraTemplate>
+        <nz-radio-group [(ngModel)]="dateType" nzButtonStyle="solid" class="mr-ms">
+          <label nz-radio-button [nzValue]="0">本月度</label>
+          <label nz-radio-button [nzValue]="1">本季度</label>
+          <label nz-radio-button [nzValue]="2">本年度</label>
+          <label nz-radio-button [nzValue]="3">自定义</label>
+        </nz-radio-group>
+        <nz-range-picker [nzRenderExtraFooter]="renderExtraFooterTpl">
+          <ng-template #renderExtraFooterTpl>
+            <button nz-button [nzSize]="'small'" class="mr-ms" *ngFor="let item of dateRange" (click)="getDateData(item.value)">{{item.label}}</button>
+          </ng-template>
+        </nz-range-picker>
+      </ng-template>
       <div #cylinder style="width: 100%; height: 300px;"></div>
     </nz-card>
 
   </div>
-  <div nz-col [nzSpan]="12">
+  <!-- <div nz-col [nzSpan]="12">
     <nz-card>
       <div #pie style="width: 100%; height: 300px;"></div>
     </nz-card>
-  </div>
+  </div> -->
 </div>
 <app-index-navs></app-index-navs>
 <div nz-row [nzGutter]="16" class="mt-ms">
   <div nz-col [nzSpan]="12">
-    <app-index-card [title]="'竞拍情况'" tagTpl="拍品提示" [statusList]="auctionList"></app-index-card>
+    <app-index-card [title]="'所有竞拍情况统计'" tagTpl="拍品提示" [statusList]="auctionList"></app-index-card>
   </div>
   <div nz-col [nzSpan]="12">
-    <app-index-card [title]="'交易情况'" tagTpl="要立即处理的拍品" [statusList]="exchangeList"></app-index-card>
+    <app-index-card [title]="'所有交易情况统计'" tagTpl="要立即处理的拍品" [statusList]="exchangeList"></app-index-card>
   </div>
 </div>
