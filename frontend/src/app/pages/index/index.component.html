@@ -1,18 +1,16 @@
-<div nz-row [nzGutter]="16" class="mb-ms">
+<div nz-row [nzGutter]="16" class="mb-xs">
   <div nz-col [nzSpan]="24">
-    <nz-card [nzTitle]="'医院廉洁竞品年度统计'" [nzExtra]="extraTemplate">
+    <nz-card [nzTitle]="'医院廉洁竞品年度统计'" [nzExtra]="extraTemplate" style="width:100%;">
       <ng-template #extraTemplate>
-        <nz-radio-group [(ngModel)]="dateType" nzButtonStyle="solid" class="mr-ms">
-          <label nz-radio-button [nzValue]="0">本月度</label>
-          <label nz-radio-button [nzValue]="1">本季度</label>
-          <label nz-radio-button [nzValue]="2">本年度</label>
-          <label nz-radio-button [nzValue]="3">自定义</label>
+        <nz-radio-group [(ngModel)]="dateType" nzButtonStyle="solid" class="mr-ms"
+          (ngModelChange)="changeDateType($event)">
+          <label nz-radio-button [nzValue]="'month'">本月度</label>
+          <label nz-radio-button [nzValue]="'quarter'">本季度</label>
+          <label nz-radio-button [nzValue]="'year'">本年度</label>
+          <label nz-radio-button [nzValue]="'custom'">自定义</label>
         </nz-radio-group>
-        <nz-range-picker [nzRenderExtraFooter]="renderExtraFooterTpl">
-          <ng-template #renderExtraFooterTpl>
-            <button nz-button [nzSize]="'small'" class="mr-ms" *ngFor="let item of dateRange" (click)="getDateData(item.value)">{{item.label}}</button>
-          </ng-template>
-        </nz-range-picker>
+        <nz-date-picker *ngIf="dateType==='custom'" [(ngModel)]="yearRange" nzMode="year"
+          [nzDisabledDate]="disabledDate" (nzOnOpenChange)="changeYearType($event)"></nz-date-picker>
       </ng-template>
       <div #cylinder style="width: 100%; height: 300px;"></div>
     </nz-card>
@@ -25,7 +23,7 @@
   </div> -->
 </div>
 <app-index-navs></app-index-navs>
-<div nz-row [nzGutter]="16" class="mt-ms">
+<div nz-row [nzGutter]="16" class="mt-xs">
   <div nz-col [nzSpan]="12">
     <app-index-card [title]="'所有竞拍情况统计'" tagTpl="拍品提示" [statusList]="auctionList"></app-index-card>
   </div>

@@ -17,7 +17,10 @@ export class AuctionService {
     getPublishStat: () => {
       return this.http.post(`/api/Auction//Statistic/GetPublishStat`, null);
     },
-  }
+    getPeriodStat: (startTime, endTime, dateType) => {
+      return this.http.post(`/api/Auction//Statistic/GetPeriodStat`, { startTime: startTime, endTime: endTime, dateType: dateType });
+    },
+  };
 
   loginRecord = {
     save: (entity: any) => {

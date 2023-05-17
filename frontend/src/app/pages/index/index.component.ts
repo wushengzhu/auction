@@ -14,7 +14,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   exchangeList: Array<any> = [];
   @ViewChild('cylinder') cylinder: ElementRef;
   @ViewChild('pie') pie: ElementRef;
-  dateType: number = 0;
+  dateType: string = 'month';
   dateRange = [
     { value: 'month', label: '本月' },
     { value: 'preMonth', label: '上月' },
@@ -23,55 +23,15 @@ export class IndexComponent implements OnInit, AfterViewInit {
     { value: 'year', label: '本年' },
     { value: 'preYear', label: '上一年' },
   ];
+  yearRange: any;
+  loading: boolean = false;
+  timeArr: any = [moment().startOf('month').toDate(), moment().endOf('month').toDate()]; // 默认本月
   constructor(private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService) {}
   ngAfterViewInit(): void {
-    const cylinderchart = echarts.init(this.cylinder.nativeElement);
-    cylinderchart.setOption({
-      legend: {},
-      tooltip: {},
-      dataset: {
-        source: [
-          ['product', '2015', '2016', '2017'],
-          ['已取消', 43.3, 85.8, 93.7],
-          ['未发布', 83.1, 73.4, 55.1],
-          ['已发布', 86.4, 65.2, 82.5],
-          ['已流拍', 72.4, 53.9, 39.1],
-          ['已售出', 73.4, 53.9, 39.1],
-          ['已收货', 75.4, 53.9, 39.1],
-          ['已退货', 71.4, 53.9, 39.1],
-          ['已付款', 78.4, 53.9, 39.1],
-        ],
-      },
-      xAxis: { type: 'category' },
-      yAxis: {},
-      // Declare several bar series, each will be mapped
-      // to a column of dataset.source by default.
-      series: [
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-        { type: 'bar', seriesLayoutBy: 'row' },
-      ],
-    });
-    // cylinderchart.setOption({
-    //   title: {
-    //     text: '竞品年度情况统计'
-    //   },
-    //   tooltip: {},
-    //   xAxis: {
-    //     data: ['已取消', '未发布', '已发布', '已流拍', '已收货', '已退货', '已付款']
-    //   },
-    //   yAxis: {},
-    //   series: [{
-    //     name: 'Sales',
-    //     type: 'bar',
-    //     data: [120, 200, 150, 80, 70, 110, 130]
-    //   }]
-    // });
+    this.getPeriodData();
+  }
+
+  setPieChart() {
     const piechart = echarts.init(this.pie.nativeElement);
     piechart.setOption({
       title: {
@@ -110,6 +70,31 @@ export class IndexComponent implements OnInit, AfterViewInit {
     });
   }
 
+  setCylinderChart(dataSource: Array<any>) {
+    const cylinderchart = echarts.init(this.cylinder.nativeElement);
+    cylinderchart.setOption({
+      legend: {},
+      tooltip: {},
+      dataset: {
+        source: dataSource,
+      },
+      xAxis: { type: 'category' },
+      yAxis: {},
+      // Declare several bar series, each will be mapped
+      // to a column of dataset.source by default.
+      series: [
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+        { type: 'bar', seriesLayoutBy: 'row' },
+      ],
+    });
+  }
+
   ngOnInit() {
     this.auctionSvc.stat.getPublishStat().subscribe((data: any) => {
       this.auctionList = data.Data.slice(0, 4);
@@ -117,55 +102,62 @@ export class IndexComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getPeriodData() {
+    this.loading = true;
+    const type = this.dateType === 'custom' ? 'year' : this.dateType;
+    this.auctionSvc.stat.getPeriodStat(this.timeArr[0], this.timeArr[1], type).subscribe((data: any) => {
+      this.setCylinderChart(data?.Data);
+      this.loading = false;
+    });
+  }
+
+  changeDateType(ev) {
+    if (ev !== 'custom') {
+      this.timeArr = this.getDateData(ev);
+      this.getPeriodData();
+    }
+  }
+
+  changeYearType(event) {
+    this.timeArr = [moment(new Date(this.yearRange)).startOf('year').toDate(), moment(new Date(this.yearRange)).endOf('year').toDate()];
+    this.getPeriodData();
+  }
+
   getDateData(type: string) {
-    const preMon = moment().subtract(1, 'month'),
-      preQua = moment().subtract(1, 'quarter'),
-      preYear = moment().subtract(1, 'year');
+    // const preMon = moment().subtract(1, 'month'),
+    //   preQua = moment().subtract(1, 'quarter'),
+    //   preYear = moment().subtract(1, 'year');
     let timeArr = [];
     switch (type) {
       case 'month':
+        // 本月
         timeArr = [moment().startOf('month').toDate(), moment().endOf('month').toDate()];
         break;
-      case 'preMonth':
-        timeArr = [preMon.startOf('month').toDate(), preMon.endOf('month').toDate()];
-        break;
+      // case 'preMonth':
+      //   // 上月
+      //   timeArr = [preMon.startOf('month').toDate(), preMon.endOf('month').toDate()];
+      //   break;
       case 'quarter':
+        // 本季度
         timeArr = [moment().startOf('quarter').toDate(), moment().endOf('quarter').toDate()];
         break;
-      case 'preQuarter':
-        timeArr = [preQua.startOf('quarter').toDate(), preQua.endOf('quarter').toDate()];
-        break;
-      case 'year':
+      // case 'preQuarter':
+      //   // 上季度
+      //   timeArr = [preQua.startOf('quarter').toDate(), preQua.endOf('quarter').toDate()];
+      //   break;
+      case 'year' || 'custom':
+        // 本年
         timeArr = [moment().startOf('year').toDate(), moment().endOf('year').toDate()];
         break;
-      case 'preYear':
-        break;
+      // case 'preYear':
+      //   // 上一年
+      //   timeArr = [preYear.startOf('year').toDate(), preYear.endOf('year').toDate()];
+      //   break;
     }
-    return [
-      {
-        text: '本月',
-        value: () => [moment().startOf('month').toDate(), moment().endOf('month').toDate()],
-      },
-      {
-        text: '上月',
-        value: () => [preMon.startOf('month').toDate(), preMon.endOf('month').toDate()],
-      },
-      {
-        text: '本季',
-        value: () => [moment().startOf('quarter').toDate(), moment().endOf('quarter').toDate()],
-      },
-      {
-        text: '上季',
-        value: () => [preQua.startOf('quarter').toDate(), preQua.endOf('quarter').toDate()],
-      },
-      {
-        text: '本年',
-        value: () => [moment().startOf('year').toDate(), moment().endOf('year').toDate()],
-      },
-      {
-        text: '本年',
-        value: () => [preYear.startOf('year').toDate(), preYear.endOf('year').toDate()],
-      },
-    ];
+    return timeArr;
   }
+
+  disabledDate = (current: Date): boolean => {
+    return moment(current).isAfter(moment());
+  };
 }
