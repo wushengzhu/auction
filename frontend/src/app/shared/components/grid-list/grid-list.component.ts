@@ -42,6 +42,7 @@ export class GridListComponent implements OnInit, AfterViewInit {
       this._columns = val.filter((item) => item.visible);
       this.selectShowField = val;
     }
+    this.reload = true;
   }
   get columns() {
     return this._columns;
@@ -221,8 +222,12 @@ export class GridListComponent implements OnInit, AfterViewInit {
     if (Util.isFunction(this.beforeRequest)) {
       const requestData = new RequestOption();
       const { curPage, pageSize, filters } = this.beforeRequest(requestData);
-      this.curPage = curPage;
-      this.pageSize = pageSize;
+      if(this.curPage===0){
+        this.curPage = curPage;
+      }
+      if(this.pageSize===0){
+        this.pageSize = pageSize;
+      }
       if (Util.isUndefinedOrNullOrWhiteSpace(this.simpleSearchText)) {
         this.simpleFilter = [];
       }

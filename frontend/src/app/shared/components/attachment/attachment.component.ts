@@ -105,7 +105,11 @@ export class AttachmentComponent implements OnInit {
 
   delete(id) {}
 
-  download(id) {}
+  download(id) {
+    this.auctionSvc.file.download(id).subscribe((_)=>{
+
+    })
+  }
 
   changeImg() {
     const files = this.uploadImgEle.nativeElement.files;
@@ -158,6 +162,7 @@ export class AttachmentComponent implements OnInit {
     this.auctionSvc.file.image(imgName, fileData).subscribe((item: any) => {
       if (item) {
         this.imgUrl = item.data;
+        this.reload = true;
         // this.nzMsgSvc.success(item?.msg);
       }
     });

@@ -2,6 +2,7 @@ import { RequestOption } from './../../shared/components/grid-list/request-optio
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Publish } from 'src/app/models/enums';
 import { Bid, BidStatus } from 'src/app/models/enums/bid.enum';
 import { MyBid, MyBidStatus } from 'src/app/models/enums/my-bid.enum';
 import { AuctionService } from 'src/app/services/auction.service';
@@ -30,16 +31,37 @@ export class MyBidComponent implements OnInit {
   selectedData: Array<any> = [];
   reload: boolean = false;
   beforeRequest = (req: RequestOption) => {
-    if (this.templatePara.status > 0) {
+    req.filters.push({
+      field: 'Status',
+      op: '$gte',
+      value: Publish.Published,
+    });
+    if (this.templatePara.status === 0) {
       req.filters.push({
         field: 'Status',
-        op: 'eq',
-        value: this.templatePara.status,
+        op: '$gte',
+        value: Publish.Published,
       });
+    } else {
+      if (this.templatePara.status === 2) {
+        req.filters.push({
+          field: 'Status',
+          op: '$lt',
+          value: Publish.Sold,
+        });
+      } else {
+        req.filters.push({
+          field: 'Status',
+          op: '$eq',
+          value: this.templatePara.status,
+        });
+      }
     }
+
+
     return req;
   };
-  constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private router: Router) {}
+  constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private router: Router) { }
 
   ngOnInit() {
     this.option = new GridOption({
@@ -111,6 +133,6 @@ export class MyBidComponent implements OnInit {
   }
 
   readDetail(id: string) {
-    this.router.navigate(['/home/auction/publish/bid-detail', { publishId: id }]);
+    this.router.navigate(['/home/auction/bid-detail', { publishId: id }]);
   }
 }

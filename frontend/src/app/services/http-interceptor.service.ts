@@ -14,8 +14,9 @@ export class HttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const url = req.url;
     const token = localStorage.getItem('token');
+    const isCanLoad = (!url.includes('LoginRecord')||!url.includes('Login') || !url.includes('Register')) && token
     // 排除登录接口
-    if ((!url.includes('Login') || !url.includes('Register')) && token) {
+    if (isCanLoad) {
       req = req.clone({
         url,
         setHeaders: {
@@ -32,6 +33,7 @@ export class HttpInterceptorService implements HttpInterceptor {
             this.authSvc.isLoginIn = true;
           } else {
             // 注册时上传图片时
+            this.authSvc.isLoginIn = false;
             !url.includes('Upload') && this.router.navigate(['/login']);
           }
         },

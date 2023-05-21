@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -197,6 +196,9 @@ export class AuctionService {
     },
     save: (entity: any) => {
       return this.http.post('/api/Auction/User/Save', entity);
+    },
+    register: (entity: any) => {
+      return this.http.post('/api/Auction/User/Register', entity);
     },
     updatePwd: (entity: any) => {
       return this.http.post('/api/Auction/User/UpdatePassword', entity);

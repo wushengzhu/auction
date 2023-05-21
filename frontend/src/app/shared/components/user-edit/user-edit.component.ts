@@ -108,7 +108,8 @@ export class UserEditComponent implements OnInit {
           Password: md5(this.form.controls['Password'].value),
         });
       }
-      this.auctionSvc.userPage.save(formValue).subscribe((resb: any) => {
+      let fun = this.type === 'register'?this.auctionSvc.userPage.register(formValue):this.auctionSvc.userPage.save(formValue);
+      fun.subscribe((resb: any) => {
         if (+resb.Code === 200) {
           this.nzMsgSvc.success(resb.Message);
         } else {

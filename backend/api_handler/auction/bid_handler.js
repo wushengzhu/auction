@@ -1,3 +1,4 @@
+const { Bid } = require("../../models/enum_status");
 const { bidModel, idsModel, bidSchema,publishModel } = require("../../schema/index");
 const { Util, queryFilter } = require("../../utils/util");
 
@@ -12,13 +13,16 @@ exports.save = async (req, res) => {
     );
     bidInfo.Id = ids.Id;
     bidInfo.OperateTime = new Date();
-    bidModel.create(bidInfo, function (err, results) {
+    bidInfo.Status = Bid.Leading;
+    bidModel.create(bidInfo, async (err, results)=>{
       if (err) {
         console.log("竞价失败!");
       }
       // 存储主表Id
-      publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}},(err,results)=>{
-      })
+      // Mongoose 在收到回调或 await 时执行查询。如果您使用 await 并传递回调，则此查询将执行两次
+      // MongooseError: Query was already executed: auction_publishs.updateOne({ Id: 1 }, { '$set': { BidRecord:...
+      await publishModel.updateOne({ Id: results.PublishId },{ $set:{ BidRecord: results._id}})
+      await bidModel.updateMany({Id:{$ne:results.Id}},{$set:{ Status:Bid.Fail}})
       return res.send({
         Code: 200,
         Message: "竞价成功！",

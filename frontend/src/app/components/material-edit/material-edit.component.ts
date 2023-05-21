@@ -31,14 +31,14 @@ export class MaterialEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService, private http: HttpClient) {
     this.form = this.fb.group({
       Id: [null],
-      Name: [null],
+      Name: [null,[Validators.required]],
       SerialNumber: [null],
-      Category: [null],
-      WarehouseCategory: [null],
+      Category: [null,[Validators.required]],
+      WarehouseCategory: [null,[Validators.required]],
       ProduceDate: [null],
       EffectiveDate: [null],
       GuaranteePeriod: [null],
-      Quantity: [null],
+      Quantity: [null,[Validators.required]],
       UserId: [null],
       Detail: [null],
       DealWithMethod: [null],
@@ -46,7 +46,7 @@ export class MaterialEditComponent implements OnInit {
       AllowAuction: [true],
       SoldQuantity: [null],
       RemainQuantity: [null],
-      TurnInDate: [null],
+      TurnInDate: [new Date(),[Validators.required]],
       Reason: [null],
       Operator: [null],
       CreateTime: [null],
@@ -59,6 +59,16 @@ export class MaterialEditComponent implements OnInit {
     this.auctionSvc.dict.getList(1, 0, 'WarehouseCategory').subscribe((item) => {
       this.warehouseCategory = item.Data.filter((data) => data.ParentId);
     });
+  }
+
+  changeQuantity(event){
+    if(event){
+      this.getFormControl('RemainQuantity').setValue(event);
+    }
+  }
+
+  getFormControl(label:string){
+    return this.form.controls[label];
   }
 
   getData() {

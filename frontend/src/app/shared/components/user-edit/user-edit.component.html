@@ -1,17 +1,20 @@
-<div class="avatar">
-  <nz-avatar [nzSize]="100" nzIcon="user" [nzSrc]="entity?.Image" (click)="uploadImg()"></nz-avatar>
-  <div class="user-info ml-ms">
-    <div>
-      {{ entity?.UserName }}&nbsp;
-      <i class="fa fa-mars" aria-hidden="true" style="color:#2db7f5" *ngIf="entity?.Gender"></i>
-      <i class="fa fa-venus" aria-hidden="true" style="color: pink;" *ngIf="!entity?.Gender"></i>
-    </div>
-    <div class="mt-ms">
-      <nz-tag [nzColor]="'#f50'" *ngIf="entity?.Category===0">超级管理员</nz-tag>
-      <nz-tag [nzColor]="'#87d068'" *ngIf="entity?.Category===1">普通用户</nz-tag>
+<ng-container *ngIf="type!=='register'">
+  <div class="avatar">
+    <nz-avatar [nzSize]="100" nzIcon="user" [nzSrc]="entity?.Image" (click)="uploadImg()"></nz-avatar>
+    <div class="user-info ml-ms">
+      <div>
+        {{ entity?.UserName }}&nbsp;
+        <i class="fa fa-mars" aria-hidden="true" style="color:#2db7f5" *ngIf="entity?.Gender"></i>
+        <i class="fa fa-venus" aria-hidden="true" style="color: pink;" *ngIf="!entity?.Gender"></i>
+      </div>
+      <div class="mt-ms">
+        <nz-tag [nzColor]="'#f50'" *ngIf="entity?.Category===0">超级管理员</nz-tag>
+        <nz-tag [nzColor]="'#87d068'" *ngIf="entity?.Category===1">普通用户</nz-tag>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+
 <form nz-form [formGroup]="form">
   <nz-form-item nz-row>
     <nz-form-label nz-col [nzSm]="4" nzRequired>用户名</nz-form-label>

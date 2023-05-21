@@ -32,6 +32,7 @@ app.use(
       path: [
         "/api/Auction/User/Login",
         "/api/Auction/User/Register",
+        "/api/File/Image/Upload",
         /^swagger$/i,
         /^public$/i,
         /^File$/i,

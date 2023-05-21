@@ -1,4 +1,4 @@
-exports.Publish = {
+exports.Publish={
   /**
    * 已取消拍卖
    */
@@ -37,4 +37,21 @@ exports.Publish = {
    * 已付款/已领取
    */
   Paid : 6,
+}
+
+exports.Bid={
+  /**
+   * 竞价领先
+   */
+  Leading:0,
+
+  /**
+   * 无效出价/低于最高出价
+   */
+  Fail:1,
+
+  /**
+   * 竞价成功
+   */
+  Success:2,
 }

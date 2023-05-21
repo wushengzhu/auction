@@ -92,7 +92,7 @@ export class BidDetailComponent implements OnInit, AfterViewInit {
     this.auctionSvc.publish.getById(this.publishId).subscribe((resp: any) => {
       const time = Math.abs(resp.Data?.RemainTime);
       this.detailData = Object.assign(resp.Data, { Time: time });
-      this.addPrice = this.detailData.StartPrice;
+      this.addPrice = this.detailData?.BidRecord?.length>0?this.detailData?.BidRecord[0].Amount:this.detailData?.StartPrice;
       this.executeTime();
     });
     this.getImageData();

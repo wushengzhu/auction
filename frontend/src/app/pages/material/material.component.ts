@@ -58,14 +58,7 @@ export class MaterialComponent implements OnInit {
         width: '90px',
         right: '0px',
         inSearch: false,
-        // buttons: new Array<ButtonsOptions>(
-        //   new ButtonsOptions({
-        //     icon: 'fas fa-edit',
-        //     callBack: (entity) => {
-        //       this.editItem(entity);
-        //     },
-        //   })
-        // ),
+        template:'Operate'
       }),
     ];
   }

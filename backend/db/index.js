@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const db_url = 'mongodb://localhost:27017/auction';// mongodb://数据库ip地址/数据库名 如果端口号默认27017，可以省略不写
+// 有些情况下需要写localhost形式才能链接成功
+const db_url = 'mongodb://127.0.0.1:27017/auction';// mongodb://数据库ip地址/数据库名 如果端口号默认27017，可以省略不写
 mongoose.connect(db_url, { useNewUrlParser: true, useUnifiedTopology: true });
 // 监听数据库连接状态
 mongoose.connection.once("open", function () {

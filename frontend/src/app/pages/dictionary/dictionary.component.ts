@@ -168,6 +168,7 @@ export class DictionaryComponent implements OnInit {
       this.auctionSvc.dict.save(entity).subscribe((data) => {
         this.reload = true;
         this.isVisible = false;
+        this.buildTree();
       });
     }
   }

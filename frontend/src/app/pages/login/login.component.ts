@@ -76,6 +76,8 @@ export class LoginComponent implements OnInit {
           this.auctionSvc.loginRecord.save(formValue).subscribe();
           this.nzMsgSvc.error(resb.Message);
         }
+      },err=>{
+        this.nzMsgSvc.success(err.message);
       });
     }
   }

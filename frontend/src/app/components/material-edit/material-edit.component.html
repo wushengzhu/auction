@@ -52,7 +52,8 @@
   <nz-form-item nz-row>
     <nz-form-label nz-col nzSpan="4" nzRequired>入库数量</nz-form-label>
     <nz-form-control nz-col nzSpan="5" nzErrorTip="入库数量不能为空">
-      <nz-input-number formControlName="Quantity" [style.width]="'100%'"></nz-input-number>
+      <nz-input-number formControlName="Quantity" [style.width]="'100%'"
+        (ngModelChange)="changeQuantity($event)"></nz-input-number>
     </nz-form-control>
     <nz-form-label nz-col nzSpan="3" nzRequired>剩余数量</nz-form-label>
     <nz-form-control nz-col nzSpan="5" nzErrorTip="剩余数量不能为空">
