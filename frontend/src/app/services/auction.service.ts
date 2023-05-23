@@ -58,7 +58,7 @@ export class AuctionService {
         .post(`/api/Auction/Dictionary/GetList`, {
           pageSize: pageSize,
           curPage: curPage,
-          filters: [{ field: 'DictName', op: '$in', value: dictName }],
+          filters: [{ field: 'DictName', op: '$eq', value: dictName }],
         })
         .pipe(map((item: any) => item.Data));
     },

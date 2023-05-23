@@ -97,8 +97,8 @@ schedule.scheduleJob("30 * * * * *", () => {
           remainTime = Math.abs(+eTime);
         }
 
-        if(remainTime===0&&Util.IsNullOrEmpty(results?.BidRecord)){
-          status = Publish.Streamed
+        if(remainTime===0){
+          status = Util.IsNullOrEmpty(item?.BidRecord)?Publish.Streamed:Publish.Sold
         }
         publishModel.updateOne(
           { Id: item?.Id },

@@ -41,7 +41,7 @@
     </ng-template>
 
     <ng-template gridColumnTemplate name="Title" let-entity="entity" let-value="value">
-      <ng-container *ngIf="entity.BidRecord?.UserId === entity.UserBidRecord?.UserId">
+      <ng-container *ngIf="entity.BidRecord[0]?.UserId === curUserId">
         <ng-container *ngIf="entity.Status === 4 || entity.Status === 6">
           <span class="common-bag" style="color: #40a9ff" *ngIf="entity.Status === 4">已确认收货</span>
           <span class="success-bid" *ngIf="entity.Status === 6">已付款</span>
@@ -59,7 +59,7 @@
         <span class="biding">进行中</span>
       </ng-container>
 
-      <ng-container *ngIf="entity.Status >= 3 && entity.BidRecord?.UserId !== entity.UserBidRecord?.UserId">
+      <ng-container *ngIf="entity.Status >= 3 && entity.BidRecord[0]?.UserId !== curUserId">
         <span class="common-bag" style="color: #19aa6b">未获拍</span>
       </ng-container>
       <a href="javascript:void(0)" (click)="readDetail(entity.Id)">{{ value }}</a>

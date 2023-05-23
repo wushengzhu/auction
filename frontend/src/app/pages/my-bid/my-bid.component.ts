@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage.service';
 import { RequestOption } from './../../shared/components/grid-list/request-option';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -58,10 +59,10 @@ export class MyBidComponent implements OnInit {
       }
     }
 
-
     return req;
   };
-  constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private router: Router) { }
+  curUserId: any;
+  constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private router: Router, private storeSvc: StorageService) {}
 
   ngOnInit() {
     this.option = new GridOption({
@@ -85,6 +86,7 @@ export class MyBidComponent implements OnInit {
       new FloatColumn({ display: '当前最高出价', field: 'BidRecord.Amount', width: '120px', inSearch: false }),
       new DatetimeColumn({ display: '出价时间', field: 'BidRecord.OperateTime', inSearch: false, width: '150px' }),
     ];
+    this.curUserId = this.storeSvc.get('userInfo')?.Id;
   }
 
   getStatusText(status) {
@@ -99,8 +101,9 @@ export class MyBidComponent implements OnInit {
 
   confirmReceive() {
     let confirmData: Array<any> = [];
+    console.log(this.selectedData);
     if (this.selectedData.length > 0) {
-      const isBidden = this.selectedData.every((item) => item.Status === 3 && item.BidRecord[0]?.UserId === item.UserBidRecord[0]?.UserId);
+      const isBidden = this.selectedData.every((item) => item.Status === 3 && item.BidRecord[0]?.UserId === this.curUserId);
       if (isBidden) {
         this.selectedData.forEach((item) => {
           confirmData.push(item.Id);

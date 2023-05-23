@@ -7,6 +7,8 @@ import { GridOption } from 'src/app/shared/components/grid-list/grid-option';
 import { ButtonColumn } from 'src/app/shared/components/grid-list/models/button-column';
 import { Column } from 'src/app/shared/components/grid-list/models/column';
 import { DatetimeColumn } from 'src/app/shared/components/grid-list/models/datetime-column';
+import { EnumColumn } from 'src/app/shared/components/grid-list/models/enum-column';
+import { EnumOptions } from 'src/app/shared/components/grid-list/models/enum-options';
 import { IntColumn } from 'src/app/shared/components/grid-list/models/int-column';
 import { StringColumn } from 'src/app/shared/components/grid-list/models/string-column';
 import { Util } from 'src/app/shared/utills/utils';
@@ -42,7 +44,21 @@ export class MaterialComponent implements OnInit {
       new StringColumn({ display: '仓库类别', field: 'WarehouseCategory', width: '100px', inSearch: false }),
       new IntColumn({ display: '入库数量', field: 'Quantity', width: '100px', inSearch: false }),
       new IntColumn({ display: '剩余数量', field: 'RemainQuantity', width: '100px', inSearch: false }),
-      new StringColumn({ display: '允许拍卖', field: 'AllowAuction', width: '100px', inSearch: false }),
+      new EnumColumn({
+        display: '允许拍卖',
+        field: 'AllowAuction',
+        width: '100px',
+        inSearch: false,
+        enumOptions: () =>
+          of(
+            new EnumOptions({
+              options: [
+                { text: '是', value: true },
+                { text: '否', value: false },
+              ],
+            })
+          ),
+      }),
       new DatetimeColumn({ display: '生产日期', field: 'ProduceDate', width: '120px', inSearch: false, formatString: 'YYYY-MM-dd' }),
       new DatetimeColumn({ display: '有效日期', field: 'EffectiveDate', width: '120px', inSearch: false, formatString: 'YYYY-MM-dd' }),
       // new StringColumn({ display: '上缴人', field: 'UserName', width: '90px' }),
@@ -58,7 +74,7 @@ export class MaterialComponent implements OnInit {
         width: '90px',
         right: '0px',
         inSearch: false,
-        template:'Operate'
+        template: 'Operate',
       }),
     ];
   }
