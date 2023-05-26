@@ -143,7 +143,9 @@ export class ReceiveComponent implements OnInit {
           nzComponentParams: { ids: this.publishIds, sumPrice: this.sumPrice, userName: this.userName, userId: this.userId },
         })
         .afterClose.subscribe((item) => {
-          console.log(item);
+          if (item) {
+            this.reload = true;
+          }
         });
     } else if (this.isPay) {
       this.mesSvc.error('您选择的拍品包含已付款的！');

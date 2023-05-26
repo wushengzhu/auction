@@ -1,3 +1,4 @@
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { of } from 'rxjs';
@@ -20,15 +21,12 @@ import { Util } from 'src/app/shared/utills/utils';
 })
 export class MaterialComponent implements OnInit {
   dataList: Array<any> | undefined;
-  isVisible: boolean = false;
-  title: string | undefined;
   entity: any;
   reload: boolean = false;
   option: GridOption;
   columns: Array<Column> = [];
   materialId: any;
-  @ViewChild(MaterialEditComponent) materialEditTpl: MaterialEditComponent;
-  constructor(private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService) {}
+  constructor(private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService, private nzDrawer: NzDrawerService) {}
 
   ngOnInit() {
     this.option = new GridOption({
@@ -80,33 +78,28 @@ export class MaterialComponent implements OnInit {
   }
 
   edit(entity?: any): void {
-    if (Util.isUndefinedOrNull(entity)) {
-      this.title = '物资入库';
-    } else {
-      this.title = '编辑物资';
-      this.materialId = entity?.Id;
-    }
-    this.isVisible = true;
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
+    this.nzDrawer
+      .create({
+        nzTitle: entity ? '编辑物资' : '物资入库',
+        nzContent: MaterialEditComponent,
+        nzWidth: 800,
+        nzFooter: null,
+        nzContentParams: {
+          materialId: entity?.Id,
+          entity: entity,
+        },
+      })
+      .afterClose.subscribe((item) => {
+        if (item) {
+          this.reload = true;
+        }
+      });
   }
 
   delete(id: any) {
     this.auctionSvc.material.detele(id).subscribe((item) => {
       this.nzMsgSvc.success('删除成功！');
       this.reload = true;
-    });
-  }
-
-  save() {
-    this.materialEditTpl.save().subscribe((item) => {
-      if (item) {
-        this.nzMsgSvc.success('保存成功！');
-        this.isVisible = false;
-        this.reload = true;
-      }
     });
   }
 }

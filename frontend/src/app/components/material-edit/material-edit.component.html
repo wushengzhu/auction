@@ -124,10 +124,10 @@
       <textarea nz-input formControlName="Remark" [nzAutosize]="{minRows: 3}"></textarea>
     </nz-form-control>
   </nz-form-item>
-  <!--
-  <nz-form-item>
-    <nz-form-control nzOffset="4" nzSpan="18">
-
-    </nz-form-control>
-  </nz-form-item> -->
 </form>
+
+<div style="height:57px;"></div>
+<div class="modal-footer">
+  <button type="button" nz-button (click)="cancel()">取消</button>
+  <button type="button" nz-button class="ml-ms" nzType="primary" (click)="save()">保存</button>
+</div>

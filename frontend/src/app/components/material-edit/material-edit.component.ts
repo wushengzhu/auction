@@ -6,6 +6,7 @@ import { AuctionService } from 'src/app/services/auction.service';
 import { HttpClient } from '@angular/common/http';
 import pinyin from 'pinyin';
 import { Util } from 'src/app/shared/utills/utils';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'app-material-edit',
@@ -13,32 +14,19 @@ import { Util } from 'src/app/shared/utills/utils';
   styleUrls: ['./material-edit.component.less'],
 })
 export class MaterialEditComponent implements OnInit {
-  _materialId: any;
-  @Input() set materialId(val) {
-    if (val) {
-      this._materialId = val;
-      this.getData();
-    }
-  }
-  get materialId() {
-    return this._materialId;
-  }
-  @Output() materialIdChange: EventEmitter<boolean> = new EventEmitter(); // reload双重绑定
+  @Input() materialId: any;
+  @Input() entity: any;
   form: FormGroup;
-  materialInfo: any;
-  isVisible: boolean = false;
-  warehouseCategory: Array<any> = [];
-  constructor(private fb: FormBuilder, private auctionSvc: AuctionService, private nzMsgSvc: NzMessageService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private auctionSvc: AuctionService, private mesSvc: NzMessageService, private drawerRef: NzDrawerRef) {
     this.form = this.fb.group({
-      Id: [null],
-      Name: [null,[Validators.required]],
+      Name: [null, [Validators.required]],
       SerialNumber: [null],
-      Category: [null,[Validators.required]],
-      WarehouseCategory: [null,[Validators.required]],
+      Category: [null, [Validators.required]],
+      WarehouseCategory: [null, [Validators.required]],
       ProduceDate: [null],
       EffectiveDate: [null],
       GuaranteePeriod: [null],
-      Quantity: [null,[Validators.required]],
+      Quantity: [null, [Validators.required]],
       UserId: [null],
       Detail: [null],
       DealWithMethod: [null],
@@ -46,7 +34,7 @@ export class MaterialEditComponent implements OnInit {
       AllowAuction: [true],
       SoldQuantity: [null],
       RemainQuantity: [null],
-      TurnInDate: [new Date(),[Validators.required]],
+      TurnInDate: [new Date(), [Validators.required]],
       Reason: [null],
       Operator: [null],
       CreateTime: [null],
@@ -56,34 +44,22 @@ export class MaterialEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auctionSvc.dict.getList(1, 0, 'WarehouseCategory').subscribe((item) => {
-      this.warehouseCategory = item.Data.filter((data) => data.ParentId);
-    });
+    if (this.entity) {
+      this.form.patchValue(this.entity);
+    }
   }
 
-  changeQuantity(event){
-    if(event){
+  changeQuantity(event) {
+    if (event) {
       this.getFormControl('RemainQuantity').setValue(event);
     }
   }
 
-  getFormControl(label:string){
+  getFormControl(label: string) {
     return this.form.controls[label];
   }
 
-  getData() {
-    if (!Util.isUndefinedOrNullOrWhiteSpace(this.materialId)) {
-      this.auctionSvc.material.getById(this.materialId).subscribe((res: any) => {
-        this.form.patchValue(res.Data);
-        this.materialInfo = res.Data;
-      });
-    } else {
-      this.form.patchValue(null);
-    }
-  }
-
-  save(): Observable<boolean> {
-    let sub = new ReplaySubject<boolean>();
+  save() {
     for (const i in this.form.controls) {
       if (this.form.controls.hasOwnProperty(i)) {
         this.form.controls[i].markAsDirty();
@@ -94,18 +70,19 @@ export class MaterialEditComponent implements OnInit {
     if (this.form.valid) {
       let formValue = this.form.value;
       if (this.materialId) {
-        formValue = Object.assign({}, this.form.value, this.materialInfo);
+        formValue = Object.assign({}, this.entity, this.form.value);
       }
       this.auctionSvc.material.save(formValue).subscribe((resb: any) => {
-        sub.next(true);
-        sub.complete();
+        this.mesSvc.success('保存成功！');
+        this.drawerRef.close(true);
       });
+    } else {
+      this.mesSvc.error('请按照提示进行表单修改！');
     }
-    return sub;
   }
 
   cancel() {
-    history.back();
+    this.drawerRef.close(false);
   }
 
   userNameChange(ev) {

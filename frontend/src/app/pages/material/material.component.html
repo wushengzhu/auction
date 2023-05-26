@@ -20,19 +20,3 @@
     </ng-template>
   </app-grid-list>
 </nz-card>
-
-
-
-<nz-drawer *ngIf="isVisible" [(nzVisible)]="isVisible" [nzWidth]="750" nzPlacement="right" [nzTitle]="title"
-  [nzFooter]="footerTpl" (nzOnClose)="isVisible=false">
-  <ng-container *nzDrawerContent>
-    <app-material-edit [(materialId)]="materialId"></app-material-edit>
-  </ng-container>
-
-  <ng-template #footerTpl>
-    <div style="float: right">
-      <button nz-button style="margin-right: 8px;" (click)="isVisible=false">关闭</button>
-      <button nz-button nzType="primary" (click)="save()">保存</button>
-    </div>
-  </ng-template>
-</nz-drawer>
