@@ -16,6 +16,7 @@ import { MomentDatePipe, SimplifyPathPipe, TimeFormaterPipe, PricePipe } from '.
 import { AttachmentComponent } from './components/attachment/attachment.component';
 import { CkeditorComponent } from './components/ckeditor/ckeditor.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DictSelectComponent } from './components/dict-select/dict-select.component';
 
 const SharedPipes = [MomentDatePipe, SimplifyPathPipe, TimeFormaterPipe, PricePipe];
 const components = [
@@ -28,6 +29,7 @@ const components = [
   GridListComponent,
   ArticleEditComponent,
   ColumnEnumComponent,
+  DictSelectComponent,
 ];
 const directives = [GridColumnTemplateDirective];
 

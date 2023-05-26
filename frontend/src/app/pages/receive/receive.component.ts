@@ -36,25 +36,15 @@ export class ReceiveComponent implements OnInit {
   userName: string = '';
   userId: string = '';
   received: number = -3; // 默认已确认收货、已付款的所有记录
-  isVisible:boolean = false;
+  isVisible: boolean = false;
   constructor(private auctionSvc: AuctionService, private mesSvc: NzMessageService, private modal: NzModalService) {}
 
   beforeRequest = (req: RequestOption) => {
     if (this.templatePara.status === -2) {
       req.filters.push({
         field: 'Status',
-        op: '$eq',
-        value: Publish.Sold,
-      });
-      req.filters.push({
-        field: 'Status',
-        op: '$eq',
-        value: Publish.Delivered,
-      });
-      req.filters.push({
-        field: 'Status',
-        op: '$eq',
-        value: Publish.Paid,
+        op: '$ne',
+        value: Publish.Returned,
       });
     } else {
       req.filters.push({
@@ -104,12 +94,6 @@ export class ReceiveComponent implements OnInit {
       new StringColumn({ display: '支付方式', field: 'ReceiveRecord.PaymentMethod', width: '100px', inSearch: false }),
       new StringColumn({ display: '领取人', field: 'ReceiveRecord.UserName', width: '100px' }),
       new DatetimeColumn({ display: '领取时间', field: 'ReceiveRecord.OperateTime', width: '150px', inSearch: false, formatString: 'YYYY-MM-DD HH:mm' }),
-      new ButtonColumn({
-        width: '70px',
-        right: '0px',
-        inSearch: false,
-        template: 'Operate',
-      }),
     ];
   }
 
@@ -126,17 +110,17 @@ export class ReceiveComponent implements OnInit {
     if (this.selectData.length > 0) {
       this.prices = [];
       this.publishIds = [];
-      const commonUser = this.selectData[0].BidRecord.UserId;
-      const isSame = this.selectData.every((item) => item.BidRecord.UserId === commonUser);
+      const commonUser = this.selectData[0].BidRecord[0].UserId;
+      const isSame = this.selectData.every((item) => item.BidRecord[0].UserId === commonUser);
       if (isSame) {
         this.selectData.forEach((item) => {
           if (item.Status === 6) {
             this.isPay = true;
           }
-          this.userName = item.BidRecord.UserName;
-          this.userId = item.BidRecord.UserId;
-          this.publishIds.push(item.BidRecord.PublishId); // 选中的id集合
-          this.prices.push(item.BidRecord.Amount); // 获取竞价价格集合
+          this.userName = item.BidRecord[0].UserName;
+          this.userId = item.BidRecord[0].UserId;
+          this.publishIds.push(item.BidRecord[0].PublishId); // 选中的id集合
+          this.prices.push(item.BidRecord[0].Amount); // 获取竞价价格集合
         });
         // 获取选中的竞价价格总和
         this.sumPrice = this.prices.reduce((total, num) => {
@@ -150,15 +134,17 @@ export class ReceiveComponent implements OnInit {
     }
 
     if (this.publishIds.length > 0 && !this.isPay) {
-      this.modal.create({
-        nzTitle: '拍品付款登记',
-        nzContent: ReceiveEditComponent,
-        nzWidth: 700,
-        nzFooter:null,
-        nzComponentParams: { ids: this.publishIds, sumPrice: this.sumPrice, userName: this.userName, userId: this.userId },
-      }).afterClose.subscribe((item=>{
-         console.log(item)
-      }));
+      this.modal
+        .create({
+          nzTitle: '拍品付款登记',
+          nzContent: ReceiveEditComponent,
+          nzWidth: 700,
+          nzFooter: null,
+          nzComponentParams: { ids: this.publishIds, sumPrice: this.sumPrice, userName: this.userName, userId: this.userId },
+        })
+        .afterClose.subscribe((item) => {
+          console.log(item);
+        });
     } else if (this.isPay) {
       this.mesSvc.error('您选择的拍品包含已付款的！');
     }

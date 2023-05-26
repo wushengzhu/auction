@@ -19,6 +19,7 @@ import { DictionaryComponent } from './pages/dictionary/dictionary.component';
 import { PublishEditComponent } from './components/publish-edit/publish-edit.component';
 import { BidDetailComponent } from './components/bid-detail/bid-detail.component';
 import { IndexComponent } from './pages/index/index.component';
+import { SeniorLoginComponent } from './components/senior-login/senior-login.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
+      // { path: 'login', component: SeniorLoginComponent },
       { path: 'register', component: RegisterComponent },
       {
         path: 'home',
@@ -37,8 +39,8 @@ const routes: Routes = [
             component: HomeComponent,
             children: [
               {
-                path:'index',
-                component:IndexComponent
+                path: 'index',
+                component: IndexComponent,
               },
               {
                 path: 'auction',

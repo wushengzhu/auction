@@ -16,9 +16,7 @@
   <nz-form-item nz-row>
     <nz-form-label nz-col nzSpan="4" nzRequired>仓库类别</nz-form-label>
     <nz-form-control nz-col nzSpan="18" [nzErrorTip]="wareTpl">
-      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="仓库类别" formControlName="WarehouseCategory">
-        <nz-option [nzLabel]="item.Value" [nzValue]="item.Value" *ngFor="let item of warehouseCategory"></nz-option>
-      </nz-select>
+      <app-dict-select [dictName]="'WarehouseCategory'" formControlName="WarehouseCategory"></app-dict-select>
       <ng-template #wareTpl let-control>
         <ng-container *ngIf="control.hasError('required')">仓库类别不能为空</ng-container>
         <ng-container *ngIf="control.hasError('maxlength')">最多输入50个字符</ng-container>
@@ -52,8 +50,8 @@
   <nz-form-item nz-row>
     <nz-form-label nz-col nzSpan="4" nzRequired>入库数量</nz-form-label>
     <nz-form-control nz-col nzSpan="5" nzErrorTip="入库数量不能为空">
-      <nz-input-number formControlName="Quantity" [style.width]="'100%'"
-        (ngModelChange)="changeQuantity($event)"></nz-input-number>
+      <nz-input-number formControlName="Quantity" [style.width]="'100%'" (ngModelChange)="changeQuantity($event)">
+      </nz-input-number>
     </nz-form-control>
     <nz-form-label nz-col nzSpan="3" nzRequired>剩余数量</nz-form-label>
     <nz-form-control nz-col nzSpan="5" nzErrorTip="剩余数量不能为空">

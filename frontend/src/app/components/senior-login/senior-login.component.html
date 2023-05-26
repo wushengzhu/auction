@@ -1,0 +1,160 @@
+<!-- <div class="login-container">
+  <nz-spin [nzSpinning]="isLoad">
+    <div class="login-form">
+      <div class="login-title">医院廉洁拍卖管理系统</div>
+      <form nz-form [formGroup]="form">
+        <nz-form-item nz-row>
+          <nz-form-control nzErrorTip="请输入你的用户名">
+            <nz-input-group [nzPrefix]="userTpl">
+              <input type="text" nz-input formControlName="Account" placeholder="用户名" [style.width]="'100%'"
+                (keyup.enter)="focuPwd()" />
+              <ng-template #userTpl>
+                <i class="fa fa-user"></i>&nbsp;
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row>
+          <nz-form-control nzErrorTip="请输入你的密码">
+            <nz-input-group [nzSuffix]="suffixTemplate" [nzPrefix]="pwdTpl">
+              <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="Password" placeholder="密码"
+                [style.width]="'100%'" #pwdRef (keyup.enter)="saveForm()" />
+              <ng-template #suffixTemplate>
+                <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                  (click)="passwordVisible = !passwordVisible"></span>
+              </ng-template>
+              <ng-template #pwdTpl>
+                <i class="fa fa-key"></i>&nbsp;
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
+        (click)="saveForm()">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+
+      <a href="javascript:void(0);" [routerLink]="'../register'"><button nz-button class="login-form-button"
+          style="margin-top: 20px;color:#000" [nzType]="'default'">注&nbsp;&nbsp;&nbsp;&nbsp;册</button></a>
+    </div>
+  </nz-spin>
+</div> -->
+
+<div class="login-container" #container>
+  <div class="form-container">
+    <div class="form-box">
+      <div class="login-form">
+        <!-- <form nz-form [formGroup]="form">
+          <nz-form-item nz-row>
+            <nz-form-control nzErrorTip="请输入你的用户名">
+              <nz-input-group [nzPrefix]="userTpl">
+                <input type="text" nz-input formControlName="Account" placeholder="用户名" [style.width]="'100%'"
+                  (keyup.enter)="focuPwd()" />
+                <ng-template #userTpl>
+                  <i class="fa fa-user"></i>&nbsp;
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-control nzErrorTip="请输入你的密码">
+              <nz-input-group [nzSuffix]="suffixTemplate" [nzPrefix]="pwdTpl">
+                <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="Password"
+                  placeholder="密码" [style.width]="'100%'" #pwdRef (keyup.enter)="saveForm()" />
+                <ng-template #suffixTemplate>
+                  <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                    (click)="passwordVisible = !passwordVisible"></span>
+                </ng-template>
+                <ng-template #pwdTpl>
+                  <i class="fa fa-key"></i>&nbsp;
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form> -->
+        <form action="index.html" autocomplete="off" class="sign-in-form">
+          <div class="logo">
+            <h4>后台管理系统登录</h4>
+          </div>
+
+          <div class="heading">
+            <h2>欢迎回来</h2>
+            <h6>Not registered yet?</h6>
+            <a href="javascript:void(0)" class="toggle" #toggle>Sign up</a>
+          </div>
+          <div class="actual-form">
+            <div class="input-wrap">
+              <input id="name" type="text" minlength="4" autocomplete="off" required class="input-field">
+              <label for="name">Account</label>
+            </div>
+            <div class="input-wrap">
+              <input id="password" type="password" autocomplete="off" required class="input-field">
+              <label for="password">Password</label>
+            </div>
+            <input type="submit" value="SIGN IN" class="sign-btn">
+            <p class="text">忘记密码?
+              <a href="#">获取帮助</a>
+            </p>
+          </div>
+        </form>
+
+        <form action="index.html" autocomplete="off" class="sign-up-form">
+          <div class="logo">
+            <h4>前端学习</h4>
+          </div>
+          <div class="heading">
+            <h2>注册</h2>
+            <h6>Already have an account?</h6>
+            <a href="javascript:void(0)" class="toggle" #toggle>Sign In</a>
+          </div>
+          <div class="actual-form">
+            <div class="input-wrap">
+              <input id="sign-name" type="text" minlength="4" autocomplete="off" required class="input-field">
+              <label for="sign-name">Account</label>
+            </div>
+            <div class="input-wrap">
+              <input id="sign-email" type="email" autocomplete="off" required class="input-field">
+              <label for="sign-email">Email</label>
+            </div>
+            <div class="input-wrap">
+              <input id="sign-password" type="password" autocomplete="off" required class="input-field">
+              <label for="sign-password">Password</label>
+            </div>
+            <input type="submit" value="SIGN UP" class="sign-btn">
+            <p class="text"> <input type="checkbox" name="" id="">注册前我已阅读并同意
+              <a href="#">服务条款</a>和<a href="#">隐私协议</a>
+            </p>
+          </div>
+        </form>
+      </div>
+      <!-- 包含轮播图的容器 -->
+      <div class="carousel">
+        <!-- 包含轮播图图片的容器 -->
+        <div class="images-wrapper">
+          <img src="https://img-baofun.zhhainiao.com/pcwallpaper_ugc/live/68ff62863bb9fd90d6fd874802e08568.mp4.jpg"
+            class="image img-1 show" alt="">
+          <img src="https://wallpaper-static.cheetahfun.com/wallpaper/sites/scifi/pic5.jpg" alt="" class="image img-2">
+          <img src="https://img-baofun.zhhainiao.com/pcwallpaper_ugc/live/8bc682fba0a8747155409b3bbc2676ac.mp4.jpg"
+            alt="" class="image img-3">
+        </div>
+        <!-- 包含轮播图文本和轮播图指示器的容器 -->
+        <div class="text-slider">
+          <!-- 包含轮播图文本的容器 -->
+          <div class="text-wrap">
+            <div class="text-group">
+              <h2>开始你的学习旅程</h2>
+              <h2>准备创造奇迹吧</h2>
+              <h2>学习是一切创建力的开始</h2>
+            </div>
+          </div>
+          <!-- 包含轮播图指示器的容器 -->
+          <div class="bullets">
+            <span class="active" data-value="1" #indicate></span>
+            <span data-value="2" #indicate></span>
+            <span data-value="3" #indicate></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

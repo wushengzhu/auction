@@ -1,5 +1,6 @@
 <nz-card>
-  <app-grid-list [option]="option" [columns]="columns" [beforeRequest]="beforeRequest" [(reload)]="reload">
+  <app-grid-list [(selection)]="selectData" [option]="option" [columns]="columns" [beforeRequest]="beforeRequest"
+    [(reload)]="reload">
     <ng-template #prefixArea>
       <button nz-button nzType="primary" (click)="editItem()">
         <i class="fa fa-money mr-ms"></i>

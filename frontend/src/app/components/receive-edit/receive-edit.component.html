@@ -34,8 +34,7 @@
     <nz-form-label nz-col nzSpan="4" nzRequired>支付方式</nz-form-label>
     <nz-form-item nz-col nzSpan="7">
       <nz-form-control nzErrorTip="请输入支付方式">
-        <!-- <lib-dict-select [modCode]="'Auction'" [dictName]="'PaymentMethod'" formControlName="PaymentMethod">
-        </lib-dict-select> -->
+        <app-dict-select [dictName]="'PayType'" formControlName="PayType"></app-dict-select>
       </nz-form-control>
     </nz-form-item>
   </div>
@@ -59,3 +58,9 @@
   <!-- <lib-dynamic-form [option]="dynamicOption" [formCode]="formCode" [(data)]="dynamicData" [(updateValid)]="updateValid">
   </lib-dynamic-form> -->
 </form>
+
+<div style="height:57px;"></div>
+<div class="modal-footer">
+  <button type="button" nz-button (click)="cancel()">取消</button>
+  <button type="button" nz-button class="ml-ms" nzType="primary" (click)="save()">保存</button>
+</div>

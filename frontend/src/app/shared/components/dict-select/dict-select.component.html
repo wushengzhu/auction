@@ -1,0 +1,4 @@
+<nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择" [nzDisabled]="disabled" (ngModelChange)="modelChange($event)"
+  [(ngModel)]="data">
+  <nz-option [nzLabel]="item.Value" [nzValue]="item.Value" *ngFor="let item of dictList"></nz-option>
+</nz-select>

@@ -35,10 +35,9 @@ export class ReceiveEditComponent implements OnInit {
       UserCode: [null],
       DepPath: [null],
       DepName: [null],
-      OperateTime: [null, [Validators.required]],
-      PaymentMethod: [null, [Validators.required, Validators.maxLength(50)]],
+      OperateTime: [new Date(), [Validators.required]],
+      PayType: [null, [Validators.required, Validators.maxLength(50)]],
       Remark: [null, [Validators.maxLength(500)]],
-      'Publish.Material.Name': [this.publishName],
     });
     // if (this.publishId > 0) {
     //   this.auctionSvc.receive.getItem(this.publishId).subscribe((r) => {

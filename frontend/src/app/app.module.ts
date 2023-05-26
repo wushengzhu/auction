@@ -33,6 +33,7 @@ import { IndexComponent } from './pages/index/index.component';
 import { IndexCardComponent } from './components/index-card/index-card.component';
 import { IndexNavsComponent } from './components/index-navs/index-navs.component';
 import { ReturnEditComponent } from './components/return-edit/return-edit.component';
+import { SeniorLoginComponent } from './components/senior-login/senior-login.component';
 
 registerLocaleData(zh);
 const components = [
@@ -58,7 +59,8 @@ const components = [
   IndexComponent,
   IndexCardComponent,
   IndexNavsComponent,
-  ReturnEditComponent
+  ReturnEditComponent,
+  SeniorLoginComponent,
 ];
 @NgModule({
   declarations: [AppComponent, ...components],
