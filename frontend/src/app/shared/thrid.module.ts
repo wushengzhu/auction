@@ -43,6 +43,7 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzResultModule } from 'ng-zorro-antd/result';
 export const ThirdModule = [
   NzNoAnimationModule,
   NzAlertModule,
@@ -134,4 +135,5 @@ export const ThirdExportModule = [
   NzDrawerModule,
   NzQRCodeModule,
   NzUploadModule,
+  NzResultModule,
 ];

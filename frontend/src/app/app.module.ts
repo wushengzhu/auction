@@ -8,7 +8,6 @@ import zh from '@angular/common/locales/zh';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -34,6 +33,7 @@ import { IndexCardComponent } from './components/index-card/index-card.component
 import { IndexNavsComponent } from './components/index-navs/index-navs.component';
 import { ReturnEditComponent } from './components/return-edit/return-edit.component';
 import { SeniorLoginComponent } from './components/senior-login/senior-login.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 registerLocaleData(zh);
 const components = [
@@ -61,6 +61,7 @@ const components = [
   IndexNavsComponent,
   ReturnEditComponent,
   SeniorLoginComponent,
+  PageNotFoundComponent,
 ];
 @NgModule({
   declarations: [AppComponent, ...components],

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ArticleComponent } from './pages/article/article.component';
@@ -20,6 +19,7 @@ import { PublishEditComponent } from './components/publish-edit/publish-edit.com
 import { BidDetailComponent } from './components/bid-detail/bid-detail.component';
 import { IndexComponent } from './pages/index/index.component';
 import { SeniorLoginComponent } from './components/senior-login/senior-login.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
