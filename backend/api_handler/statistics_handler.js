@@ -176,8 +176,6 @@ exports.getPeriodData = async (req, res) => {
   if (dateType === 'month') {
     MData[0][1] = moment(new Date(endTime)).format('YYYY-MM')
     for (let i = 1; i < 9; i++) {
-      const count = await getCount(i - 2, startTime, endTime, dateType);
-      console.log(i - 2, startTime, endTime, dateType, count);
       MData[i][1] = await getCount(i - 2, startTime, endTime, dateType);
     }
     result = MData;
@@ -213,13 +211,13 @@ async function getCount(status, startTime, endTime, dateType) {
   const count = await new Promise((resolve) => {
     publishModel.find({
       Status: {
-        $gt: status
+        $eq: status
       },
       StartTime: {
-        $gte: moment(new Date(startTime)).startOf(dateType).toDate()
+        $gte: moment(new Date(startTime)).startOf(dateType).format('YYYY-MM-DD HH:mm:ss')
       },
       EndTime: {
-        $lte: moment(new Date(endTime)).endOf(dateType).toDate()
+        $lte: moment(new Date(endTime)).endOf(dateType).format('YYYY-MM-DD HH:mm:ss')
       }
     }).count().exec((err, result) => {
       resolve(result);
